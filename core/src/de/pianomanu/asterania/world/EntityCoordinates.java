@@ -1,5 +1,7 @@
 package de.pianomanu.asterania.world;
 
+import com.badlogic.gdx.math.Vector2;
+
 public class EntityCoordinates {
     public float x;
     public float y;
@@ -20,6 +22,14 @@ public class EntityCoordinates {
 
     public float getY() {
         return y;
+    }
+
+    public static EntityCoordinates getEntityCoordinates(float x, float y) {
+        return new EntityCoordinates(x, y);
+    }
+
+    public static EntityCoordinates getEntityCoordinates(Vector2 vec) {
+        return new EntityCoordinates(vec.x, vec.y);
     }
 
     public Coordinates toTileCoordinates() {

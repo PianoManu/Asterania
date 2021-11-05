@@ -3,7 +3,7 @@ package de.pianomanu.asterania.config;
 import com.badlogic.gdx.Gdx;
 
 public class DisplayConfig {
-    public static final int ZOOM = 4;
+    public static final int ZOOM = 2;
     public static final int DISPLAY_WIDTH = 800; //1920
     public static final int DISPLAY_HEIGHT = 600; //1080
     public static final boolean IS_FULL = false;
