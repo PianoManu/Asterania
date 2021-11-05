@@ -4,11 +4,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
+import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.Atlases;
 
 public class LoadingScreen extends ScreenAdapter {
     public LoadingScreen() {
         loadAtlases();
+
+        DisplayConfig.setup();
     }
 
     private static void loadAtlases() {

@@ -17,7 +17,8 @@ public class World {
     private void createTerrain() {
         for (int x = 0; x < GameConfig.WORLD_WIDTH; x++) {
             for (int y = 0; y < GameConfig.WORLD_HEIGHT; y++) {
-                this.tiles[x][y] = Tiles.GRASS;
+                if (x != y)
+                    this.tiles[x][y] = Tiles.GRASS;
             }
         }
     }
@@ -32,6 +33,8 @@ public class World {
 
     public void joinWorld(Player player) {
         this.player = player;
+        EntityCoordinates playerPos = new EntityCoordinates(player.getCharacterPos().x + 0.5f, player.getCharacterPos().y - 3 / 4f);
+        player.setCharacterPos(playerPos);
     }
 
     /*public List<Player> getPlayers() {

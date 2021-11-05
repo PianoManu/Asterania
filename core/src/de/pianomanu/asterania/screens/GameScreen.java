@@ -20,6 +20,9 @@ public class GameScreen extends ScreenAdapter {
     TextureAtlas playerAtlas;
     ShapeRenderer shapeRenderer;
     World world = AsteraniaMain.world;
+    private float deltaCounter = 0;
+    private int passCounter = 0;
+    private int fps = 0;
 
     public GameScreen() {
         batch = new SpriteBatch();
@@ -32,6 +35,8 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        passCounter++;
+        deltaCounter += delta;
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
@@ -42,6 +47,16 @@ public class GameScreen extends ScreenAdapter {
         RenderWorld.renderTerrain(world, batch);
         RenderWorld.renderHovering(world, shapeRenderer);
         RenderWorld.renderPlayer(world, batch);
+        if (DisplayConfig.showDebugInfo) {
+            RenderWorld.renderDebugText(world, fps);
+            RenderWorld.renderGrid(world, shapeRenderer);
+        }
+
+        if (deltaCounter > 1) {
+            deltaCounter--;
+            fps = passCounter;
+            passCounter = 0;
+        }
         /*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.NAVY);
         shapeRenderer.rect(player.getCharacterPos().x - player.getCharacterSize().x/2f, player.getCharacterPos().y - player.getCharacterSize().y/2f, player.getCharacterSize().x,player.getCharacterSize().y);
@@ -50,8 +65,8 @@ public class GameScreen extends ScreenAdapter {
             DisplayConfig.showDebugInfo = !DisplayConfig.showDebugInfo;
         }
 
-        if (DisplayConfig.showDebugInfo)
-            System.out.println(1 / delta);
+        //if (DisplayConfig.showDebugInfo)
+        //    System.out.println(1 / delta);
     }
 
     @Override
