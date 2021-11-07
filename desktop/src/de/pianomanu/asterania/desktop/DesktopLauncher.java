@@ -21,6 +21,7 @@ public class DesktopLauncher {
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Asterania";
         config.vSyncEnabled = true;
+            config.resizable = true;
         //config.addIcon();
         new LwjglApplication(new AsteraniaMain(), config);
     }

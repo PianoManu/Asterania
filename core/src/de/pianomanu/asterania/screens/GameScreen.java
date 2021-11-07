@@ -12,6 +12,7 @@ import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
 import de.pianomanu.asterania.render.RenderWorld;
+import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.world.World;
 
 public class GameScreen extends ScreenAdapter {
@@ -40,6 +41,10 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
+        }
+        if (WindowUtils.windowSizeHasChanged()) {
+            this.dispose();
+            AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
         GameLifeCycleUpdates.update(world, delta);
         //System.out.println(world.getPlayer().getCharacterPos().x+", "+world.getPlayer().getCharacterPos().y+ ",      "+1/delta);
