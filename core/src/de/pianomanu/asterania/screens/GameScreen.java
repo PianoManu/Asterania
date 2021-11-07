@@ -63,6 +63,10 @@ public class GameScreen extends ScreenAdapter {
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_DEBUG_INFO)) {
             DisplayConfig.showDebugInfo = !DisplayConfig.showDebugInfo;
         }
+        if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_FULLSCREEN)) {
+            DisplayConfig.isFullscreen = !DisplayConfig.isFullscreen;
+            DisplayConfig.setup();
+        }
 
         //if (DisplayConfig.showDebugInfo)
         //    System.out.println(1 / delta);

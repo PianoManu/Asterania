@@ -9,4 +9,5 @@ public class KeyConfig {
     public static final int MOVE_DOWN = Input.Keys.DOWN;
 
     public static final int ENABLE_DEBUG_INFO = Input.Keys.F1;
+    public static final int ENABLE_FULLSCREEN = Input.Keys.F11;
 }
