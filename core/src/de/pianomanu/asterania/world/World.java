@@ -9,9 +9,11 @@ public class World {
     private final Tile[][] tiles = new Tile[GameConfig.WORLD_WIDTH][GameConfig.WORLD_HEIGHT];
     //private final List<Player> players = new ArrayList<>();
     private Player player = new Player();
+    private TileCoordinates entryPoint;
 
-    public World() {
+    public World(TileCoordinates entryPoint) {
         createTerrain();
+        this.entryPoint = entryPoint;
     }
 
     private void createTerrain() {
@@ -33,7 +35,7 @@ public class World {
 
     public void joinWorld(Player player) {
         this.player = player;
-        EntityCoordinates playerPos = new EntityCoordinates(player.getCharacterPos().x + 0.5f, player.getCharacterPos().y - 3 / 4f);
+        EntityCoordinates playerPos = this.getEntryPoint().toEntityCoordinates();//new EntityCoordinates(player.getCharacterPos().x + 0.5f, player.getCharacterPos().y - 3 / 4f);
         player.setCharacterPos(playerPos);
     }
 
@@ -63,5 +65,13 @@ public class World {
 
     public Tile[][] getTerrain() {
         return this.tiles;
+    }
+
+    public TileCoordinates getEntryPoint() {
+        return entryPoint;
+    }
+
+    public void setEntryPoint(TileCoordinates entryPoint) {
+        this.entryPoint = entryPoint;
     }
 }
