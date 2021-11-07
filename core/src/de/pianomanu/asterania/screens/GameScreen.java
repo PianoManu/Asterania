@@ -49,7 +49,6 @@ public class GameScreen extends ScreenAdapter {
         RenderWorld.renderPlayer(world, batch);
         if (DisplayConfig.showDebugInfo) {
             RenderWorld.renderDebugText(world, fps);
-            RenderWorld.renderGrid(world, shapeRenderer);
         }
 
         if (deltaCounter > 1) {

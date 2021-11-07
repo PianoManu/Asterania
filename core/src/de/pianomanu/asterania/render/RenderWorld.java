@@ -31,6 +31,9 @@ public class RenderWorld {
         startRenderingY = (int) world.getPlayer().getCharacterPos().y - height / DisplayConfig.TILE_SIZE + 4;
         stopRenderingY = (int) world.getPlayer().getCharacterPos().y + height / DisplayConfig.TILE_SIZE + 2;
         batch.begin();
+        ShapeRenderer gridRenderer = new ShapeRenderer();
+        gridRenderer.begin(ShapeRenderer.ShapeType.Line);
+        gridRenderer.setColor(0, 0, 0, 1);
         //System.out.println(startRenderingX+", "+stopRenderingX+", "+startRenderingY+", "+stopRenderingY);
         for (int x = startRenderingX; x < stopRenderingX; x++) {
             for (int y = startRenderingY; y < stopRenderingY; y++) {
@@ -41,9 +44,14 @@ public class RenderWorld {
                 } catch (NullPointerException ignored) {
 
                 }
+                if (DisplayConfig.showDebugInfo) {
+                    gridRenderer.line(0, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, width, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE);
+                    gridRenderer.line(x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, 0, x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, height);
+                }
             }
         }
         batch.end();
+        gridRenderer.end();
     }
 
     public static void renderPlayer(World world, SpriteBatch batch) {
