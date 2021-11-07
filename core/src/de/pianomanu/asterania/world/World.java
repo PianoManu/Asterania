@@ -49,6 +49,18 @@ public class World {
         return this.tiles[x][y];
     }
 
+    public Tile getTile(EntityCoordinates entityCoordinates) {
+        return getTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x));
+    }
+
+    public void setTile(int x, int y, Tile tile) {
+        this.tiles[x][y] = tile;
+    }
+
+    public void setTile(EntityCoordinates entityCoordinates, Tile tile) {
+        setTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x), tile);
+    }
+
     public Tile[][] getTerrain() {
         return this.tiles;
     }
