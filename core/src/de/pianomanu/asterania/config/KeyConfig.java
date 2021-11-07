@@ -8,6 +8,11 @@ public class KeyConfig {
     public static final int MOVE_UP = Input.Keys.UP;
     public static final int MOVE_DOWN = Input.Keys.DOWN;
 
+    public static final int START = Input.Keys.SPACE;
+
     public static final int ENABLE_DEBUG_INFO = Input.Keys.F1;
     public static final int ENABLE_FULLSCREEN = Input.Keys.F11;
+
+    public static final int EXIT_KEY_1 = Input.Keys.CONTROL_LEFT;
+    public static final int EXIT_KEY_2 = Input.Keys.W;
 }

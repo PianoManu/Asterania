@@ -3,26 +3,36 @@ package de.pianomanu.asterania.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
+import de.pianomanu.asterania.config.KeyConfig;
+import de.pianomanu.asterania.render.text.TextRenderer;
+
+import java.util.Locale;
 
 public class MainMenuScreen extends ScreenAdapter {
 
+    private ShapeRenderer shapeRenderer;
+
     public MainMenuScreen() {
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
+        this.shapeRenderer = new ShapeRenderer();
     }
 
     @Override
     public void render(float delta) {
-        if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT) && Gdx.input.isKeyPressed(Input.Keys.W)) {
+        if (Gdx.input.isKeyPressed(KeyConfig.EXIT_KEY_1) && Gdx.input.isKeyPressed(KeyConfig.EXIT_KEY_2)) {
             Gdx.app.exit();
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyJustPressed(KeyConfig.START)) {
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
         ScreenUtils.clear(0, 0, 0, 1);
+
+        this.drawMainMenuScreen();
     }
 
     @Override
@@ -32,5 +42,23 @@ public class MainMenuScreen extends ScreenAdapter {
     @Override
     public void hide() {
         this.dispose();
+    }
+
+    private void drawMainMenuScreen() {
+        this.drawBackground();
+        this.drawText();
+    }
+
+    private void drawBackground() {
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.2f, 0.3f, 0.1f, 1);
+        shapeRenderer.rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40);
+        shapeRenderer.end();
+    }
+
+    private void drawText() {
+        TextRenderer.renderText(40, Gdx.graphics.getHeight() - 40, "Main Menu");
+        TextRenderer.renderText(40, Gdx.graphics.getHeight() - 80, "Press " + Input.Keys.toString(KeyConfig.START).toUpperCase(Locale.ROOT) + " to Start the game");
+        TextRenderer.renderText(40, Gdx.graphics.getHeight() - 120, "Press " + Input.Keys.toString(KeyConfig.EXIT_KEY_1).toUpperCase(Locale.ROOT) + " + " + Input.Keys.toString(KeyConfig.EXIT_KEY_2).toUpperCase(Locale.ROOT) + " to Exit the game");
     }
 }
