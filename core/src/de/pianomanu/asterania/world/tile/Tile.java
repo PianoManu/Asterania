@@ -13,6 +13,10 @@ public abstract class Tile {
         this.settings = settings;
     }
 
+    public boolean isAccessible() {
+        return this.settings.isAccessible();
+    }
+
     /**
      * Causes massive lags and memory leaks because a new texture instance is created everytime this method is called.
      * Use {@link #getTexture(TextureAtlas)} instead (more resource-friendly).

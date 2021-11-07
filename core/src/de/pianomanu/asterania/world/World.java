@@ -18,8 +18,7 @@ public class World {
     private void createTerrain() {
         for (int x = 0; x < GameConfig.WORLD_WIDTH; x++) {
             for (int y = 0; y < GameConfig.WORLD_HEIGHT; y++) {
-                if (x != y)
-                    this.tiles[x][y] = Tiles.GRASS;
+                this.tiles[x][y] = Tiles.GRASS;
             }
         }
     }
@@ -40,6 +39,15 @@ public class World {
 
     public Tile getTile(EntityCoordinates entityCoordinates) {
         return getTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x));
+    }
+
+    public Tile getTile(TileCoordinates tileCoordinates) {
+        try {
+            return this.tiles[tileCoordinates.getX()][tileCoordinates.getY()];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            return Tiles.ROCK;
+        }
+
     }
 
     public void setTile(int x, int y, Tile tile) {

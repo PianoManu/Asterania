@@ -5,6 +5,6 @@ import de.pianomanu.asterania.world.World;
 public class GameLifeCycleUpdates {
 
     public static void update(World world, float delta) {
-        PlayerUpdates.updatePlayer(world.getPlayer(), delta);
+        PlayerUpdates.updatePlayer(world, delta);
     }
 }
