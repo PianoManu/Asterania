@@ -11,6 +11,11 @@ public abstract class Tile {
         this.name = name;
     }
 
+    /**
+     * Causes massive lags and memory leaks because a new texture instance is created everytime this method is called.
+     * Use {@link #getTexture(TextureAtlas)} instead (more resource-friendly).
+     */
+    @Deprecated
     public Texture getTexture() {
         return new Texture("textures\\tiles\\" + this.name + ".png");
     }

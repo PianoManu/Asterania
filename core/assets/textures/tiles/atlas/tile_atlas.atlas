@@ -11,9 +11,16 @@ grass
   orig: 32, 32
   offset: 0, 0
   index: -1
-white
+rock
   rotate: false
   xy: 34, 0
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+white
+  rotate: false
+  xy: 68, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0

@@ -17,6 +17,7 @@ import de.pianomanu.asterania.utils.CursorUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 public class RenderWorld {
     private static ShapeRenderer gridRenderer = new ShapeRenderer();
@@ -24,21 +25,15 @@ public class RenderWorld {
     public static void renderTerrain(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        float posX = world.getPlayer().getCharacterPos().x / DisplayConfig.TILE_SIZE;
-        float posY = world.getPlayer().getCharacterPos().y / DisplayConfig.TILE_SIZE;
-        int startRenderingX = (int) (world.getPlayer().getCharacterPos().x - DisplayConfig.DISPLAY_WIDTH / 2f - DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
-        int stopRenderingX = (int) (world.getPlayer().getCharacterPos().x + DisplayConfig.DISPLAY_WIDTH / 2f + DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
-        int startRenderingY = (int) (world.getPlayer().getCharacterPos().y - DisplayConfig.DISPLAY_HEIGHT / 2f - DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
-        int stopRenderingY = (int) (world.getPlayer().getCharacterPos().y + DisplayConfig.DISPLAY_HEIGHT / 2f + DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
-        startRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() - width / DisplayConfig.TILE_SIZE + 6;
-        stopRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() + width / DisplayConfig.TILE_SIZE + 2;
-        startRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() - height / DisplayConfig.TILE_SIZE + 4;
-        stopRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() + height / DisplayConfig.TILE_SIZE + 2;
+        int startRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() - width / DisplayConfig.TILE_SIZE + 6;
+        int stopRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() + width / DisplayConfig.TILE_SIZE + 2;
+        int startRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() - height / DisplayConfig.TILE_SIZE + 4;
+        int stopRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() + height / DisplayConfig.TILE_SIZE + 2;
         TileCoordinates startRendering = new TileCoordinates(startRenderingX, startRenderingY);
         TileCoordinates stopRendering = new TileCoordinates(stopRenderingX, stopRenderingY);
         int mouseX = Gdx.input.getX();
         int mouseY = height - Gdx.input.getY();
-        EntityCoordinates playerCoordinates = new EntityCoordinates(posX, posY);
+        EntityCoordinates playerCoordinates = world.getPlayer().getCharacterPos();
         EntityCoordinates mouseCoordinates = CursorUtils.cursorToEntityCoordinates(mouseX, mouseY, playerCoordinates);
         batch.begin();
         gridRenderer.begin(ShapeRenderer.ShapeType.Line);
@@ -49,7 +44,7 @@ public class RenderWorld {
                 try {
                     batch.draw(world.getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 } catch (ArrayIndexOutOfBoundsException e) {
-                    //System.out.println("Catch  "+x+", "+y);
+                    batch.draw(Tiles.ROCK.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 } catch (NullPointerException ignored) {
 
                 }
