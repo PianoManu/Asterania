@@ -32,7 +32,7 @@ public class EntityCoordinates {
         return new EntityCoordinates(vec.x, vec.y);
     }
 
-    public Coordinates toTileCoordinates() {
-        return new Coordinates((int) Math.floor(x), (int) Math.floor(y));
+    public TileCoordinates toTileCoordinates() {
+        return new TileCoordinates((int) Math.floor(x), (int) Math.floor(y));
     }
 }

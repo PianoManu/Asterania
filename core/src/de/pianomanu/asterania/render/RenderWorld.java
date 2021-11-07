@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
@@ -14,9 +15,12 @@ import de.pianomanu.asterania.render.atlas.PlayerAtlas;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.CursorUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
+import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
 
 public class RenderWorld {
+    private static ShapeRenderer gridRenderer = new ShapeRenderer();
+
     public static void renderTerrain(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
@@ -26,23 +30,37 @@ public class RenderWorld {
         int stopRenderingX = (int) (world.getPlayer().getCharacterPos().x + DisplayConfig.DISPLAY_WIDTH / 2f + DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
         int startRenderingY = (int) (world.getPlayer().getCharacterPos().y - DisplayConfig.DISPLAY_HEIGHT / 2f - DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
         int stopRenderingY = (int) (world.getPlayer().getCharacterPos().y + DisplayConfig.DISPLAY_HEIGHT / 2f + DisplayConfig.TILE_SIZE) / DisplayConfig.TILE_SIZE;
-        startRenderingX = (int) world.getPlayer().getCharacterPos().x - width / DisplayConfig.TILE_SIZE + 6;
-        stopRenderingX = (int) world.getPlayer().getCharacterPos().x + width / DisplayConfig.TILE_SIZE + 2;
-        startRenderingY = (int) world.getPlayer().getCharacterPos().y - height / DisplayConfig.TILE_SIZE + 4;
-        stopRenderingY = (int) world.getPlayer().getCharacterPos().y + height / DisplayConfig.TILE_SIZE + 2;
+        startRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() - width / DisplayConfig.TILE_SIZE + 6;
+        stopRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() + width / DisplayConfig.TILE_SIZE + 2;
+        startRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() - height / DisplayConfig.TILE_SIZE + 4;
+        stopRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() + height / DisplayConfig.TILE_SIZE + 2;
+        TileCoordinates startRendering = new TileCoordinates(startRenderingX, startRenderingY);
+        TileCoordinates stopRendering = new TileCoordinates(stopRenderingX, stopRenderingY);
+        int mouseX = Gdx.input.getX();
+        int mouseY = height - Gdx.input.getY();
+        EntityCoordinates playerCoordinates = new EntityCoordinates(posX, posY);
+        EntityCoordinates mouseCoordinates = CursorUtils.cursorToEntityCoordinates(mouseX, mouseY, playerCoordinates);
         batch.begin();
-        ShapeRenderer gridRenderer = new ShapeRenderer();
         gridRenderer.begin(ShapeRenderer.ShapeType.Line);
         gridRenderer.setColor(0, 0, 0, 1);
         //System.out.println(startRenderingX+", "+stopRenderingX+", "+startRenderingY+", "+stopRenderingY);
-        for (int x = startRenderingX; x < stopRenderingX; x++) {
-            for (int y = startRenderingY; y < stopRenderingY; y++) {
+        for (int x = startRendering.getX(); x < stopRendering.getX(); x++) {
+            for (int y = startRendering.getY(); y < stopRendering.getY(); y++) {
                 try {
                     batch.draw(world.getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     //System.out.println("Catch  "+x+", "+y);
                 } catch (NullPointerException ignored) {
 
+                }
+                if (mouseCoordinates.x <= x && mouseCoordinates.x > x - DisplayConfig.TILE_SIZE && mouseCoordinates.y <= y && mouseCoordinates.y > y - DisplayConfig.TILE_SIZE) {
+                    Gdx.gl.glEnable(GL20.GL_BLEND);
+                    Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                    //System.out.println(x+", "+y);
+                    //hoveringRenderer.rect(x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    //batch.draw(white.findRegion("white"), x * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    //hoveringRenderer.rect(x * DisplayConfig.TILE_SIZE, y * DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    Gdx.gl.glDisable(GL20.GL_BLEND);
                 }
                 if (DisplayConfig.showDebugInfo) {
                     gridRenderer.line(0, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE, width, y * DisplayConfig.TILE_SIZE - world.getPlayer().getCharacterPos().y * DisplayConfig.TILE_SIZE);
@@ -66,7 +84,7 @@ public class RenderWorld {
     }
 
     public static void renderHovering(World world, ShapeRenderer shapeRenderer) {
-        int width = Gdx.graphics.getWidth();
+        /*int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         int mouseX = Gdx.input.getX();
         int mouseY = height - Gdx.input.getY();
@@ -77,10 +95,18 @@ public class RenderWorld {
         EntityCoordinates playerECoord = world.getPlayer().getCharacterPos();
         EntityCoordinates mouseECoord = CursorUtils.cursorToEntityCoordinates(mouseX, mouseY, playerECoord);
         EntityCoordinates distPlayerToMouse = new EntityCoordinates(mouseECoord.x - playerECoord.x, mouseECoord.y - playerECoord.y);
-        float lowerX = (float) Math.floor(mouseECoord.getX());
+        float lowerXECoord = (float) Math.floor(mouseECoord.getX());
         float upperX = (float) Math.ceil(mouseXrelative);
-        float lowerY = (float) Math.floor(mouseECoord.getY());
+        float lowerYECoord = (float) Math.floor(mouseECoord.getY());
         float upperY = (float) Math.ceil(mouseYrelative);
+        float lowerXTileSize = lowerXECoord*DisplayConfig.TILE_SIZE; //hovering rectangle "jumps" TileSize pixels
+        float lowerYTileSize = lowerYECoord*DisplayConfig.TILE_SIZE;
+        mouseECoord.x = lowerXTileSize;
+        mouseECoord.y = lowerYTileSize;
+        float relativeXOffset = (playerX * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE;
+        float relativeYOffset = (playerY * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE;
+        mouseECoord.x += relativeXOffset;
+        mouseECoord.y += relativeYOffset;
 
 
         //System.out.println(mouseX + ", " + mouseY + "        " + playerX + ", " + playerY);
@@ -90,9 +116,27 @@ public class RenderWorld {
         shapeRenderer.setColor(1, 1, 1, 0.2f);
         //TODO find hovering issue
         //shapeRenderer.rect( (float) Math.floor(mouseECoord.getX())*DisplayConfig.TILE_SIZE - (playerX * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE, (float) Math.floor(mouseECoord.getY())*DisplayConfig.TILE_SIZE - (playerY * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-        shapeRenderer.rect((Math.round(mouseX / (float) DisplayConfig.TILE_SIZE) * DisplayConfig.TILE_SIZE - (playerX * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE), (Math.round(mouseY / (float) DisplayConfig.TILE_SIZE) * DisplayConfig.TILE_SIZE - (playerY * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE), DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        //shapeRenderer.rect((Math.round(mouseX / (float) DisplayConfig.TILE_SIZE) * DisplayConfig.TILE_SIZE - (playerX * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE), (Math.round(mouseY / (float) DisplayConfig.TILE_SIZE) * DisplayConfig.TILE_SIZE - (playerY * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE), DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         //shapeRenderer.rect(lowerX*DisplayConfig.TILE_SIZE + (distPlayerToMouse.getX() * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE, lowerY*DisplayConfig.TILE_SIZE + (distPlayerToMouse.getY() * DisplayConfig.TILE_SIZE) % DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-        //shapeRenderer.rect(lowerX, lowerY, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        //Transform ECoord back to Pixels
+        //INPUT: PIXELS
+        Vector2 mouseInPixels = CursorUtils.transformEntityCoordinatesToPixels(mouseECoord, playerECoord);
+        //shapeRenderer.rect(lowerXECoord - relativeXOffset, lowerYECoord - relativeYOffset, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        shapeRenderer.rect(mouseInPixels.x, mouseInPixels.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        shapeRenderer.end();
+        Gdx.gl.glDisable(GL20.GL_BLEND);*/
+        EntityCoordinates playerPos = world.getPlayer().getCharacterPos();
+        EntityCoordinates mousePos = CursorUtils.cursorToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), playerPos);
+        int hoveringXStart = (int) Math.floor(mousePos.x);
+        int hoveringYStart = (int) Math.floor(mousePos.y);
+        EntityCoordinates hoveringStart = new EntityCoordinates(hoveringXStart, hoveringYStart);
+        Vector2 startPixelPos = CursorUtils.transformCursorEntityCoordinatesToPixels(hoveringStart, playerPos);
+
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(1, 1, 1, 0.2f);
+        shapeRenderer.rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         shapeRenderer.end();
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }

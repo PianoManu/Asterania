@@ -1,10 +1,10 @@
 package de.pianomanu.asterania.world;
 
-public class Coordinates {
+public class TileCoordinates {
     private final int x;
     private final int y;
 
-    public Coordinates(int x, int y) {
+    public TileCoordinates(int x, int y) {
         this.x = x;
         this.y = y;
     }
