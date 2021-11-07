@@ -11,7 +11,6 @@ public class WindowUtils {
 
     public static boolean windowSizeHasChanged() {
         if (windowSizeHasChanged(previousWidth, previousHeight, Gdx.graphics.getWidth(), Gdx.graphics.getHeight())) {
-            System.out.println("Changed!");
             previousWidth = Gdx.graphics.getWidth();
             previousHeight = Gdx.graphics.getHeight();
 
@@ -29,7 +28,6 @@ public class WindowUtils {
 
     private static void reloadAllRenderers() {
         RenderWorld.reloadGridRenderer();
-        //TODO ReloadDebugScreen
         TextRenderer.reloadTextRenderers();
     }
 }

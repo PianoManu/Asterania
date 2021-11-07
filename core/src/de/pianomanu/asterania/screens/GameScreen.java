@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter {
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
         GameLifeCycleUpdates.update(world, delta);
-        //System.out.println(world.getPlayer().getCharacterPos().x+", "+world.getPlayer().getCharacterPos().y+ ",      "+1/delta);
+
         ScreenUtils.clear(1, 0, 0, 1);
         RenderWorld.renderTerrain(world, batch);
         RenderWorld.renderHovering(world, shapeRenderer);
@@ -61,10 +61,7 @@ public class GameScreen extends ScreenAdapter {
             fps = passCounter;
             passCounter = 0;
         }
-        /*shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.NAVY);
-        shapeRenderer.rect(player.getCharacterPos().x - player.getCharacterSize().x/2f, player.getCharacterPos().y - player.getCharacterSize().y/2f, player.getCharacterSize().x,player.getCharacterSize().y);
-        shapeRenderer.end();*/
+
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_DEBUG_INFO)) {
             DisplayConfig.showDebugInfo = !DisplayConfig.showDebugInfo;
         }
@@ -72,15 +69,11 @@ public class GameScreen extends ScreenAdapter {
             DisplayConfig.isFullscreen = !DisplayConfig.isFullscreen;
             DisplayConfig.setup();
         }
-
-        //if (DisplayConfig.showDebugInfo)
-        //    System.out.println(1 / delta);
     }
 
     @Override
     public void dispose() {
-        //batch.dispose();
-        //img.dispose();
+
     }
 
     @Override

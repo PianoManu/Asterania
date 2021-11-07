@@ -7,7 +7,6 @@ import de.pianomanu.asterania.world.tile.Tiles;
 
 public class World {
     private final Tile[][] tiles = new Tile[GameConfig.WORLD_WIDTH][GameConfig.WORLD_HEIGHT];
-    //private final List<Player> players = new ArrayList<>();
     private Player player = new Player();
     private TileCoordinates entryPoint;
 
@@ -25,23 +24,11 @@ public class World {
         }
     }
 
-    /*private boolean addPlayer(Player player) {
-        return this.players.add(player);
-    }*/
-
-    /*public boolean joinWorld(Player player) {
-        return this.addPlayer(player);
-    }*/
-
     public void joinWorld(Player player) {
         this.player = player;
-        EntityCoordinates playerPos = this.getEntryPoint().toEntityCoordinates();//new EntityCoordinates(player.getCharacterPos().x + 0.5f, player.getCharacterPos().y - 3 / 4f);
+        EntityCoordinates playerPos = this.getEntryPoint().toEntityCoordinates();
         player.setCharacterPos(playerPos);
     }
-
-    /*public List<Player> getPlayers() {
-        return players;
-    }*/
 
     public Player getPlayer() {
         return this.player;

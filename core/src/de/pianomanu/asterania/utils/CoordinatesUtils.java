@@ -34,7 +34,6 @@ public class CoordinatesUtils {
         //Player in the middle of the screen
         int middleX = Gdx.graphics.getWidth() / 2;
         int middleY = Gdx.graphics.getHeight() / 2;
-        //EntityCoordinates tileToEntityCoordinates = tileCoordinates.toEntityCoordinates();
         EntityCoordinates diff = new EntityCoordinates(tileCoordinates.getX() - playerPos.x, tileCoordinates.getY() - playerPos.y);
         int offsetX = (int) (diff.x * DisplayConfig.TILE_SIZE);
         int offsetY = (int) (diff.y * DisplayConfig.TILE_SIZE);

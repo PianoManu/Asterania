@@ -34,8 +34,5 @@ public class AsteraniaMain extends Game {
 
 		CoordinatesUtils.transformEntityCoordinatesToPixels(new EntityCoordinates(3, 3), new EntityCoordinates(4, 4));
 		System.out.println();
-
-
-		//setScreen(new MainMenuScreen());
 	}
 }
