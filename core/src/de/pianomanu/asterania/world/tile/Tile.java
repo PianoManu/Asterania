@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Tile {
     protected final String name;
+    protected final TileSettings settings;
 
-    protected Tile(String name) {
+    protected Tile(String name, TileSettings settings) {
         this.name = name;
+        this.settings = settings;
     }
 
     /**
