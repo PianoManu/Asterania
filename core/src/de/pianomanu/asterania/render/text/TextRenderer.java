@@ -4,12 +4,19 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class TextRenderer {
-    private static final SpriteBatch batch = new SpriteBatch();
-    private static final BitmapFont font = new BitmapFont();
+    private static SpriteBatch batch = new SpriteBatch();
+    private static BitmapFont font = new BitmapFont();
 
     public static void renderText(int startX, int startY, String content) {
         batch.begin();
         font.draw(batch, content, startX, startY);
         batch.end();
+    }
+
+    public static void reloadTextRenderers() {
+        batch.dispose();
+        font.dispose();
+        batch = new SpriteBatch();
+        font = new BitmapFont();
     }
 }
