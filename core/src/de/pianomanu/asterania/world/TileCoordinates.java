@@ -30,7 +30,7 @@ public class TileCoordinates {
     }
 
     public TileCoordinates moveUp(int steps) {
-        this.y -= steps;
+        this.y += steps;
         return this;
     }
 
@@ -39,7 +39,7 @@ public class TileCoordinates {
     }
 
     public TileCoordinates moveDown(int steps) {
-        this.y += steps;
+        this.y -= steps;
         return this;
     }
 

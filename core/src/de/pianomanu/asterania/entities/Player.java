@@ -1,19 +1,17 @@
 package de.pianomanu.asterania.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.world.EntityCoordinates;
 
 public class Player {
-    private EntityCoordinates characterPos = new EntityCoordinates();
+    private EntityCoordinates characterPos;
     private int stepSize = DisplayConfig.TILE_SIZE / 32;
     private Vector2 characterSize = new Vector2();
     private boolean isMoving = false;
 
     public Player() {
-        characterPos.x = Gdx.graphics.getWidth() / 2f;
-        characterPos.y = Gdx.graphics.getHeight() / 2f;
+        characterPos = new EntityCoordinates();
         characterSize.x = DisplayConfig.TILE_SIZE * 3 / 4f;
         characterSize.y = DisplayConfig.TILE_SIZE * 3 / 2f;
         System.out.println(characterSize);

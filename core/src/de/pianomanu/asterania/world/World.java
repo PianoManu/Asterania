@@ -23,10 +23,9 @@ public class World {
         }
     }
 
-    public void joinWorld(Player player) {
+    public void joinWorld(Player player, TileCoordinates entryPoint) {
         this.player = player;
-        EntityCoordinates playerPos = this.getEntryPoint().toEntityCoordinates();
-        player.setCharacterPos(playerPos);
+        this.player.setCharacterPos(entryPoint.toEntityCoordinates());
     }
 
     public Player getPlayer() {
