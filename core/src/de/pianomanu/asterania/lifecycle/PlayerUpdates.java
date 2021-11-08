@@ -8,12 +8,18 @@ import de.pianomanu.asterania.world.World;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {
     protected static void updatePlayer(World world, float delta) {
+        updateMovement(world, delta);
+    }
+
+    private static void updateMovement(World world, float delta) {
         Player player = world.getPlayer();
-        TileCoordinates playerTile = player.getCharacterPos().toTileCoordinates();
+        TileCoordinates playerTile = player.getFootPos().toTileCoordinates();
         TileCoordinates left = playerTile.copy().moveLeft();
         TileCoordinates right = playerTile.copy().moveRight();
         TileCoordinates up = playerTile.copy().moveUp();
         TileCoordinates down = playerTile.copy().moveDown();
+        if (player.isMoving())
+            player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
             player.setMoving();
             if (world.getTile(right).isAccessible())

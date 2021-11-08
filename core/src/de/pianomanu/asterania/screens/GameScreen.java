@@ -11,6 +11,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
+import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.RenderWorld;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.world.World;
@@ -53,7 +54,8 @@ public class GameScreen extends ScreenAdapter {
         RenderWorld.renderHovering(world, shapeRenderer);
         RenderWorld.renderPlayer(world, batch);
         if (DisplayConfig.showDebugInfo) {
-            RenderWorld.renderDebugText(world, fps);
+            DebugScreenRenderer.renderDebugText(world, fps);
+            DebugScreenRenderer.renderHitbox(world, shapeRenderer);
         }
 
         if (deltaCounter > 1) {

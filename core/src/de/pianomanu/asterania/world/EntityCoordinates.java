@@ -16,6 +16,11 @@ public class EntityCoordinates {
         this.y = 0;
     }
 
+    public EntityCoordinates(EntityCoordinates entityCoordinates) {
+        this.x = entityCoordinates.x;
+        this.y = entityCoordinates.y;
+    }
+
     public float getX() {
         return x;
     }
@@ -34,5 +39,17 @@ public class EntityCoordinates {
 
     public TileCoordinates toTileCoordinates() {
         return new TileCoordinates((int) Math.floor(x), (int) Math.floor(y));
+    }
+
+    public EntityCoordinates add(Vector2 vec) {
+        this.x += vec.x;
+        this.y += vec.y;
+        return this;
+    }
+
+    public EntityCoordinates add(EntityCoordinates coordinates) {
+        this.x += coordinates.x;
+        this.y += coordinates.y;
+        return this;
     }
 }

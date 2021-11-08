@@ -11,7 +11,6 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.render.atlas.PlayerAtlas;
-import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.TileCoordinates;
@@ -66,13 +65,13 @@ public class RenderWorld {
         Player player = world.getPlayer();
         TextureRegion playerTexture = AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
         batch.begin();
-        batch.draw(playerTexture, width / 2f - player.getCharacterSize().x / 2f, height / 2f - player.getCharacterSize().y / 2f, player.getCharacterSize().x, player.getCharacterSize().y);
+        batch.draw(playerTexture, width / 2f - player.getCharacterSizeInPixels().x / 2f, height / 2f - player.getCharacterSizeInPixels().y / 2f, player.getCharacterSizeInPixels().x, player.getCharacterSizeInPixels().y);
         batch.end();
     }
 
     public static void renderHovering(World world, ShapeRenderer shapeRenderer) {
         EntityCoordinates playerPos = world.getPlayer().getCharacterPos();
-        EntityCoordinates mousePos = CoordinatesUtils.cursorToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), playerPos);
+        EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), playerPos);
         int hoveringXStart = (int) Math.floor(mousePos.x);
         int hoveringYStart = (int) Math.floor(mousePos.y);
         EntityCoordinates hoveringStart = new EntityCoordinates(hoveringXStart, hoveringYStart);
@@ -87,19 +86,4 @@ public class RenderWorld {
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
-    public static void renderDebugText(World world, int frames) {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-        int xOffset = 4;
-        int yOffset = 4;
-        TextRenderer.renderText(xOffset, height - yOffset, "FPS: " + frames);
-
-        TextRenderer.renderText(xOffset, height - yOffset - 16, "Position: X=" + world.getPlayer().getCharacterPos().x + ", Y=" + world.getPlayer().getCharacterPos().y);
-
-        int mouseX = Gdx.input.getX();
-        int mouseY = height - Gdx.input.getY();
-        TextRenderer.renderText(xOffset, height - yOffset - 32, "Cursor position: X=" + mouseX + ", Y=" + mouseY);
-        EntityCoordinates mouseECoordinates = CoordinatesUtils.cursorToEntityCoordinates(mouseX, mouseY, world.getPlayer().getCharacterPos());
-        TextRenderer.renderText(xOffset, height - yOffset - 48, "Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
-    }
 }

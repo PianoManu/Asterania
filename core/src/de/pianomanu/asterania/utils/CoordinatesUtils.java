@@ -7,10 +7,10 @@ import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.TileCoordinates;
 
 public class CoordinatesUtils {
-    public static EntityCoordinates cursorToEntityCoordinates(int mouseX, int mouseY, EntityCoordinates playerPos) {
+    public static EntityCoordinates pixelToEntityCoordinates(int pixelX, int pixelY, EntityCoordinates playerPos) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        EntityCoordinates mouseECoordinates = new EntityCoordinates((float) mouseX / DisplayConfig.TILE_SIZE, (float) mouseY / DisplayConfig.TILE_SIZE);
+        EntityCoordinates mouseECoordinates = new EntityCoordinates((float) pixelX / DisplayConfig.TILE_SIZE, (float) pixelY / DisplayConfig.TILE_SIZE);
         mouseECoordinates.x -= width / (DisplayConfig.TILE_SIZE * 2f) - playerPos.getX();
         mouseECoordinates.y -= height / (DisplayConfig.TILE_SIZE * 2f) - playerPos.getY();
         return mouseECoordinates;
