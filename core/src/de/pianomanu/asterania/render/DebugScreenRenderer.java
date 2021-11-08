@@ -9,6 +9,8 @@ import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 public class DebugScreenRenderer {
     public static void renderDebugText(World world, int frames) {
@@ -26,6 +28,13 @@ public class DebugScreenRenderer {
         TextRenderer.renderText(xOffset, height - yOffset - 48, "Cursor position: X=" + mouseX + ", Y=" + mouseY);
         EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, world.getPlayer().getCharacterPos());
         TextRenderer.renderText(xOffset, height - yOffset - 64, "Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
+        Tile tile;
+        try {
+            tile = world.getTile(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            tile = Tiles.ROCK;
+        }
+        TextRenderer.renderText(xOffset, height - yOffset - 80, "Tile at cursor position: " + tile.toString());
     }
 
     public static void renderHitbox(World world, ShapeRenderer shapeRenderer) {

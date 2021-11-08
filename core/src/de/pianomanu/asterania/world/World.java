@@ -19,6 +19,8 @@ public class World {
         for (int x = 0; x < GameConfig.WORLD_WIDTH; x++) {
             for (int y = 0; y < GameConfig.WORLD_HEIGHT; y++) {
                 this.tiles[x][y] = Tiles.GRASS;
+                if (x == y)
+                    this.tiles[x][y] = Tiles.ROCK;
             }
         }
     }

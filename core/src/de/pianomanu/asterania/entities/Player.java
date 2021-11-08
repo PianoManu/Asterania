@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
-import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 
 public class Player {
@@ -30,8 +29,7 @@ public class Player {
     }
 
     public EntityCoordinates getFootPos() {
-        float yOffset = CoordinatesUtils.pixelToEntityCoordinates(0, (int) (this.playerPosOnScreen.y - characterSize.y / 2), this.getCharacterPos()).y;
-        return new EntityCoordinates(this.getCharacterPos().x, yOffset);
+        return new EntityCoordinates(this.getCharacterPos().x, this.getCharacterPos().y - characterSize.y / 2);
     }
 
     public void setCharacterPos(EntityCoordinates characterPos) {

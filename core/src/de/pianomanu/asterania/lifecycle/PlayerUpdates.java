@@ -24,22 +24,49 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.setMoving();
             if (world.getTile(right).isAccessible())
                 player.moveRight(delta);
+            else {
+                if (world.getTile(playerTile).isAccessible()) {
+                    if (player.getPlayerHitbox().end.x < right.getX())
+                        player.moveRight(delta);
+                }
+            }
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT)) {
             player.setMoving();
             if (world.getTile(left).isAccessible())
                 player.moveLeft(delta);
+            else {
+                if (world.getTile(playerTile).isAccessible()) {
+                    if (player.getPlayerHitbox().start.x > left.getX() + 1)
+                        player.moveLeft(delta);
+                }
+            }
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             player.setMoving();
-            if (world.getTile(up).isAccessible())
+            if (world.getTile(up).isAccessible() && world.getTile(playerTile).isAccessible())
                 player.moveUp(delta);
+            else {
+                //oben tile nicht accessible, player tile accessible
+                if (world.getTile(playerTile).isAccessible()) {
+                    if (playerTile.getY() < up.getY())
+                        player.moveUp(delta);
+                }
+            }
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
             player.setMoving();
-            if (world.getTile(down).isAccessible())
+            if (world.getTile(down).isAccessible() && world.getTile(playerTile).isAccessible())
                 player.moveDown(delta);
+            else {
+                //unten tile nicht accessible, player tile accessible
+                if (world.getTile(playerTile).isAccessible()) {
+                    if (playerTile.getY() > down.getY())
+                        player.moveDown(delta);
+                }
+            }
         }
+        System.out.println(world.getTile(playerTile).isAccessible());
         if (player.isMoving())
             if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
                 player.setStanding();

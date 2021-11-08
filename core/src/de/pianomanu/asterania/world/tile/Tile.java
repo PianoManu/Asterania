@@ -29,4 +29,11 @@ public abstract class Tile {
     public TextureRegion getTexture(TextureAtlas atlas) {
         return atlas.findRegion(this.name);
     }
+
+    @Override
+    public String toString() {
+        return "Tile{" +
+                "name='" + this.name + '\'' +
+                '}';
+    }
 }
