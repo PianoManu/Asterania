@@ -15,17 +15,17 @@ import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.tile.Tiles;
+import de.pianomanu.asterania.world.WorldSectionCoordinates;
 
-public class RenderWorld {
-    private static ShapeRenderer gridRenderer = new ShapeRenderer();
+public class WorldRenderer {
 
-    public static void reloadGridRenderer() {
-        gridRenderer.dispose();
-        gridRenderer = new ShapeRenderer();
+    public static void renderAll(World world, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+        renderTerrain(world, batch);
+        renderHovering(world, shapeRenderer);
+        renderPlayer(world, batch);
     }
 
-    public static void renderTerrain(World world, SpriteBatch batch) {
+    private static void renderTerrain(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         int startRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() - 3 * width / (2 * DisplayConfig.TILE_SIZE);
@@ -36,9 +36,8 @@ public class RenderWorld {
         TileCoordinates stopRendering = new TileCoordinates(stopRenderingX, stopRenderingY);
         EntityCoordinates playerCoordinates = world.getPlayer().getCharacterPos();
         batch.begin();
-        gridRenderer.begin(ShapeRenderer.ShapeType.Line);
-        gridRenderer.setColor(0, 0, 0, 1);
-        for (int x = startRendering.getX(); x < stopRendering.getX(); x++) {
+
+        /*for (int x = startRendering.getX(); x < stopRendering.getX(); x++) {
             for (int y = startRendering.getY(); y < stopRendering.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
@@ -54,12 +53,35 @@ public class RenderWorld {
                     gridRenderer.line(xTile, 0, xTile, height);
                 }
             }
+        }*/
+        WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
+        WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
+        WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);
+        TileCoordinates bottomLeftTile = bottomleftSection.startToTileCoordinates();
+        TileCoordinates topRightTile = topRightSection.endToTileCoordinates();
+        for (int x = bottomLeftTile.getX(); x < topRightTile.getX(); x++) {
+            for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
+                int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
+                int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
+                //try {
+                if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY())
+                    batch.draw(world.findSection(world.getPlayer().getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                else {
+                    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+                    try {
+                        batch.draw(world.findSection(tileCoordinates).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    } catch (NullPointerException e) {
+                        //Error trying to find the correct section: preGenerate all adjacent sections
+                        world.preGenerateSurroundingWorldSections();
+                    }
+                }
+            }
         }
+
         batch.end();
-        gridRenderer.end();
     }
 
-    public static void renderPlayer(World world, SpriteBatch batch) {
+    private static void renderPlayer(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         Player player = world.getPlayer();
@@ -69,7 +91,7 @@ public class RenderWorld {
         batch.end();
     }
 
-    public static void renderHovering(World world, ShapeRenderer shapeRenderer) {
+    private static void renderHovering(World world, ShapeRenderer shapeRenderer) {
         EntityCoordinates playerPos = world.getPlayer().getCharacterPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         int hoveringXStart = (int) Math.floor(mousePos.x);

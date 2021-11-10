@@ -54,7 +54,16 @@ public class WorldSection {
     }
 
     public Tile getTile(int x, int y) {
-        return this.tiles[x][y];
+        try {
+            //relative coordinates inside section
+            //0<=x<=64, 0<=y<=64
+            return this.tiles[x][y];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            //global coordinates
+            int newX = x - this.start.getX();
+            int newY = y - this.start.getY();
+            return this.tiles[newX][newY];
+        }
     }
 
     public Tile getTile(EntityCoordinates entityCoordinates) {
@@ -63,9 +72,12 @@ public class WorldSection {
 
     public Tile getTile(TileCoordinates tileCoordinates) {
         try {
-            return this.tiles[this.start.getX() + tileCoordinates.getX()][this.start.getY() + tileCoordinates.getY()];
+            //relative coordinates inside section
+            return this.tiles[tileCoordinates.getX()][tileCoordinates.getY()];
         } catch (ArrayIndexOutOfBoundsException e) {
-            return Tiles.ROCK;
+            //global coordinates
+            return this.tiles[tileCoordinates.getX() - this.start.getX()][tileCoordinates.getY() - this.start.getY()];
+            //return Tiles.ROCK;
         } catch (Exception e) {
             System.out.println("Catched");
             return Tiles.ROCK;
