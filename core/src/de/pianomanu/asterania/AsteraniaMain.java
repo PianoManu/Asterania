@@ -25,7 +25,7 @@ public class AsteraniaMain extends Game {
 		setScreen(new LoadingScreen());
 
 
-		world = new World(new TileCoordinates(5, 5));
+		world = new World(new TileCoordinates(5, 8));
 		player = new Player();
 		world.joinWorld(player, world.getEntryPoint());
 	}

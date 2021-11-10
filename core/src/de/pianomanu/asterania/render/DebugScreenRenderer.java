@@ -35,6 +35,8 @@ public class DebugScreenRenderer {
             tile = Tiles.ROCK;
         }
         TextRenderer.renderText(xOffset, height - yOffset - 80, "Tile at cursor position: " + tile.toString());
+
+        TextRenderer.renderText(xOffset, 20, "Hitbox position: X_1=" + world.getPlayer().getPlayerHitbox().start.x + ", Y_1=" + world.getPlayer().getPlayerHitbox().start.y + "; X_2=" + world.getPlayer().getPlayerHitbox().end.x + ", Y_2=" + world.getPlayer().getPlayerHitbox().end.y);
     }
 
     public static void renderHitbox(World world, ShapeRenderer shapeRenderer) {

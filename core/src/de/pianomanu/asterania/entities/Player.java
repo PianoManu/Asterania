@@ -32,6 +32,14 @@ public class Player {
         return new EntityCoordinates(this.getCharacterPos().x, this.getCharacterPos().y - characterSize.y / 2);
     }
 
+    public void setFootPos(EntityCoordinates characterPos) {
+        this.setCharacterPos(characterPos.x, characterPos.y - characterSize.y / 2);
+    }
+
+    public void setFootPos(float x, float y) {
+        this.setCharacterPos(x, y + characterSize.y / 2);
+    }
+
     public void setCharacterPos(EntityCoordinates characterPos) {
         this.characterPos = characterPos;
     }
@@ -83,5 +91,10 @@ public class Player {
 
     public void updateHitbox() {
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(this.characterSize)).move(-this.characterSize.x / 2, -this.characterSize.y / 2);
+    }
+
+    public void setCharacterPos(float x, float y) {
+        this.characterPos.x = x;
+        this.characterPos.y = y;
     }
 }
