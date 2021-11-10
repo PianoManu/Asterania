@@ -7,6 +7,8 @@ public class KeyConfig {
     public static final int MOVE_RIGHT = Input.Keys.RIGHT;
     public static final int MOVE_UP = Input.Keys.UP;
     public static final int MOVE_DOWN = Input.Keys.DOWN;
+    public static final int SET_TILE = Input.Buttons.LEFT;
+    public static final int REMOVE_TILE = Input.Buttons.RIGHT;
 
     public static final int START = Input.Keys.SPACE;
 

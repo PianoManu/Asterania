@@ -3,9 +3,11 @@ package de.pianomanu.asterania.lifecycle;
 import com.badlogic.gdx.Gdx;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.EntityCoordinates;
 import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {
     protected static void updatePlayer(World world, float delta) {
@@ -73,5 +75,15 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (player.isMoving())
             if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
                 player.setStanding();
+
+        if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), player.getCharacterPos());
+            world.setTile(mouse, Tiles.ROCK);
+        }
+
+        if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE)) {
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), player.getCharacterPos());
+            world.setTile(mouse, Tiles.GRASS);
+        }
     }
 }

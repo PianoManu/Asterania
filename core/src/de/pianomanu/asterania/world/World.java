@@ -57,7 +57,11 @@ public class World {
     }
 
     public void setTile(EntityCoordinates entityCoordinates, Tile tile) {
-        setTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x), tile);
+        setTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y), tile);
+    }
+
+    public void setTile(TileCoordinates tileCoordinates, Tile tile) {
+        setTile(tileCoordinates.getX(), tileCoordinates.getY(), tile);
     }
 
     public Tile[][] getTerrain() {
