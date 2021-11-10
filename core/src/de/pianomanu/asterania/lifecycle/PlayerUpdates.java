@@ -12,6 +12,7 @@ import de.pianomanu.asterania.world.tile.Tiles;
 public class PlayerUpdates extends GameLifeCycleUpdates {
     protected static void updatePlayer(World world, float delta) {
         updateMovement(world, delta);
+        changeEnvironment(world);
     }
 
     private static void updateMovement(World world, float delta) {
@@ -27,11 +28,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
             player.setMoving();
-            if (world.getTile(playerTile).isAccessible()) {
-                if (world.getTile(right).isAccessible() || player.getPlayerHitbox().end.x < right.getX()) {
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(right) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(right).getTile(right).isAccessible() || player.getPlayerHitbox().end.x < right.getX()) {
                     player.moveRight(delta);
                 }
-                if (!world.getTile(right).isAccessible() && player.getPlayerHitbox().end.x + player.getStepSize() * delta > right.getX()) {
+                if (!world.findSection(right).getTile(right).isAccessible() && player.getPlayerHitbox().end.x + player.getStepSize() * delta > right.getX()) {
                     float xHitboxWidth = player.getCharacterSize().x;
                     player.setFootPos(right.getX() - xHitboxWidth / 2, playerFootPos.y);
                 }
@@ -39,11 +43,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT)) {
             player.setMoving();
-            if (world.getTile(playerTile).isAccessible()) {
-                if (world.getTile(left).isAccessible() || player.getPlayerHitbox().start.x > left.getX() + 1) {
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(left) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(left).getTile(left).isAccessible() || player.getPlayerHitbox().start.x > left.getX() + 1) {
                     player.moveLeft(delta);
                 }
-                if (!world.getTile(left).isAccessible() && player.getPlayerHitbox().start.x - player.getStepSize() * delta < left.getX() + 1) {
+                if (!world.findSection(left).getTile(left).isAccessible() && player.getPlayerHitbox().start.x - player.getStepSize() * delta < left.getX() + 1) {
                     float xHitboxWidth = player.getCharacterSize().x;
                     player.setFootPos(left.getX() + 1 + xHitboxWidth / 2, playerFootPos.y);
                 }
@@ -51,39 +58,47 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             player.setMoving();
-            if (world.getTile(playerTile).isAccessible()) {
-                if (world.getTile(up).isAccessible() || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(up) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(up).getTile(up).isAccessible() || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
                     player.moveUp(delta);
                 }
-                if (!world.getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
+                if (!world.findSection(up).getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
                     player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
                 }
             }
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
             player.setMoving();
-            if (world.getTile(playerTile).isAccessible()) {
-                if (world.getTile(down).isAccessible() || playerFootPos.y - player.getStepSize() * delta > up.getY() - 1) {
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(down) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(down).getTile(down).isAccessible() || playerFootPos.y - player.getStepSize() * delta > up.getY() - 1) {
                     player.moveDown(delta);
                 }
-                if (!world.getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
+                if (!world.findSection(down).getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
                     player.setFootPos(player.getCharacterPos().x, up.getY() - 1);
                 }
             }
         }
-        System.out.println(world.getTile(playerTile).isAccessible());
         if (player.isMoving())
             if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
                 player.setStanding();
+    }
 
+    public static void changeEnvironment(World world) {
+        Player player = world.getPlayer();
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            world.setTile(mouse, Tiles.ROCK);
+            world.findSection(mouse).setTile(mouse, Tiles.ROCK);
         }
 
         if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            world.setTile(mouse, Tiles.GRASS);
+            world.findSection(mouse).setTile(mouse, Tiles.GRASS);
         }
     }
 }

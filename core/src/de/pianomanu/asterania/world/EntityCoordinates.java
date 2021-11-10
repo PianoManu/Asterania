@@ -41,6 +41,10 @@ public class EntityCoordinates {
         return new TileCoordinates((int) Math.floor(x), (int) Math.floor(y));
     }
 
+    public WorldSectionCoordinates toWorldSectionCoordinates() {
+        return new WorldSectionCoordinates((int) Math.floor(this.x / WorldSection.SECTION_SIZE), (int) Math.floor(this.y / WorldSection.SECTION_SIZE));
+    }
+
     public EntityCoordinates add(Vector2 vec) {
         this.x += vec.x;
         this.y += vec.y;

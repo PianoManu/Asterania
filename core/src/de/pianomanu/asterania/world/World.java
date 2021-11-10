@@ -1,71 +1,79 @@
 package de.pianomanu.asterania.world;
 
-import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.Tiles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class World {
-    private final Tile[][] tiles = new Tile[GameConfig.WORLD_WIDTH][GameConfig.WORLD_HEIGHT];
+    //private final Tile[][] tiles = new Tile[GameConfig.WORLD_WIDTH][GameConfig.WORLD_HEIGHT];
+    private List<WorldSection> sections = new ArrayList<>();
     private Player player = new Player();
     private TileCoordinates entryPoint;
 
     public World(TileCoordinates entryPoint) {
-        createTerrain();
+        this.sections.add(new WorldSection(0, 0));
+        this.sections.get(0).createTerrain();
         this.entryPoint = entryPoint;
-    }
-
-    private void createTerrain() {
-        for (int x = 0; x < GameConfig.WORLD_WIDTH; x++) {
-            for (int y = 0; y < GameConfig.WORLD_HEIGHT; y++) {
-                this.tiles[x][y] = Tiles.GRASS;
-                if (x == y)
-                    this.tiles[x][y] = Tiles.ROCK;
-            }
-        }
     }
 
     public void joinWorld(Player player, TileCoordinates entryPoint) {
         this.player = player;
         this.player.setCharacterPos(entryPoint.toEntityCoordinates());
         this.player.updateHitbox();
+
+        this.preGenerateSurroundingWorldSections();
     }
 
     public Player getPlayer() {
         return this.player;
     }
 
-    public Tile getTile(int x, int y) {
-        return this.tiles[x][y];
+    public WorldSection getStartTerrain() {
+        return this.findSection(0, 0);
     }
 
-    public Tile getTile(EntityCoordinates entityCoordinates) {
-        return getTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x));
-    }
-
-    public Tile getTile(TileCoordinates tileCoordinates) {
-        try {
-            return this.tiles[tileCoordinates.getX()][tileCoordinates.getY()];
-        } catch (ArrayIndexOutOfBoundsException e) {
-            return Tiles.ROCK;
+    public WorldSection findSection(int x, int y) {
+        for (WorldSection s :
+                this.sections) {
+            if (s.getSectionPos().x == x && s.getSectionPos().y == y)
+                return s;
         }
-
+        return null;
     }
 
-    public void setTile(int x, int y, Tile tile) {
-        this.tiles[x][y] = tile;
+    public WorldSection findSection(EntityCoordinates entityCoordinates) {
+        for (WorldSection s :
+                this.sections) {
+            if (s.getStart().getX() <= entityCoordinates.x && s.getStart().getY() <= entityCoordinates.y && s.getEnd().getX() + 1 >= entityCoordinates.x && s.getEnd().getY() + 1 >= entityCoordinates.y)
+                return s;
+        }
+        return null;
     }
 
-    public void setTile(EntityCoordinates entityCoordinates, Tile tile) {
-        setTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y), tile);
+    public WorldSection findSection(TileCoordinates tileCoordinates) {
+        for (WorldSection s :
+                this.sections) {
+            if (s.getStart().getX() <= tileCoordinates.getX() && s.getStart().getY() <= tileCoordinates.getY() && s.getEnd().getX() >= tileCoordinates.getX() && s.getEnd().getY() >= tileCoordinates.getY())
+                return s;
+        }
+        return null;
     }
 
-    public void setTile(TileCoordinates tileCoordinates, Tile tile) {
-        setTile(tileCoordinates.getX(), tileCoordinates.getY(), tile);
+    public boolean addNewSection(int x, int y) {
+        if (findSection(x, y) == null) {
+            this.sections.add(new WorldSection(x, y));
+            return true;
+        }
+        return false;
     }
 
-    public Tile[][] getTerrain() {
-        return this.tiles;
+    public boolean addNewSection(TileCoordinates tileCoordinates) {
+        if (findSection(tileCoordinates) == null) {
+            this.sections.add(new WorldSection(tileCoordinates.toWorldSectionCoordinates().x, tileCoordinates.toWorldSectionCoordinates().y));
+            return true;
+        }
+        return false;
     }
 
     public TileCoordinates getEntryPoint() {
@@ -74,5 +82,18 @@ public class World {
 
     public void setEntryPoint(TileCoordinates entryPoint) {
         this.entryPoint = entryPoint;
+    }
+
+    public void preGenerateSurroundingWorldSections() {
+        //8 surrounding sections
+        WorldSectionCoordinates center = this.player.getCharacterPos().toWorldSectionCoordinates();
+        addNewSection(center.x - 1, center.y - 1);
+        addNewSection(center.x - 1, center.y);
+        addNewSection(center.x - 1, center.y + 1);
+        addNewSection(center.x, center.y - 1);
+        addNewSection(center.x, center.y + 1);
+        addNewSection(center.x + 1, center.y - 1);
+        addNewSection(center.x + 1, center.y);
+        addNewSection(center.x + 1, center.y + 1);
     }
 }

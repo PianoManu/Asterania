@@ -30,7 +30,7 @@ public class DebugScreenRenderer {
         TextRenderer.renderText(xOffset, height - yOffset - 64, "Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
         Tile tile;
         try {
-            tile = world.getTile(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
+            tile = world.findSection(mouseECoordinates).getTile(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
         } catch (ArrayIndexOutOfBoundsException e) {
             tile = Tiles.ROCK;
         }

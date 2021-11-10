@@ -21,6 +21,10 @@ public class TileCoordinates {
         return new EntityCoordinates(x + 0.5f, y + 0.5f);
     }
 
+    public WorldSectionCoordinates toWorldSectionCoordinates() {
+        return new WorldSectionCoordinates((int) Math.floor(Math.floor(this.x) / WorldSection.SECTION_SIZE), (int) Math.floor(Math.floor(this.y) / WorldSection.SECTION_SIZE));
+    }
+
     public TileCoordinates copy() {
         return new TileCoordinates(this.x, this.y);
     }
