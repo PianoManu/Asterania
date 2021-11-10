@@ -1,4 +1,6 @@
-package de.pianomanu.asterania.world;
+package de.pianomanu.asterania.world.coordinates;
+
+import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class TileCoordinates {
     private int x;

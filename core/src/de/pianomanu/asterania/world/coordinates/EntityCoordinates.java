@@ -1,6 +1,7 @@
-package de.pianomanu.asterania.world;
+package de.pianomanu.asterania.world.coordinates;
 
 import com.badlogic.gdx.math.Vector2;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class EntityCoordinates {
     public float x;

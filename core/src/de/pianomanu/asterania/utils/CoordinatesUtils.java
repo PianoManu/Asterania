@@ -3,8 +3,8 @@ package de.pianomanu.asterania.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.world.EntityCoordinates;
-import de.pianomanu.asterania.world.TileCoordinates;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 
 public class CoordinatesUtils {
     public static EntityCoordinates pixelToEntityCoordinates(int pixelX, int pixelY, EntityCoordinates playerPos) {

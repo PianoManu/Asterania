@@ -12,10 +12,10 @@ import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.render.atlas.PlayerAtlas;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
-import de.pianomanu.asterania.world.EntityCoordinates;
-import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 
 public class WorldRenderer {
 

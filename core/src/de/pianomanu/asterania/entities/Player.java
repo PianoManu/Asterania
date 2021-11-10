@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
-import de.pianomanu.asterania.world.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 
 public class Player {
     private EntityCoordinates characterPos;

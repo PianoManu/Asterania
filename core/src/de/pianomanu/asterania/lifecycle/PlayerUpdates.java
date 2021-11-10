@@ -4,9 +4,9 @@ import com.badlogic.gdx.Gdx;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
-import de.pianomanu.asterania.world.EntityCoordinates;
-import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {

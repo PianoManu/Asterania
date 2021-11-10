@@ -1,6 +1,10 @@
 package de.pianomanu.asterania.world;
 
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 import java.util.ArrayList;
 import java.util.List;

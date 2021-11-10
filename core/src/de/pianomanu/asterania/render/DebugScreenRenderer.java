@@ -7,10 +7,10 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
-import de.pianomanu.asterania.world.EntityCoordinates;
-import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 

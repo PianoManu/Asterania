@@ -4,8 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.screens.LoadingScreen;
-import de.pianomanu.asterania.world.TileCoordinates;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 
 public class AsteraniaMain extends Game {
 

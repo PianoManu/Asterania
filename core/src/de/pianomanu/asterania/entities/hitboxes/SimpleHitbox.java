@@ -1,6 +1,6 @@
 package de.pianomanu.asterania.entities.hitboxes;
 
-import de.pianomanu.asterania.world.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 
 public class SimpleHitbox {
     public EntityCoordinates start;
