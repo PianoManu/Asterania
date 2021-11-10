@@ -8,6 +8,7 @@ import de.pianomanu.asterania.world.TileCoordinates;
 
 public class CoordinatesUtils {
     public static EntityCoordinates pixelToEntityCoordinates(int pixelX, int pixelY, EntityCoordinates playerPos) {
+        pixelY = Gdx.graphics.getHeight() - pixelY;
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         EntityCoordinates mouseECoordinates = new EntityCoordinates((float) pixelX / DisplayConfig.TILE_SIZE, (float) pixelY / DisplayConfig.TILE_SIZE);

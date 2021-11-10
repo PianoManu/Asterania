@@ -71,7 +71,7 @@ public class RenderWorld {
 
     public static void renderHovering(World world, ShapeRenderer shapeRenderer) {
         EntityCoordinates playerPos = world.getPlayer().getCharacterPos();
-        EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), playerPos);
+        EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         int hoveringXStart = (int) Math.floor(mousePos.x);
         int hoveringYStart = (int) Math.floor(mousePos.y);
         EntityCoordinates hoveringStart = new EntityCoordinates(hoveringXStart, hoveringYStart);

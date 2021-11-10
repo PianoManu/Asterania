@@ -77,12 +77,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.setStanding();
 
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
-            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), player.getCharacterPos());
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             world.setTile(mouse, Tiles.ROCK);
         }
 
         if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE)) {
-            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY(), player.getCharacterPos());
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             world.setTile(mouse, Tiles.GRASS);
         }
     }

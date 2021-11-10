@@ -24,8 +24,8 @@ public class DebugScreenRenderer {
         TextRenderer.renderText(xOffset, height - yOffset - 32, "Feet position: X=" + world.getPlayer().getFootPos().x + ", Y=" + world.getPlayer().getFootPos().y);
 
         int mouseX = Gdx.input.getX();
-        int mouseY = height - Gdx.input.getY();
-        TextRenderer.renderText(xOffset, height - yOffset - 48, "Cursor position: X=" + mouseX + ", Y=" + mouseY);
+        int mouseY = Gdx.input.getY();
+        TextRenderer.renderText(xOffset, height - yOffset - 48, "Cursor position: X=" + mouseX + ", Y=" + (height - mouseY));
         EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, world.getPlayer().getCharacterPos());
         TextRenderer.renderText(xOffset, height - yOffset - 64, "Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
         Tile tile;
