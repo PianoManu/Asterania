@@ -11,7 +11,7 @@ public class Player {
     private EntityCoordinates characterPos;
     private EntityCoordinates footPos;
     private Vector2 playerPosOnScreen;
-    private int stepSize = DisplayConfig.TILE_SIZE / 32;
+    private int stepSize = DisplayConfig.TILE_SIZE / 16 / DisplayConfig.ZOOM;
     private EntityCoordinates characterSize = new EntityCoordinates();
     private boolean isMoving = false;
     private SimpleHitbox playerHitbox;
