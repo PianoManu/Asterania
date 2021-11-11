@@ -29,7 +29,7 @@ public class ConsoleLogFormatter extends Formatter {
             formattedText += ANSI_BLUE;
         }
 
-        formattedText += record.getSourceClassName() + "#" + record.getSourceMethodName() + ": ";
+        formattedText += record.getSourceClassName() + "::" + record.getSourceMethodName() + ": ";
         formattedText += formatMessage(record) + ANSI_RESET + "\n";
         return formattedText;
     }
