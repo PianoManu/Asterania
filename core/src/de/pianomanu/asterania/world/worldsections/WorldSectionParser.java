@@ -121,9 +121,7 @@ public class WorldSectionParser {
         }
         Tile[][] tiles = new Tile[WorldSection.SECTION_SIZE][WorldSection.SECTION_SIZE];
         for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
-            for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                tiles[x][y] = unprocessedTiles[x * WorldSection.SECTION_SIZE + y];
-            }
+            System.arraycopy(unprocessedTiles, x * 64, tiles[x], 0, WorldSection.SECTION_SIZE);
         }
         return tiles;
     }

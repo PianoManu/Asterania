@@ -32,24 +32,6 @@ public class WorldReader {
      * as byte array.
      */
     private static char[] readFile(File file) {
-        /*List<Character> buffer = new ArrayList<>();
-        FileReader reader;
-
-        try {
-            reader = new FileReader(file.getAbsolutePath());
-
-            //entweder | oder Dateiende
-            while (true) {
-                int readCharacter = reader.read();
-                buffer.add();
-                if (readCharacter == 124)
-                    System.out.println();
-                if (readCharacter == -1)
-                    return buffer;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
         // Creates an array of character
         char[] array = new char[65536];
 
@@ -59,8 +41,6 @@ public class WorldReader {
 
             // Reads characters
             input.read(array);
-            //System.out.println("Data in the file: ");
-            //System.out.println(array);
 
             // Closes the reader
             input.close();
