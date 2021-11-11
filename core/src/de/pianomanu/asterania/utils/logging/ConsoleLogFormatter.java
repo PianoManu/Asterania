@@ -17,16 +17,16 @@ public class ConsoleLogFormatter extends Formatter {
     public String format(LogRecord record) {
         String formattedText = "";
         if (record.getLevel().intValue() == Level.SEVERE.intValue()) {
-            formattedText += ANSI_RED_BOLD + ANSI_BLACK_BACKGROUND;
+            formattedText += ANSI_RED_BOLD + ANSI_BLACK_BACKGROUND + "[==SEVERE==] ";
         }
         if (record.getLevel().intValue() == Level.WARNING.intValue()) {
-            formattedText += ANSI_YELLOW;
+            formattedText += ANSI_YELLOW + "[===WARN===] ";
         }
         if (record.getLevel().intValue() == Level.INFO.intValue()) {
-            formattedText += ANSI_GREEN;
+            formattedText += ANSI_GREEN + "[===INFO===] ";
         }
         if (record.getLevel().intValue() <= Level.FINE.intValue()) {
-            formattedText += ANSI_BLUE;
+            formattedText += ANSI_BLUE + "[===DEBUG==] ";
         }
 
         formattedText += record.getSourceClassName() + "::" + record.getSourceMethodName() + ": ";
