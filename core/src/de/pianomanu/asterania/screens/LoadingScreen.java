@@ -7,7 +7,12 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.Atlases;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoadingScreen extends ScreenAdapter {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     public LoadingScreen() {
         loadAtlases();
 
@@ -15,8 +20,10 @@ public class LoadingScreen extends ScreenAdapter {
     }
 
     private static void loadAtlases() {
+        LOGGER.log(Level.FINE, "Loading atlases...");
         AsteraniaMain.assetManager.load(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class);
         AsteraniaMain.assetManager.load(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class);
+        LOGGER.fine("Loaded atlases!");
     }
 
     @Override

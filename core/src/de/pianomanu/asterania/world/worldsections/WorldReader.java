@@ -1,16 +1,21 @@
 package de.pianomanu.asterania.world.worldsections;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class WorldReader {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     private static List<String> linesOfFile = new ArrayList<>();
 
     public static void loadWorld(File file, World world) {
+        LOGGER.fine("Starting world " + world.toString());
         String content = String.valueOf(readFile(file));
         int lowerBound = 0;
         for (int i = 0; i < content.length(); i++) {
@@ -21,6 +26,7 @@ public class WorldReader {
         }
         System.out.println(linesOfFile.size());
         world.loadWorldSections(WorldSectionParser.getWSfromString(linesOfFile));
+        LOGGER.fine("Started world " + world.toString());
     }
 
     /**

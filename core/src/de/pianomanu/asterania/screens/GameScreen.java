@@ -18,7 +18,11 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.worldsections.WorldSectionParser;
 import de.pianomanu.asterania.world.worldsections.WorldWriter;
 
+import java.util.logging.Logger;
+
 public class GameScreen extends ScreenAdapter {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     SpriteBatch batch;
     TextureAtlas tileAtlas;
     TextureAtlas playerAtlas;
@@ -60,21 +64,26 @@ public class GameScreen extends ScreenAdapter {
 
     private void checkForImportantInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            LOGGER.fine("Saving world data...");
             WorldWriter.saveWorldContent(WorldSectionParser.createWSString(world));
+            LOGGER.fine("Saved world data!");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
         }
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_DEBUG_INFO)) {
             DisplayConfig.showDebugInfo = !DisplayConfig.showDebugInfo;
+            LOGGER.finest("Toggled debug info!");
         }
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_FULLSCREEN)) {
             DisplayConfig.isFullscreen = !DisplayConfig.isFullscreen;
             DisplayConfig.setup();
+            LOGGER.finest("Toggled fullscreen settings!");
         }
     }
 
     private void checkForImportantChanges() {
         if (WindowUtils.windowSizeHasChanged()) {
+            LOGGER.finest("Window was resized, updated window!");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }

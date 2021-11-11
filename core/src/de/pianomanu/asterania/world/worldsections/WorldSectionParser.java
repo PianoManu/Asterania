@@ -1,5 +1,6 @@
 package de.pianomanu.asterania.world.worldsections;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -9,8 +10,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 public class WorldSectionParser {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     //sC = separatingCharacter ... for better readability
     private static final char sC = '|';
 
@@ -109,13 +113,15 @@ public class WorldSectionParser {
         if (tileArray != null) {
             worldSection.setTiles(tileArray);
         } else {
-            System.out.println("TILES ARE NULL");
+            LOGGER.warning("Tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
         }
         return worldSection;
     }
 
     private static Tile[][] getTilesFromTileArray(Tile[] unprocessedTiles) {
         if (unprocessedTiles.length != WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE) {
+            LOGGER.warning("Tile array should contain " + WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE + " tiles, but has " + unprocessedTiles.length + " tiles!");
+            LOGGER.warning("This WorldSection is corrupted and must be generated again!");
             System.out.println("ERROR");
             return null;
         }
@@ -152,6 +158,7 @@ public class WorldSectionParser {
         if (Objects.equals(tile, "rock"))
             return Tiles.ROCK;
         else
+            LOGGER.warning("Could not decode a tile from input string \"" + tile + "\", using default tile " + Tiles.WHITE.getSaveFileString());
             return Tiles.WHITE;
     }
 

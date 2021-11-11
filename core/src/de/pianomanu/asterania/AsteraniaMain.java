@@ -20,7 +20,7 @@ public class AsteraniaMain extends Game {
 	public static AsteraniaMain INSTANCE;
 	public static AssetManager assetManager;
 
-	public static final Level LOG_LEVEL = Level.INFO;
+	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	public static World world;
@@ -47,5 +47,9 @@ public class AsteraniaMain extends Game {
 
 		WorldReader.loadWorld(new File(GameConfig.SAVE_NAME), world);
 		LOGGER.info("Initialization completed!");
+	}
+
+	public static Logger getLogger() {
+		return LOGGER;
 	}
 }

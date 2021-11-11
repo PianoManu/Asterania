@@ -1,5 +1,9 @@
 package de.pianomanu.asterania.utils.logging;
 
+import de.pianomanu.asterania.AsteraniaMain;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Formatter;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -29,8 +33,19 @@ public class ConsoleLogFormatter extends Formatter {
             formattedText += ANSI_BLUE + "[===DEBUG==] ";
         }
 
+        formattedText += "(" + calcDate(System.currentTimeMillis()) + ") ";
         formattedText += record.getSourceClassName() + "::" + record.getSourceMethodName() + ": ";
         formattedText += formatMessage(record) + ANSI_RESET + "\n";
         return formattedText;
+    }
+
+    private String calcDate(long millisecs) {
+        SimpleDateFormat date_format;
+        if (AsteraniaMain.LOG_LEVEL == Level.FINER || AsteraniaMain.LOG_LEVEL == Level.FINEST)
+            date_format = new SimpleDateFormat("dd.MM.yy HH:mm:ss.SSS");
+        else
+            date_format = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
+        Date resultdate = new Date(millisecs);
+        return date_format.format(resultdate);
     }
 }

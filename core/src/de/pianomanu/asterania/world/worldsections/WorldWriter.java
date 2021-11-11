@@ -1,20 +1,26 @@
 package de.pianomanu.asterania.world.worldsections;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 public class WorldWriter {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static void saveWorldContent(String worldContent) {
+        LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVE_NAME);
         File file = new File(GameConfig.SAVE_NAME);
         try {
             writeFile(file, worldContent);
         } catch (IOException e) {
+            LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();
         }
+        LOGGER.finest("Got string containing world info, saved it at " + GameConfig.SAVE_NAME);
     }
 
     /**
