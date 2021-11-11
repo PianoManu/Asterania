@@ -1,11 +1,14 @@
 alpha0.1.0
 
-|0|0|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|
-|-1|-1|4095*rock|1*grass|
+|0|0|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|129*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|
+|-1|-1|4076*rock|4*grass|1*rock|1*grass|1*rock|2*grass|10*rock|1*grass|
 |-1|0|3780*rock|3*grass|61*rock|1*grass|1*rock|1*grass|61*rock|1*grass|1*rock|1*grass|57*rock|3*grass|1*rock|3*grass|121*rock|
 |-1|1|4096*rock|
-|0|-1|62*rock|1*grass|63*rock|1*grass|63*rock|1*grass|3905*rock|
+|0|-1|52*rock|1*grass|9*rock|1*grass|44*rock|1*grass|1*rock|3*grass|1*rock|2*grass|11*rock|1*grass|44*rock|1*grass|1*rock|1*grass|4*rock|1*grass|1*rock|1*grass|9*rock|1*grass|46*rock|1*grass|1*rock|2*grass|1*rock|1*grass|1*rock|1*grass|54*rock|1*grass|3*rock|2*grass|58*rock|1*grass|1*rock|4*grass|1*rock|14*grass|43*rock|1*grass|3*rock|2*grass|60*rock|1*grass|1*rock|2*grass|1*rock|1*grass|1*rock|1*grass|54*rock|1*grass|1*rock|1*grass|4*rock|1*grass|1*rock|1*grass|54*rock|1*grass|1*rock|3*grass|1*rock|2*grass|65*rock|1*grass|55*rock|4*grass|1*rock|1*grass|1*rock|2*grass|3339*rock|
 |0|1|4096*rock|
 |1|-1|4096*rock|
 |1|0|4096*rock|
 |1|1|4096*rock|
+|-1|-2|4096*rock|
+|0|-2|4096*rock|
+|1|-2|4096*rock|

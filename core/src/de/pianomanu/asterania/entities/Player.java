@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.direction.Direction;
 
 public class Player {
     private EntityCoordinates characterPos;
@@ -14,6 +15,11 @@ public class Player {
     private EntityCoordinates characterSize = new EntityCoordinates();
     private boolean isMoving = false;
     private SimpleHitbox playerHitbox;
+    private final float timeBetweenAnimations = 0.1f;
+    //determines which image to show
+    private int movingAnimationCounter = 0;
+    private float changeToNextAnimation = 0f;
+    private Direction playerFacing = Direction.DOWN;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -50,18 +56,32 @@ public class Player {
 
     public void moveRight(float delta) {
         this.characterPos.x += this.stepSize * delta;
+        this.setPlayerFacing(Direction.RIGHT);
     }
 
     public void moveLeft(float delta) {
         this.characterPos.x -= this.stepSize * delta;
+        this.setPlayerFacing(Direction.LEFT);
     }
 
     public void moveUp(float delta) {
         this.characterPos.y += this.stepSize * delta;
+        this.setPlayerFacing(Direction.UP);
     }
 
     public void moveDown(float delta) {
         this.characterPos.y -= this.stepSize * delta;
+        this.setPlayerFacing(Direction.DOWN);
+    }
+
+    public void checkForAnimationUpdate(float delta) {
+        this.changeToNextAnimation += delta;
+        if (this.changeToNextAnimation >= this.timeBetweenAnimations) {
+            this.changeToNextAnimation -= this.timeBetweenAnimations;
+            this.movingAnimationCounter++;
+            if (this.movingAnimationCounter >= 4)
+                this.movingAnimationCounter = 0;
+        }
     }
 
     public EntityCoordinates getCharacterSize() {
@@ -74,6 +94,7 @@ public class Player {
     }
 
     public void setStanding() {
+        this.movingAnimationCounter = 0;
         this.isMoving = false;
     }
 
@@ -96,5 +117,17 @@ public class Player {
     public void setCharacterPos(float x, float y) {
         this.characterPos.x = x;
         this.characterPos.y = y;
+    }
+
+    public Direction getPlayerFacing() {
+        return playerFacing;
+    }
+
+    public void setPlayerFacing(Direction playerFacing) {
+        this.playerFacing = playerFacing;
+    }
+
+    public int getMovingAnimationCounter() {
+        return movingAnimationCounter;
     }
 }

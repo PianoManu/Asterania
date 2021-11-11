@@ -4,13 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.render.atlas.PlayerAtlas;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -22,7 +19,7 @@ public class WorldRenderer {
     public static void renderAll(World world, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         renderTerrain(world, batch);
         renderHovering(world, shapeRenderer);
-        renderPlayer(world, batch);
+        PlayerRenderer.render(world, batch);
     }
 
     private static void renderTerrain(World world, SpriteBatch batch) {
@@ -78,16 +75,6 @@ public class WorldRenderer {
             }
         }
 
-        batch.end();
-    }
-
-    private static void renderPlayer(World world, SpriteBatch batch) {
-        int width = Gdx.graphics.getWidth();
-        int height = Gdx.graphics.getHeight();
-        Player player = world.getPlayer();
-        TextureRegion playerTexture = AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
-        batch.begin();
-        batch.draw(playerTexture, width / 2f - player.getCharacterSizeInPixels().x / 2f, height / 2f - player.getCharacterSizeInPixels().y / 2f, player.getCharacterSizeInPixels().x, player.getCharacterSizeInPixels().y);
         batch.end();
     }
 

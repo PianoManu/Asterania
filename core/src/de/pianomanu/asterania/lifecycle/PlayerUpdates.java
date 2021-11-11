@@ -26,6 +26,34 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         float distanceFromInacessibleBlocks = 0.000001f;
         if (player.isMoving())
             player.updateHitbox();
+        if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
+            player.setMoving();
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(up) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(up).getTile(up).isAccessible() || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
+                    player.moveUp(delta);
+                }
+                if (!world.findSection(up).getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
+                    player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
+                }
+            }
+        }
+        if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
+            player.setMoving();
+            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+                if (world.findSection(down) == null) {
+                    world.preGenerateSurroundingWorldSections();
+                }
+                if (world.findSection(down).getTile(down).isAccessible() || playerFootPos.y - player.getStepSize() * delta > up.getY() - 1) {
+                    player.moveDown(delta);
+                }
+                if (!world.findSection(down).getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
+                    player.setFootPos(player.getCharacterPos().x, up.getY() - 1);
+                }
+            }
+        }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
             player.setMoving();
             if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
@@ -56,35 +84,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
             }
         }
-        if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
-            player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
-                if (world.findSection(up) == null) {
-                    world.preGenerateSurroundingWorldSections();
-                }
-                if (world.findSection(up).getTile(up).isAccessible() || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
-                    player.moveUp(delta);
-                }
-                if (!world.findSection(up).getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
-                    player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
-                }
-            }
-        }
-        if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
-            player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
-                if (world.findSection(down) == null) {
-                    world.preGenerateSurroundingWorldSections();
-                }
-                if (world.findSection(down).getTile(down).isAccessible() || playerFootPos.y - player.getStepSize() * delta > up.getY() - 1) {
-                    player.moveDown(delta);
-                }
-                if (!world.findSection(down).getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
-                    player.setFootPos(player.getCharacterPos().x, up.getY() - 1);
-                }
-            }
-        }
         if (player.isMoving())
+            player.checkForAnimationUpdate(delta);
             if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
                 player.setStanding();
     }
