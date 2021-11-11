@@ -2,10 +2,14 @@ package de.pianomanu.asterania;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
+import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.worldsections.WorldReader;
+
+import java.io.File;
 
 public class AsteraniaMain extends Game {
 
@@ -28,5 +32,7 @@ public class AsteraniaMain extends Game {
 		world = new World(new TileCoordinates(5, 8));
 		player = new Player();
 		world.joinWorld(player, world.getEntryPoint());
+
+		WorldReader.loadWorld(new File(GameConfig.SAVE_NAME), world);
 	}
 }

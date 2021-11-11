@@ -29,6 +29,10 @@ public class World {
         this.preGenerateSurroundingWorldSections();
     }
 
+    public void loadWorldSections(List<WorldSection> sections) {
+        this.sections = sections;
+    }
+
     public Player getPlayer() {
         return this.player;
     }
@@ -53,6 +57,10 @@ public class World {
                 return s;
         }
         return null;
+    }
+
+    public List<WorldSection> getSections() {
+        return sections;
     }
 
     public WorldSection findSection(TileCoordinates tileCoordinates) {

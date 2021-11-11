@@ -15,6 +15,8 @@ import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.WorldRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.worldsections.WorldSectionParser;
+import de.pianomanu.asterania.world.worldsections.WorldWriter;
 
 public class GameScreen extends ScreenAdapter {
     SpriteBatch batch;
@@ -58,6 +60,7 @@ public class GameScreen extends ScreenAdapter {
 
     private void checkForImportantInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            WorldWriter.saveWorldContent(WorldSectionParser.createWSString(world));
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
         }

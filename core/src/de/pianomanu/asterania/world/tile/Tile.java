@@ -36,4 +36,8 @@ public abstract class Tile {
                 "name='" + this.name + '\'' +
                 '}';
     }
+
+    public String getSaveFileString() {
+        return this.name;
+    }
 }
