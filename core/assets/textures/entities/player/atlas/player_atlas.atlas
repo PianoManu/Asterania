@@ -1,54 +1,96 @@
 
 player_atlas.png
-size: 32, 256
+size: 256, 64
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
 p_down1
   rotate: false
-  xy: 0, 170
+  xy: 26, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 p_down2
   rotate: false
-  xy: 0, 136
+  xy: 44, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 p_down3
   rotate: false
-  xy: 0, 102
+  xy: 62, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_left1
+  rotate: false
+  xy: 80, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_left2
+  rotate: false
+  xy: 98, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_left3
+  rotate: false
+  xy: 116, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_right1
+  rotate: false
+  xy: 134, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_right2
+  rotate: false
+  xy: 152, 16
+  size: 16, 32
+  orig: 16, 32
+  offset: 0, 0
+  index: -1
+p_right3
+  rotate: false
+  xy: 170, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 p_up1
   rotate: false
-  xy: 0, 68
+  xy: 188, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 p_up2
   rotate: false
-  xy: 0, 34
+  xy: 206, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 p_up3
   rotate: false
-  xy: 0, 0
+  xy: 224, 16
   size: 16, 32
   orig: 16, 32
   offset: 0, 0
   index: -1
 standing_front
   rotate: false
-  xy: 0, 204
+  xy: 0, 0
   size: 24, 48
   orig: 24, 48
   offset: 0, 0
