@@ -7,6 +7,7 @@ import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {
@@ -37,6 +38,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
                 if (!world.findSection(up).getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
                     player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
+                    if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_UP))
+                        player.setPlayerFacing(Direction.UP);
                 }
             }
         }
@@ -51,6 +54,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
                 if (!world.findSection(down).getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
                     player.setFootPos(player.getCharacterPos().x, up.getY() - 1);
+                    if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_DOWN))
+                        player.setPlayerFacing(Direction.DOWN);
                 }
             }
         }
@@ -65,7 +70,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
                 if (!world.findSection(right).getTile(right).isAccessible() && player.getPlayerHitbox().end.x + player.getStepSize() * delta > right.getX()) {
                     float xHitboxWidth = player.getCharacterSize().x;
-                    player.setFootPos(right.getX() - xHitboxWidth / 2, playerFootPos.y);
+                    player.setFootPos(right.getX() - xHitboxWidth / 2, player.getFootPos().y);
+                    if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_RIGHT))
+                        player.setPlayerFacing(Direction.RIGHT);
                 }
             }
         }
@@ -80,7 +87,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
                 if (!world.findSection(left).getTile(left).isAccessible() && player.getPlayerHitbox().start.x - player.getStepSize() * delta < left.getX() + 1) {
                     float xHitboxWidth = player.getCharacterSize().x;
-                    player.setFootPos(left.getX() + 1 + xHitboxWidth / 2, playerFootPos.y);
+                    player.setFootPos(left.getX() + 1 + xHitboxWidth / 2, player.getFootPos().y);
+                    if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_LEFT))
+                        player.setPlayerFacing(Direction.LEFT);
                 }
             }
         }
