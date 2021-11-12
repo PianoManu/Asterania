@@ -1,6 +1,5 @@
 package de.pianomanu.asterania.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
@@ -9,8 +8,6 @@ import de.pianomanu.asterania.world.direction.Direction;
 
 public class Player {
     private EntityCoordinates characterPos;
-    private EntityCoordinates footPos;
-    private Vector2 playerPosOnScreen;
     private int stepSize = DisplayConfig.TILE_SIZE / 16 / DisplayConfig.ZOOM;
     private EntityCoordinates characterSize = new EntityCoordinates();
     private boolean isMoving = false;
@@ -23,7 +20,7 @@ public class Player {
 
     public Player() {
         this.characterPos = new EntityCoordinates();
-        this.playerPosOnScreen = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
+        //this.playerPosOnScreen = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         this.characterSize.x = 3 / 4f;
         this.characterSize.y = 3 / 2f;
         //this.playerHitbox = new SimpleHitbox(new EntityCoordinates(CoordinatesUtils.pixelToEntityCoordinates(0, 0, this.characterPos)), new EntityCoordinates(CoordinatesUtils.pixelToEntityCoordinates(0,0,this.characterPos)).add(CoordinatesUtils.pixelToEntityCoordinates((int) characterSize.x, (int) characterSize.y, this.characterPos))).move(-characterSize.x/2,-characterSize.y/2);
