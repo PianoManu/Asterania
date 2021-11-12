@@ -17,6 +17,7 @@ public class DesktopLauncher {
         settings.filterMag = Texture.TextureFilter.Nearest;
         TexturePacker.process(settings, "textures\\tiles", "textures\\tiles\\atlas", "tile_atlas");
         TexturePacker.process(settings, "textures\\entities\\player", "textures\\entities\\player\\atlas", "player_atlas");
+            TexturePacker.process(settings, "textures\\gui\\buttons", "textures\\gui\\buttons\\atlas", "button_atlas");
 
         LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
         config.title = "Asterania";

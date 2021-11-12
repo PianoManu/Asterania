@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.Atlases;
+import de.pianomanu.asterania.render.button.Buttons;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,12 +18,14 @@ public class LoadingScreen extends ScreenAdapter {
         loadAtlases();
 
         DisplayConfig.setup();
+        Buttons.setup();
     }
 
     private static void loadAtlases() {
         LOGGER.log(Level.FINE, "Loading atlases...");
         AsteraniaMain.assetManager.load(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class);
         AsteraniaMain.assetManager.load(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.assetManager.load(Atlases.BUTTON_ATLAS_LOCATION, TextureAtlas.class);
         LOGGER.fine("Loaded atlases!");
     }
 
