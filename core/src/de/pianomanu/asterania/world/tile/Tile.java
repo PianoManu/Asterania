@@ -5,16 +5,34 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Tile {
+    public static final int TOTAL_BREAKING_LEVELS = 4;
     protected final String name;
     protected final TileSettings settings;
+    protected float breakingLevel = 0;
 
     protected Tile(String name, TileSettings settings) {
         this.name = name;
         this.settings = settings;
     }
 
+    public TileSettings getSettings() {
+        return settings;
+    }
+
     public boolean isAccessible() {
         return this.settings.isAccessible();
+    }
+
+    public float getBreakingLevel() {
+        return this.breakingLevel;
+    }
+
+    public void setBreakingLevel(float breakingLevel) {
+        this.breakingLevel = breakingLevel;
+    }
+
+    public void increaseBreakingLevel() {
+        this.breakingLevel++;
     }
 
     /**

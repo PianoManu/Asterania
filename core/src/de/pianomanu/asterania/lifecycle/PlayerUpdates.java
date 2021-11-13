@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.lifecycle;
 
 import com.badlogic.gdx.Gdx;
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
@@ -8,12 +9,17 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
+import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
+import java.util.logging.Logger;
+
 public class PlayerUpdates extends GameLifeCycleUpdates {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     protected static void updatePlayer(World world, float delta) {
         updateMovement(world, delta);
-        changeEnvironment(world);
+        changeEnvironment(world, delta);
     }
 
     private static void updateMovement(World world, float delta) {
@@ -99,16 +105,23 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.setStanding();
     }
 
-    public static void changeEnvironment(World world) {
+    public static void changeEnvironment(World world, float delta) {
         Player player = world.getPlayer();
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             world.findSection(mouse).setTile(mouse, Tiles.ROCK);
         }
 
-        if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE)) {
+        if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            world.findSection(mouse).setTile(mouse, Tiles.GRASS);
+            Tile old = world.findSection(mouse).getTile(mouse);
+            float breakingTime = old.getSettings().getBreakTime();
+            old.setBreakingLevel(old.getBreakingLevel() + delta);
+            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().getBreakTime() + ", Bre");
+            if (old.getBreakingLevel() >= breakingTime) {
+                world.findSection(mouse).setTile(mouse, Tiles.GRASS);
+                old.setBreakingLevel(0);
+            }
         }
     }
 }
