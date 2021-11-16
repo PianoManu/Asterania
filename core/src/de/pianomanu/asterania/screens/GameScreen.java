@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(1, 0, 0, 1);
         WorldRenderer.renderAll(world, batch, shapeRenderer);
-        UIRenderer.renderAll(world, shapeRenderer);
+        UIRenderer.renderAll(world, batch, shapeRenderer);
         if (DisplayConfig.showDebugInfo) {
             DebugScreenRenderer.render(world, shapeRenderer, delta);
         }

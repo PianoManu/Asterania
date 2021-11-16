@@ -3,6 +3,7 @@ package de.pianomanu.asterania.registry;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +42,11 @@ public class GameRegistry {
                 } catch (ClassCastException e) {
                     LOGGER.warning("An error occurred whilst trying to cast " + t.getClass() + " to Tile");
                     e.printStackTrace();
-                    return null;
+                    return (T) Tiles.WHITE;
                 }
 
             }
         }
-        return null;
+        return (T) Tiles.WHITE;
     }
 }
