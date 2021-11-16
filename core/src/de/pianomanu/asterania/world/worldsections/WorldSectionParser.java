@@ -2,14 +2,13 @@ package de.pianomanu.asterania.world.worldsections;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.Tiles;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class WorldSectionParser {
@@ -152,13 +151,7 @@ public class WorldSectionParser {
     }
 
     private static Tile getTileFromString(String tile) {
-        if (Objects.equals(tile, "grass"))
-            return Tiles.GRASS;
-        if (Objects.equals(tile, "rock"))
-            return Tiles.ROCK;
-        else
-            LOGGER.warning("Could not decode a tile from input string \"" + tile + "\", using default tile " + Tiles.WHITE.getSaveFileString());
-            return Tiles.WHITE;
+        return GameRegistry.getTileFromString(tile);
     }
 
 }

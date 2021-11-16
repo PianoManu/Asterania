@@ -49,4 +49,15 @@ public class GameRegistry {
         }
         return (T) Tiles.WHITE;
     }
+
+    public static Tile getTileFromString(String tileName) {
+        for (Tile t :
+                TILES) {
+            if (t.getSaveFileString().equals(tileName)) {
+                return t;
+            }
+        }
+        LOGGER.warning("Could not decode a tile from input string \"" + tileName + "\", using default tile " + Tiles.WHITE.getSaveFileString() + " instead!");
+        return Tiles.WHITE;
+    }
 }
