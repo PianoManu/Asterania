@@ -14,6 +14,8 @@ public class Inventory {
         //TODO Remove Debug stuff
         this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 3));
         //this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 30));
+        this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
+        this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
     }
 
     public List<InventoryObjectStack> getInventoryObjects() {

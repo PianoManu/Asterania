@@ -1,26 +1,40 @@
 
 tile_atlas.png
-size: 128, 32
+size: 64, 32
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
+dirty_stone
+  rotate: false
+  xy: 34, 24
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 grass
   rotate: false
-  xy: 0, 0
-  size: 32, 32
-  orig: 32, 32
+  xy: 34, 14
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 rock
   rotate: false
-  xy: 34, 0
-  size: 32, 32
-  orig: 32, 32
+  xy: 44, 24
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+soil
+  rotate: false
+  xy: 34, 4
+  size: 8, 8
+  orig: 8, 8
   offset: 0, 0
   index: -1
 white
   rotate: false
-  xy: 68, 0
+  xy: 0, 0
   size: 32, 32
   orig: 32, 32
   offset: 0, 0
