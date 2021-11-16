@@ -130,7 +130,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             float breakingTime = old.getSettings().getBreakTime();
             old.setBreakingLevel(old.getBreakingLevel() + delta);
             player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
-            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().getBreakTime() + ", Bre");
+            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().getBreakTime());
             if (old.getBreakingLevel() >= breakingTime) {
                 world.findSection(mouse).setTile(mouse, Tiles.GRASS);
                 old.setBreakingLevel(0);
@@ -138,10 +138,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.setCurrentBreakingPercentage(0);
                 player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
             }
-        }
-        /*if (!Gdx.input.isKeyPressed(KeyConfig.BREAK_TILE)) {
+        } else {
             player.setCurrentBreakingPercentage(0);
             player.setBreakingTile(false);
-        }*/
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
+            Tile old = world.findSection(mouse).getTile(mouse);
+            old.setBreakingLevel(0);
+        }
     }
 }
