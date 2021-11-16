@@ -128,6 +128,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.setPlayerHolding(InventoryObjectStack.EMPTY);
             }
         }
+        //TODO remove inventory debug console log
         System.out.println(player.getPlayerInventory().toString());
 
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
