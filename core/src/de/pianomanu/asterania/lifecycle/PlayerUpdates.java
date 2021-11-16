@@ -138,9 +138,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
             LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().getBreakTime());
             if (old.getBreakingLevel() >= breakingTime) {
+                //TODO Default tile
                 world.findSection(mouse).setTile(mouse, Tiles.GRASS);
                 old.setBreakingLevel(0);
-                player.setBreakingTile(false);
                 player.setCurrentBreakingPercentage(0);
                 player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
             }
