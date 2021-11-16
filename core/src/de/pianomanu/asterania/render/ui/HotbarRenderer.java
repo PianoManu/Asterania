@@ -12,6 +12,7 @@ import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 public class HotbarRenderer {
 
@@ -39,11 +40,18 @@ public class HotbarRenderer {
         int tileHeight = hHeight * 3 / 4;
         Player player = world.getPlayer();
         Tile t = GameRegistry.getTile(player.getPlayerHolding().getInventoryObject());
-        TextureRegion tileTexture = t.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
-        batch.begin();
-        batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
-        batch.end();
+        if (t.equals(Tiles.WHITE)) {
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
+            shapeRenderer.rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6);
+            shapeRenderer.end();
+        } else {
+            TextureRegion tileTexture = t.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
+            batch.begin();
+            batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
+            batch.end();
 
-        TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerHolding().getStackCount() + "");
+            TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerHolding().getStackCount() + "");
+        }
     }
 }

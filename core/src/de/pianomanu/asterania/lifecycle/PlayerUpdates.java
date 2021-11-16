@@ -115,6 +115,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.getPlayerHolding().decrement();
                 System.out.println(player.getPlayerHolding().getStackCount());
                 world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerHolding().getInventoryObject()));
+                if (player.getPlayerHolding().getStackCount() == 0)
+                    player.setPlayerHolding(InventoryObjectStack.EMPTY);
             } else {
                 player.setPlayerHolding(InventoryObjectStack.EMPTY);
             }
