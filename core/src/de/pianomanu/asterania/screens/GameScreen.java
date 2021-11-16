@@ -12,6 +12,7 @@ import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.WorldRenderer;
+import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.UIRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.world.World;
@@ -48,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(1, 0, 0, 1);
         WorldRenderer.renderAll(world, batch, shapeRenderer);
         UIRenderer.renderAll(world, batch, shapeRenderer);
-        if (DisplayConfig.showDebugInfo) {
+        if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
             DebugScreenRenderer.render(world, shapeRenderer, delta);
         }
     }

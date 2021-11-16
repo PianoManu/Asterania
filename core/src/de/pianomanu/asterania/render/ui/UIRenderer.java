@@ -8,5 +8,6 @@ public class UIRenderer {
     public static void renderAll(World world, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         TileBreakingUI.renderTileBreakingUI(world, shapeRenderer);
         HotbarRenderer.renderHotbar(world, batch, shapeRenderer);
+        InventoryRenderer.renderInventory(world, batch, shapeRenderer);
     }
 }

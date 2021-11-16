@@ -6,6 +6,7 @@ import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -127,6 +128,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 player.setPlayerHolding(InventoryObjectStack.EMPTY);
             }
         }
+        System.out.println(player.getPlayerInventory().toString());
 
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
             if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
@@ -162,6 +164,10 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (timesScrolled < 0) {
             player.setPlayerHoldPreviousIOStack();
             timesScrolled = 0;
+        }
+        if (Gdx.input.isKeyJustPressed(KeyConfig.OPEN_OR_CLOSE_INVENTORY)) {
+            boolean toggle = !InventoryRenderer.isInventoryOpen();
+            InventoryRenderer.changeInventoryOpen(toggle);
         }
     }
 

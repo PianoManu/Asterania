@@ -41,4 +41,12 @@ public class InventoryObjectStack {
     public void addStackCount(int summand) {
         this.stackCount += summand;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "IO:" + this.inventoryObject.getName() +
+                ", Count=" + this.stackCount +
+                '}';
+    }
 }
