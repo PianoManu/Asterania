@@ -41,10 +41,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 if (world.findSection(up) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                if (world.findSection(up).getTile(up).isAccessible() || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
+                EntityCoordinates up1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
+                EntityCoordinates up2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
+                if ((world.findSection(up1).getTile(up1).isAccessible() && world.findSection(up2).getTile(up2).isAccessible()) || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
                     player.moveUp(delta);
                 }
-                if (!world.findSection(up).getTile(up).isAccessible() && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
+                if ((!world.findSection(up1).getTile(up1).isAccessible() || !world.findSection(up2).getTile(up2).isAccessible()) && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
                     player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_UP))
                         player.setPlayerFacing(Direction.UP);
@@ -57,11 +59,13 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 if (world.findSection(down) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                if (world.findSection(down).getTile(down).isAccessible() || playerFootPos.y - player.getStepSize() * delta > up.getY() - 1) {
+                EntityCoordinates down1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
+                EntityCoordinates down2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
+                if ((world.findSection(down1).getTile(down1).isAccessible() && world.findSection(down2).getTile(down2).isAccessible()) || playerFootPos.y - player.getStepSize() * delta > down.getY() + 1) {
                     player.moveDown(delta);
                 }
-                if (!world.findSection(down).getTile(down).isAccessible() && playerFootPos.y - player.getStepSize() * delta < up.getY() - 1) {
-                    player.setFootPos(player.getCharacterPos().x, up.getY() - 1);
+                if ((!world.findSection(down1).getTile(down1).isAccessible() || !world.findSection(down2).getTile(down2).isAccessible()) && playerFootPos.y - player.getStepSize() * delta < down.getY() + 1) {
+                    player.setFootPos(player.getCharacterPos().x, down.getY() + 1);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_DOWN))
                         player.setPlayerFacing(Direction.DOWN);
                 }
