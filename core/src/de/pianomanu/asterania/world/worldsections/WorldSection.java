@@ -1,12 +1,17 @@
 package de.pianomanu.asterania.world.worldsections;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
+import java.util.logging.Logger;
+
 public class WorldSection {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     public static final int SECTION_SIZE = 64;
 
     public final WorldSectionCoordinates sectionPos;
@@ -82,7 +87,7 @@ public class WorldSection {
             return this.tiles[tileCoordinates.getX() - this.start.getX()][tileCoordinates.getY() - this.start.getY()];
             //return Tiles.ROCK;
         } catch (Exception e) {
-            System.out.println("Catched");
+            LOGGER.warning("Unable to find tile in WorldSection " + this.getSectionPos().toString() + ". Using default tile instead.");
             return Tiles.ROCK;
         }
 

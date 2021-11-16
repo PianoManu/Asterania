@@ -57,7 +57,7 @@ public class WorldSectionParser {
     public static List<WorldSection> getWSfromString(List<String> content) {
         List<WorldSection> sections = new ArrayList<>();
         //1st line: version number
-        System.out.println("Found version " + content.get(0) + " !");
+        LOGGER.info("Found version " + content.get(0) + " !");
 
         //2nd line: empty
 
@@ -122,7 +122,6 @@ public class WorldSectionParser {
         if (unprocessedTiles.length != WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE) {
             LOGGER.warning("Tile array should contain " + WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE + " tiles, but has " + unprocessedTiles.length + " tiles!");
             LOGGER.warning("This WorldSection is corrupted and must be generated again!");
-            System.out.println("ERROR");
             return null;
         }
         Tile[][] tiles = new Tile[WorldSection.SECTION_SIZE][WorldSection.SECTION_SIZE];

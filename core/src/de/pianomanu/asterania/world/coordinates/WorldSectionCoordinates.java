@@ -18,4 +18,9 @@ public class WorldSectionCoordinates {
     public TileCoordinates endToTileCoordinates() {
         return new TileCoordinates(this.x * WorldSection.SECTION_SIZE + WorldSection.SECTION_SIZE - 1, this.y * WorldSection.SECTION_SIZE + WorldSection.SECTION_SIZE - 1);
     }
+
+    @Override
+    public String toString() {
+        return "[" + this.x + " | " + this.y + ']';
+    }
 }

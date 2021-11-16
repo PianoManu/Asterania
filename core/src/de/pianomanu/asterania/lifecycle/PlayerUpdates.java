@@ -120,7 +120,6 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             if (player.getPlayerHolding().getStackCount() >= 1 && !player.getPlayerHolding().equals(InventoryObjectStack.EMPTY)) {
                 player.getPlayerHolding().decrement();
-                System.out.println(player.getPlayerHolding().getStackCount());
                 world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerHolding().getInventoryObject()));
                 if (player.getPlayerHolding().getStackCount() == 0)
                     player.setPlayerHolding(InventoryObjectStack.EMPTY);
@@ -157,12 +156,10 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     public static void changeInventory(World world) {
         Player player = world.getPlayer();
         if (timesScrolled > 0) {
-            System.out.println("Scroll up");
             player.setPlayerHoldNextIOStack();
             timesScrolled = 0;
         }
         if (timesScrolled < 0) {
-            System.out.println("Scroll down");
             player.setPlayerHoldPreviousIOStack();
             timesScrolled = 0;
         }
