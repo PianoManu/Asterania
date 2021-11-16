@@ -70,7 +70,7 @@ public class WorldSection {
     }
 
     public Tile getTile(EntityCoordinates entityCoordinates) {
-        return getTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.x));
+        return getTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y));
     }
 
     public Tile getTile(TileCoordinates tileCoordinates) {
