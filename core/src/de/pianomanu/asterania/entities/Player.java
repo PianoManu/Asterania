@@ -17,6 +17,8 @@ public class Player {
     private int movingAnimationCounter = 0;
     private float changeToNextAnimation = 0f;
     private Direction playerFacing = Direction.DOWN;
+    private boolean isBreakingTile = false;
+    private float currentBreakingPercentage = 0;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -126,5 +128,21 @@ public class Player {
 
     public int getMovingAnimationCounter() {
         return movingAnimationCounter;
+    }
+
+    public boolean isBreakingTile() {
+        return this.isBreakingTile;
+    }
+
+    public void setBreakingTile(boolean breakingTile) {
+        this.isBreakingTile = breakingTile;
+    }
+
+    public float getCurrentBreakingPercentage() {
+        return this.currentBreakingPercentage;
+    }
+
+    public void setCurrentBreakingPercentage(float currentBreakingPercentage) {
+        this.currentBreakingPercentage = currentBreakingPercentage;
     }
 }

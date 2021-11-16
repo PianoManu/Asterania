@@ -25,6 +25,6 @@ public class TileSettings {
 
     public static class Settings {
         public static TileSettings NORMAL_TILE = new TileSettings("normal", true, 0.2f);
-        public static TileSettings INACCESSIBLE_TILE = new TileSettings("inaccessible", false, 1f);
+        public static TileSettings INACCESSIBLE_TILE = new TileSettings("inaccessible", false, 10f);
     }
 }
