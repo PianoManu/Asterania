@@ -24,7 +24,7 @@ public class Player {
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
     //TODO change DEBUG stuff
-    private InventoryObjectStack playerHolding = this.playerInventory.getInventoryObjects().get(0);
+    private InventoryObjectStack playerHolding = this.playerInventory.getCurrentIOStack();
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -166,6 +166,14 @@ public class Player {
 
     public void setPlayerHolding(InventoryObjectStack playerHolding) {
         this.playerHolding = playerHolding;
+    }
+
+    public void setPlayerHoldNextIOStack() {
+        this.playerHolding = this.getPlayerInventory().getNextIOStack();
+    }
+
+    public void setPlayerHoldPreviousIOStack() {
+        this.playerHolding = this.getPlayerInventory().getPreviousIOStack();
     }
 
     public Inventory getPlayerInventory() {

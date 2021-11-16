@@ -8,10 +8,12 @@ import java.util.List;
 
 public class Inventory {
     private final List<InventoryObjectStack> inventoryObjects = new ArrayList<>();
+    private int iOStackPointer = 0;
 
     public Inventory() {
         //TODO Remove Debug stuff
         this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 3));
+        this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 30));
     }
 
     public List<InventoryObjectStack> getInventoryObjects() {
@@ -29,11 +31,6 @@ public class Inventory {
     }
 
     public boolean hasStack(InventoryObjectStack stack) {
-        /*for (InventoryObjectStack s: this.getInventoryObjects()) {
-            if (s.getInventoryObject().getName().equals(stack.getInventoryObject().getName()))
-                return true;
-        }
-        return false;*/
         return this.getPosition(stack) != -1;
     }
 
@@ -43,5 +40,23 @@ public class Inventory {
                 return i;
         }
         return -1;
+    }
+
+    public InventoryObjectStack getNextIOStack() {
+        this.iOStackPointer++;
+        if (this.iOStackPointer == this.getInventoryObjects().size())
+            this.iOStackPointer = 0;
+        return this.getCurrentIOStack();
+    }
+
+    public InventoryObjectStack getPreviousIOStack() {
+        this.iOStackPointer--;
+        if (this.iOStackPointer < 0)
+            this.iOStackPointer = this.getInventoryObjects().size() - 1;
+        return this.getCurrentIOStack();
+    }
+
+    public InventoryObjectStack getCurrentIOStack() {
+        return this.getInventoryObjects().get(this.iOStackPointer);
     }
 }

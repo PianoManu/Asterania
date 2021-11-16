@@ -19,9 +19,12 @@ import java.util.logging.Logger;
 public class PlayerUpdates extends GameLifeCycleUpdates {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
+    private static int timesScrolled = 0;
+
     protected static void updatePlayer(World world, float delta) {
         updateMovement(world, delta);
         changeEnvironment(world, delta);
+        changeInventory(world);
     }
 
     private static void updateMovement(World world, float delta) {
@@ -149,5 +152,27 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             Tile old = world.findSection(mouse).getTile(mouse);
             old.setBreakingLevel(0);
         }
+    }
+
+    public static void changeInventory(World world) {
+        Player player = world.getPlayer();
+        if (timesScrolled > 0) {
+            System.out.println("Scroll up");
+            player.setPlayerHoldNextIOStack();
+            timesScrolled = 0;
+        }
+        if (timesScrolled < 0) {
+            System.out.println("Scroll down");
+            player.setPlayerHoldPreviousIOStack();
+            timesScrolled = 0;
+        }
+    }
+
+    public static int getTimesScrolled() {
+        return timesScrolled;
+    }
+
+    public static void setTimesScrolled(int timesScrolled) {
+        PlayerUpdates.timesScrolled = timesScrolled;
     }
 }

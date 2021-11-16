@@ -1,5 +1,6 @@
 package de.pianomanu.asterania.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -7,6 +8,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.button.Buttons;
+import de.pianomanu.asterania.utils.ScrollingInputProcessor;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,6 +21,7 @@ public class LoadingScreen extends ScreenAdapter {
 
         DisplayConfig.setup();
         Buttons.setup();
+        Gdx.input.setInputProcessor(new ScrollingInputProcessor());
     }
 
     private static void loadAtlases() {
