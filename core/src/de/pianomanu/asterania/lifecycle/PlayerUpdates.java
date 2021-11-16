@@ -4,6 +4,8 @@ import com.badlogic.gdx.Gdx;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -109,7 +111,13 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Player player = world.getPlayer();
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            world.findSection(mouse).setTile(mouse, Tiles.ROCK);
+            if (player.getPlayerHolding().getStackCount() >= 1 && !player.getPlayerHolding().equals(InventoryObjectStack.EMPTY)) {
+                player.getPlayerHolding().decrement();
+                System.out.println(player.getPlayerHolding().getStackCount());
+                world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerHolding().getInventoryObject()));
+            } else {
+                player.setPlayerHolding(InventoryObjectStack.EMPTY);
+            }
         }
 
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
@@ -126,6 +134,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 old.setBreakingLevel(0);
                 player.setBreakingTile(false);
                 player.setCurrentBreakingPercentage(0);
+                player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
             }
         }
         /*if (!Gdx.input.isKeyPressed(KeyConfig.BREAK_TILE)) {

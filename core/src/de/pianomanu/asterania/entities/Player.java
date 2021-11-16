@@ -3,6 +3,8 @@ package de.pianomanu.asterania.entities;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
+import de.pianomanu.asterania.inventory.Inventory;
+import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 
@@ -19,6 +21,10 @@ public class Player {
     private Direction playerFacing = Direction.DOWN;
     private boolean isBreakingTile = false;
     private float currentBreakingPercentage = 0;
+    private final Inventory playerInventory = new Inventory();
+    private float maxWeight = 20f;
+    //TODO change DEBUG stuff
+    private InventoryObjectStack playerHolding = this.playerInventory.getInventoryObjects().get(0);
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -144,5 +150,25 @@ public class Player {
 
     public void setCurrentBreakingPercentage(float currentBreakingPercentage) {
         this.currentBreakingPercentage = currentBreakingPercentage;
+    }
+
+    public float getMaxWeight() {
+        return this.maxWeight;
+    }
+
+    public void setMaxWeight(float maxWeight) {
+        this.maxWeight = maxWeight;
+    }
+
+    public InventoryObjectStack getPlayerHolding() {
+        return this.playerHolding;
+    }
+
+    public void setPlayerHolding(InventoryObjectStack playerHolding) {
+        this.playerHolding = playerHolding;
+    }
+
+    public Inventory getPlayerInventory() {
+        return this.playerInventory;
     }
 }
