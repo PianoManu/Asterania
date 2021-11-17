@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -30,10 +31,18 @@ public class InventoryRenderer {
             int inventoryHeight = (int) (ROWS * SLOT_SIZE.y + INTER_SLOT_DISTANCE * (ROWS - 1));
             int xStart = width / 2 - inventoryWidth / 2;
             int yStart = inventoryHeight / 4;
+            int mX = Gdx.input.getX();
+            int mY = height - Gdx.input.getY();
+            //if mouse somewhere inside the inventory: goes transparent to enable seeing through the inventory
+            boolean mouseInsideOfInventory = mX >= xStart - INTER_SLOT_DISTANCE && mX <= xStart - INTER_SLOT_DISTANCE + inventoryWidth + 2 * INTER_SLOT_DISTANCE && mY >= yStart - INTER_SLOT_DISTANCE && mY <= yStart - INTER_SLOT_DISTANCE + inventoryHeight + 2 * INTER_SLOT_DISTANCE;
+            if (mouseInsideOfInventory) {
+                Gdx.gl.glEnable(GL20.GL_BLEND);
+                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            }
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 1);
+            shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.4f);
             shapeRenderer.rect(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE);
-            shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
+            shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 0.4f);
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
                     shapeRenderer.rect(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y);
@@ -44,9 +53,13 @@ public class InventoryRenderer {
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
 
-            shapeRenderer.setColor(0.5f, 0.4f, 0, 1);
+            shapeRenderer.setColor(0.5f, 0.4f, 0, 0.5f);
             shapeRenderer.rect(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4);
             shapeRenderer.end();
+
+            if (mouseInsideOfInventory) {
+                Gdx.gl.glDisable(GL20.GL_BLEND);
+            }
 
             Inventory inv = player.getPlayerInventory();
             batch.begin();
