@@ -5,6 +5,7 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.TileStack;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 import java.util.logging.Logger;
@@ -17,12 +18,14 @@ public class WorldSection {
     public final WorldSectionCoordinates sectionPos;
     public final TileCoordinates start;
     public final TileCoordinates end;
-    private Tile[][] tiles = new Tile[SECTION_SIZE][SECTION_SIZE];
+    private final TileStack[][] tiles;
 
     public WorldSection(int xPos, int yPos) {
         this.sectionPos = new WorldSectionCoordinates(xPos, yPos);
         this.start = new TileCoordinates(xPos * SECTION_SIZE, yPos * SECTION_SIZE);
         this.end = new TileCoordinates(xPos * SECTION_SIZE + SECTION_SIZE - 1, yPos * SECTION_SIZE + SECTION_SIZE - 1);
+        this.tiles = new TileStack[SECTION_SIZE][SECTION_SIZE];
+        this.instantiateTileStacks();
         this.createRockTerrain();
     }
 
@@ -30,14 +33,23 @@ public class WorldSection {
         this.sectionPos = coordinates;
         this.start = new TileCoordinates(coordinates.x * SECTION_SIZE, coordinates.y * SECTION_SIZE);
         this.end = new TileCoordinates(coordinates.x * SECTION_SIZE + SECTION_SIZE - 1, coordinates.y * SECTION_SIZE + SECTION_SIZE - 1);
+        this.tiles = new TileStack[SECTION_SIZE][SECTION_SIZE];
+    }
+
+    private void instantiateTileStacks() {
+        for (int x = 0; x < SECTION_SIZE; x++) {
+            for (int y = 0; y < SECTION_SIZE; y++) {
+                this.tiles[x][y] = new TileStack();
+            }
+        }
     }
 
     public void createTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
-                this.tiles[x][y] = Tiles.GRASS;
+                this.tiles[x][y].addTile(Tiles.GRASS);
                 if (x == y)
-                    this.tiles[x][y] = Tiles.ROCK;
+                    this.tiles[x][y].addTile(Tiles.ROCK);
             }
         }
     }
@@ -45,19 +57,23 @@ public class WorldSection {
     private void createRockTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
-                this.tiles[x][y] = Tiles.ROCK;
+                this.tiles[x][y].addTile(Tiles.ROCK);
             }
         }
     }
 
-    public Tile[][] getTiles() {
-        return tiles;
+    public TileStack[][] getTiles() {
+        return this.tiles;
     }
 
     public void setTiles(Tile[][] tiles) throws ArrayIndexOutOfBoundsException {
-        if (tiles.length == SECTION_SIZE && tiles[0].length == SECTION_SIZE)
-            this.tiles = tiles;
-        else
+        if (tiles.length == SECTION_SIZE && tiles[0].length == SECTION_SIZE) {
+            for (int x = 0; x < SECTION_SIZE; x++) {
+                for (int y = 0; y < SECTION_SIZE; y++) {
+                    this.tiles[x][y].addTile(tiles[x][y]);
+                }
+            }
+        } else
             throw new ArrayIndexOutOfBoundsException("Input Tile Array must be " + SECTION_SIZE + "x" + SECTION_SIZE + ", but is " + tiles.length + "x" + tiles[0].length + "!");
     }
 
@@ -65,12 +81,12 @@ public class WorldSection {
         try {
             //relative coordinates inside section
             //0<=x<=64, 0<=y<=64
-            return this.tiles[x][y];
+            return this.tiles[x][y].getTopTile();
         } catch (ArrayIndexOutOfBoundsException e) {
             //global coordinates
             int newX = x - this.start.getX();
             int newY = y - this.start.getY();
-            return this.tiles[newX][newY];
+            return this.tiles[newX][newY].getTopTile();
         }
     }
 
@@ -81,34 +97,35 @@ public class WorldSection {
     public Tile getTile(TileCoordinates tileCoordinates) {
         try {
             //relative coordinates inside section
-            return this.tiles[tileCoordinates.getX()][tileCoordinates.getY()];
+            return this.tiles[tileCoordinates.getX()][tileCoordinates.getY()].getTopTile();
         } catch (ArrayIndexOutOfBoundsException e) {
             //global coordinates
-            return this.tiles[tileCoordinates.getX() - this.start.getX()][tileCoordinates.getY() - this.start.getY()];
+            return this.tiles[tileCoordinates.getX() - this.start.getX()][tileCoordinates.getY() - this.start.getY()].getTopTile();
             //return Tiles.ROCK;
         } catch (Exception e) {
             LOGGER.warning("Unable to find tile in WorldSection " + this.getSectionPos().toString() + ". Using default tile instead.");
+            //TODO use rock as default tile?
             return Tiles.ROCK;
         }
 
     }
 
-    public void setTile(int x, int y, Tile tile) {
+    public void addTile(int x, int y, Tile tile) {
         try {
-            this.tiles[x][y] = tile;
+            this.tiles[x][y].addTile(tile);
         } catch (ArrayIndexOutOfBoundsException e) {
             int newX = x - this.start.getX();
             int newY = y - this.start.getY();
-            this.tiles[newX][newY] = tile;
+            this.tiles[newX][newY].addTile(tile);
         }
     }
 
-    public void setTile(EntityCoordinates entityCoordinates, Tile tile) {
-        setTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y), tile);
+    public void addTile(EntityCoordinates entityCoordinates, Tile tile) {
+        addTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y), tile);
     }
 
-    public void setTile(TileCoordinates tileCoordinates, Tile tile) {
-        setTile(tileCoordinates.getX(), tileCoordinates.getY(), tile);
+    public void addTile(TileCoordinates tileCoordinates, Tile tile) {
+        addTile(tileCoordinates.getX(), tileCoordinates.getY(), tile);
     }
 
     public TileCoordinates getStart() {
@@ -121,5 +138,23 @@ public class WorldSection {
 
     public WorldSectionCoordinates getSectionPos() {
         return this.sectionPos;
+    }
+
+    public void removeTopTile(int x, int y) {
+        try {
+            this.tiles[x][y].removeTopTile();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            int newX = x - this.start.getX();
+            int newY = y - this.start.getY();
+            this.tiles[newX][newY].removeTopTile();
+        }
+    }
+
+    public void removeTopTile(EntityCoordinates entityCoordinates) {
+        removeTopTile((int) Math.floor(entityCoordinates.x), (int) Math.floor(entityCoordinates.y));
+    }
+
+    public void removeTopTile(TileCoordinates tileCoordinates) {
+        removeTopTile(tileCoordinates.getX(), tileCoordinates.getY());
     }
 }

@@ -8,6 +8,7 @@ public class Tiles {
     public static final BasicTile WHITE = r(new BasicTile("white", TileSettings.Settings.NORMAL_TILE));
     public static final BasicTile SOIL_TILE = r(new BasicTile("soil", TileSettings.Settings.NORMAL_TILE));
     public static final BasicTile DIRTY_STONE_TILE = r(new BasicTile("dirty_stone", TileSettings.Settings.INACCESSIBLE_TILE));
+    public static final BasicTile TITANIUM_DIBORIDE = r(new BasicTile("titanium_diboride", TileSettings.Settings.UNBREAKABLE_TILE));
 
     private static <T extends Tile> T r(T tile) {
         GameRegistry.registerTile(tile);

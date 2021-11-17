@@ -32,6 +32,13 @@ soil
   orig: 8, 8
   offset: 0, 0
   index: -1
+titanium_diboride
+  rotate: false
+  xy: 44, 14
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
 white
   rotate: false
   xy: 0, 0

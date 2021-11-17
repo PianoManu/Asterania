@@ -16,6 +16,7 @@ public class Inventory {
         //this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 30));
         this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
         this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
+        this.addStack(new InventoryObjectStack(InventoryObjects.TITANIUM_DIBORIDE_TILE, 30));
     }
 
     public List<InventoryObjectStack> getInventoryObjects() {

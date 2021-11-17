@@ -26,5 +26,8 @@ public class TileSettings {
     public static class Settings {
         public static TileSettings NORMAL_TILE = new TileSettings("normal", true, 0.2f);
         public static TileSettings INACCESSIBLE_TILE = new TileSettings("inaccessible", false, 10f);
+        public static TileSettings UNBREAKABLE_TILE = new TileSettings("unbreakable", false, Float.MAX_VALUE);
     }
+    //
+    //public <V extends Comparable> TileSettings with(V )
 }
