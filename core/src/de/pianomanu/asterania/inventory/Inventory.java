@@ -48,6 +48,9 @@ public class Inventory {
         this.iOStackPointer++;
         if (this.iOStackPointer == this.getInventoryObjects().size())
             this.iOStackPointer = 0;
+        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+            return this.getNextIOStack();
+        }
         return this.getCurrentIOStack();
     }
 
@@ -55,6 +58,9 @@ public class Inventory {
         this.iOStackPointer--;
         if (this.iOStackPointer < 0)
             this.iOStackPointer = this.getInventoryObjects().size() - 1;
+        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+            return this.getPreviousIOStack();
+        }
         return this.getCurrentIOStack();
     }
 
