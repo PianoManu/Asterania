@@ -119,13 +119,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Player player = world.getPlayer();
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            if (player.getPlayerHolding().getStackCount() >= 1 && !player.getPlayerHolding().equals(InventoryObjectStack.EMPTY)) {
-                player.getPlayerHolding().decrement();
-                world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerHolding().getInventoryObject()));
-                if (player.getPlayerHolding().getStackCount() == 0)
-                    player.setPlayerHolding(InventoryObjectStack.EMPTY);
-            } else {
-                player.setPlayerHolding(InventoryObjectStack.EMPTY);
+            if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+                world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject()));
+                player.getPlayerInventory().getCurrentIOStack().decrement();
             }
         }
         //TODO remove inventory debug console log

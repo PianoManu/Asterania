@@ -4,7 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.inventory.Inventory;
-import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 
@@ -24,7 +23,7 @@ public class Player {
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
     //TODO change DEBUG stuff
-    private InventoryObjectStack playerHolding = this.playerInventory.getCurrentIOStack();
+    //private InventoryObjectStack playerHolding = this.playerInventory.getCurrentIOStack();
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -160,20 +159,12 @@ public class Player {
         this.maxWeight = maxWeight;
     }
 
-    public InventoryObjectStack getPlayerHolding() {
-        return this.playerHolding;
-    }
-
-    public void setPlayerHolding(InventoryObjectStack playerHolding) {
-        this.playerHolding = playerHolding;
-    }
-
     public void setPlayerHoldNextIOStack() {
-        this.playerHolding = this.getPlayerInventory().getNextIOStack();
+        this.getPlayerInventory().getNextIOStack();
     }
 
     public void setPlayerHoldPreviousIOStack() {
-        this.playerHolding = this.getPlayerInventory().getPreviousIOStack();
+        this.getPlayerInventory().getPreviousIOStack();
     }
 
     public Inventory getPlayerInventory() {

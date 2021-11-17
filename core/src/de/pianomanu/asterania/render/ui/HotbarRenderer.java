@@ -39,7 +39,7 @@ public class HotbarRenderer {
         int tileWidth = hWidth * 3 / 4;
         int tileHeight = hHeight * 3 / 4;
         Player player = world.getPlayer();
-        Tile t = GameRegistry.getTile(player.getPlayerHolding().getInventoryObject());
+        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
         if (t.equals(Tiles.WHITE)) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
@@ -51,7 +51,7 @@ public class HotbarRenderer {
             batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
             batch.end();
 
-            TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerHolding().getStackCount() + "");
+            TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "");
         }
     }
 }
