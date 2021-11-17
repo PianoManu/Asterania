@@ -9,6 +9,7 @@ public class DisplayConfig {
     public static boolean isFullscreen = false;
     public static final int TILE_SIZE = 32 * ZOOM;
     public static boolean showDebugInfo = false;
+    public static final boolean ENABLE_TRANSPARENT_INVENTORY = true;
 
     public static void setup() {
         if (isFullscreen)
