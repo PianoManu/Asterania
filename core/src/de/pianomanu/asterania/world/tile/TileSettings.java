@@ -1,33 +1,65 @@
 package de.pianomanu.asterania.world.tile;
 
-public class TileSettings {
-    private final String name;
-    private final boolean isAccessible;
-    private final float breakTime;
+import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
+import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
+import de.pianomanu.asterania.registry.GameRegistry;
 
-    public TileSettings(String name, boolean isAccessible, float breakTime) {
+import java.util.HashSet;
+import java.util.Set;
+
+public class TileSettings {
+    private Set<TileProperty<?>> tileProperties = new HashSet<>();
+    private final String name;
+
+    public TileSettings(String name) {
         this.name = name;
-        this.isAccessible = isAccessible;
-        this.breakTime = breakTime;
+    }
+
+    private void initializeTilePropertySet() {
+        tileProperties.addAll(GameRegistry.getAllProperties());
     }
 
     public String getSettingsName() {
         return this.name;
     }
 
-    public boolean isAccessible() {
-        return this.isAccessible;
+    public <C extends Comparable<?>> C get(String tilePropertyName) {
+        TileProperty<?> tileProperty = GameRegistry.getTilePropertyByName(tilePropertyName);
+        if (tileProperty != null) {
+            if (this.tileProperties.contains(tileProperty)) {
+                for (TileProperty<?> t :
+                        this.tileProperties) {
+                    if (t.name.equals(tileProperty.name)) {
+                        return (C) t.value;
+                    }
+                }
+            }
+            return (C) tileProperty.DEFAULT_VALUE;
+        }
+        return null;
     }
 
-    public float getBreakTime() {
-        return this.breakTime;
+    public <C extends Comparable<?>, T extends TileProperty<?>> C get(T tileProperty) {
+        if (GameRegistry.getAllProperties().contains(tileProperty)) {
+            for (TileProperty<?> t :
+                    this.tileProperties) {
+                if (t.name.equals(tileProperty.name)) {
+                    return (C) t.value;
+                }
+            }
+            return (C) tileProperty.DEFAULT_VALUE;
+        }
+        return null;
+    }
+
+    public <T extends Comparable<T>, V extends T> TileSettings with(TileProperty<T> tileProperty, V value) {
+        this.tileProperties.add(tileProperty.copyThisProperty().setValue(value));
+        return this;
     }
 
     public static class Settings {
-        public static TileSettings NORMAL_TILE = new TileSettings("normal", true, 0.2f);
-        public static TileSettings INACCESSIBLE_TILE = new TileSettings("inaccessible", false, 10f);
-        public static TileSettings UNBREAKABLE_TILE = new TileSettings("unbreakable", false, Float.MAX_VALUE);
+        public static TileSettings ACCESSIBLE_TILE = new TileSettings("normal").with(TileProperties.IS_ACCESSIBLE, true);
+        public static TileSettings INACCESSIBLE_TILE = new TileSettings("inaccessible");
+        public static TileSettings UNBREAKABLE_TILE = new TileSettings("unbreakable").with(TileProperties.BREAK_TIME, Float.MAX_VALUE);
     }
-    //
-    //public <V extends Comparable> TileSettings with(V )
 }

@@ -2,6 +2,7 @@ package de.pianomanu.asterania.registry;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
+import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
@@ -14,6 +15,7 @@ public class GameRegistry {
 
     private static final List<Tile> TILES = new ArrayList<>();
     private static final List<InventoryObject> OBJECTS = new ArrayList<>();
+    private static final List<TileProperty<?>> TILE_PROPERTIES = new ArrayList<>();
 
     public static <T extends Tile> void registerTile(T tile) {
         TILES.add(tile);
@@ -21,6 +23,10 @@ public class GameRegistry {
 
     public static <I extends InventoryObject> void registerInventoryObjects(I inventoryObject) {
         OBJECTS.add(inventoryObject);
+    }
+
+    public static <T extends TileProperty<?>> void registerTileProperty(T tileProperty) {
+        TILE_PROPERTIES.add(tileProperty);
     }
 
     public static <T extends Tile> InventoryObject getInventoryObject(T tile) {
@@ -59,5 +65,19 @@ public class GameRegistry {
         }
         LOGGER.warning("Could not decode a tile from input string \"" + tileName + "\", using default tile " + Tiles.WHITE.getSaveFileString() + " instead!");
         return Tiles.WHITE;
+    }
+
+    public static List<TileProperty<?>> getAllProperties() {
+        return TILE_PROPERTIES;
+    }
+
+    public static TileProperty<?> getTilePropertyByName(String tilePropertyName) {
+        for (TileProperty<?> t :
+                TILE_PROPERTIES) {
+            if (t.name.equals(tilePropertyName))
+                return t;
+        }
+        LOGGER.warning("Could not decode a tile property from input string \"" + tilePropertyName + "\", returning null...");
+        return null;
     }
 }

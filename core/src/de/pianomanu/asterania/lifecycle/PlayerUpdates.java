@@ -5,6 +5,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
@@ -35,22 +36,25 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         TileCoordinates right = playerTile.copy().moveRight();
         TileCoordinates up = playerTile.copy().moveUp();
         TileCoordinates down = playerTile.copy().moveDown();
-        float distanceFromInacessibleBlocks = 0.000001f;
+        System.out.println(world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE));
+        float distanceFromInaccessibleBlocks = 0.000001f;
         if (player.isMoving())
             player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(up) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
                 EntityCoordinates up1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
                 EntityCoordinates up2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
-                if ((world.findSection(up1).getTile(up1).isAccessible() && world.findSection(up2).getTile(up2).isAccessible()) || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
+                boolean isAccessible1 = world.findSection(up1).getTile(up1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible2 = world.findSection(up2).getTile(up2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                if ((isAccessible1 && isAccessible2) || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
                     player.moveUp(delta);
                 }
-                if ((!world.findSection(up1).getTile(up1).isAccessible() || !world.findSection(up2).getTile(up2).isAccessible()) && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
-                    player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInacessibleBlocks);
+                if ((!isAccessible1 || !isAccessible2) && playerFootPos.y + player.getStepSize() * delta > up.getY()) {
+                    player.setFootPos(player.getCharacterPos().x, up.getY() - distanceFromInaccessibleBlocks);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_UP))
                         player.setPlayerFacing(Direction.UP);
                 }
@@ -58,16 +62,18 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(down) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
                 EntityCoordinates down1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
                 EntityCoordinates down2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
-                if ((world.findSection(down1).getTile(down1).isAccessible() && world.findSection(down2).getTile(down2).isAccessible()) || playerFootPos.y - player.getStepSize() * delta > down.getY() + 1) {
+                boolean isAccessible1 = world.findSection(down1).getTile(down1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible2 = world.findSection(down2).getTile(down2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                if ((isAccessible1 && isAccessible2) || playerFootPos.y - player.getStepSize() * delta > down.getY() + 1) {
                     player.moveDown(delta);
                 }
-                if ((!world.findSection(down1).getTile(down1).isAccessible() || !world.findSection(down2).getTile(down2).isAccessible()) && playerFootPos.y - player.getStepSize() * delta < down.getY() + 1) {
+                if ((!isAccessible1 || !isAccessible2) && playerFootPos.y - player.getStepSize() * delta < down.getY() + 1) {
                     player.setFootPos(player.getCharacterPos().x, down.getY() + 1);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_DOWN))
                         player.setPlayerFacing(Direction.DOWN);
@@ -76,14 +82,15 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(right) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                if (world.findSection(right).getTile(right).isAccessible() || player.getPlayerHitbox().end.x < right.getX()) {
+                boolean rightAccessible = world.findSection(right).getTile(right).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                if (rightAccessible || player.getPlayerHitbox().end.x < right.getX()) {
                     player.moveRight(delta);
                 }
-                if (!world.findSection(right).getTile(right).isAccessible() && player.getPlayerHitbox().end.x + player.getStepSize() * delta > right.getX()) {
+                if (!rightAccessible && player.getPlayerHitbox().end.x + player.getStepSize() * delta > right.getX()) {
                     float xHitboxWidth = player.getCharacterSize().x;
                     player.setFootPos(right.getX() - xHitboxWidth / 2, player.getFootPos().y);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_RIGHT))
@@ -93,14 +100,15 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).isAccessible()) {
+            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(left) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                if (world.findSection(left).getTile(left).isAccessible() || player.getPlayerHitbox().start.x > left.getX() + 1) {
+                boolean leftAccessible = world.findSection(left).getTile(left).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                if (leftAccessible || player.getPlayerHitbox().start.x > left.getX() + 1) {
                     player.moveLeft(delta);
                 }
-                if (!world.findSection(left).getTile(left).isAccessible() && player.getPlayerHitbox().start.x - player.getStepSize() * delta < left.getX() + 1) {
+                if (!leftAccessible && player.getPlayerHitbox().start.x - player.getStepSize() * delta < left.getX() + 1) {
                     float xHitboxWidth = player.getCharacterSize().x;
                     player.setFootPos(left.getX() + 1 + xHitboxWidth / 2, player.getFootPos().y);
                     if (Gdx.input.isKeyJustPressed(KeyConfig.MOVE_LEFT))
@@ -124,17 +132,17 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             }
         }
         //TODO remove inventory debug console log
-        System.out.println(player.getPlayerInventory().toString());
+        //System.out.println(player.getPlayerInventory().toString());
 
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
             if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
                 player.setBreakingTile(true);
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             Tile old = world.findSection(mouse).getTile(mouse);
-            float breakingTime = old.getSettings().getBreakTime();
+            float breakingTime = old.getSettings().get(TileProperties.BREAK_TIME);
             old.setBreakingLevel(old.getBreakingLevel() + delta);
             player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
-            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().getBreakTime());
+            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
             if (old.getBreakingLevel() >= breakingTime) {
                 //TODO Default tile
                 world.findSection(mouse).removeTopTile(mouse);

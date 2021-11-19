@@ -19,10 +19,6 @@ public abstract class Tile {
         return settings;
     }
 
-    public boolean isAccessible() {
-        return this.settings.isAccessible();
-    }
-
     public float getBreakingLevel() {
         return this.breakingLevel;
     }
