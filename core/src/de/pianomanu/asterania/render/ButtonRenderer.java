@@ -32,6 +32,6 @@ public class ButtonRenderer {
         TextureRegion buttonTexture = AsteraniaMain.assetManager.get(Atlases.BUTTON_ATLAS_LOCATION, TextureAtlas.class).findRegion(button.getTextureName());
         batch.draw(buttonTexture, button.getStart().x, button.getStart().y, button.getFormat().x, button.getFormat().y);
         batch.end();
-        TextRenderer.renderText(((int) button.getStart().x + 20), ((int) button.getStart().y + 20), button.getButtonText());
+        TextRenderer.renderText((int) (button.getStart().x + button.getFormat().x / 2), ((int) (button.getStart().y + button.getFormat().y / 2)), button.getButtonText());
     }
 }

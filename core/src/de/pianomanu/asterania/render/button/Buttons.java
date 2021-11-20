@@ -10,7 +10,7 @@ public class Buttons {
     public static void setup() {
         Vector2 center = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
 
-        START_BUTTON.scale(5).moveToCentered(center.x, center.y + START_BUTTON.getFormat().y * 4);
-        EXIT_BUTTON.moveToCentered(center.x, center.y + EXIT_BUTTON.getFormat().y * 2);
+        START_BUTTON.scale(5).moveToCentered(center.x, center.y - START_BUTTON.getFormat().y * 2);
+        EXIT_BUTTON.moveToCentered(center.x, center.y - EXIT_BUTTON.getFormat().y * 4);
     }
 }
