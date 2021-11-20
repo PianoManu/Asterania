@@ -11,6 +11,8 @@ public class Tiles {
     public static final BasicTile DIRTY_STONE_TILE = r(new BasicTile("dirty_stone", TileSettings.Settings.INACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 5f)));
     public static final BasicTile TITANIUM_DIBORIDE = r(new BasicTile("titanium_diboride", TileSettings.Settings.UNBREAKABLE_TILE));
 
+    public static final BasicTile DEFAULT_TILE = GRASS;
+
     private static <T extends Tile> T r(T tile) {
         GameRegistry.registerTile(tile);
         return tile;

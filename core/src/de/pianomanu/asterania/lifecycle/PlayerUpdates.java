@@ -143,25 +143,28 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             Tile old = world.findSection(mouse).getTile(mouse);
-            float breakingTime = old.getSettings().get(TileProperties.BREAK_TIME);
-            if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getInventoryObject(old)).getWeight() <= player.getMaxWeight()) {
-                TileBreakingUI.renderNoBreakingPossible = false;
-                if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
-                    player.setBreakingTile(true);
-                old.setBreakingLevel(old.getBreakingLevel() + delta);
-                player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
-                LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
-                if (old.getBreakingLevel() >= breakingTime) {
-                    //TODO Default tile
-                    world.findSection(mouse).setTile(mouse, Tiles.GRASS);
-                    old.setBreakingLevel(0);
-                    player.setCurrentBreakingPercentage(0);
-                    player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+            if (!old.equals(Tiles.DEFAULT_TILE)) {
+                float breakingTime = old.getSettings().get(TileProperties.BREAK_TIME);
+                if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getInventoryObject(old)).getWeight() <= player.getMaxWeight()) {
+                    TileBreakingUI.renderNoBreakingPossible = false;
+                    if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
+                        player.setBreakingTile(true);
+                    old.setBreakingLevel(old.getBreakingLevel() + delta);
+                    player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
+                    LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
+                    if (old.getBreakingLevel() >= breakingTime) {
+                        world.findSection(mouse).setTile(mouse, Tiles.DEFAULT_TILE);
+                        old.setBreakingLevel(0);
+                        player.setCurrentBreakingPercentage(0);
+                        player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+                        //TODO is this useful?
+                        player.setBreakingTile(false);
+                    }
+                } else {
+                    //TODO
+                    TileBreakingUI.renderNoBreakingPossible = true;
+                    TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100, "Inventory full");
                 }
-            } else {
-                //TODO
-                TileBreakingUI.renderNoBreakingPossible = true;
-                TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100, "Inventory full");
             }
         } else {
             player.setCurrentBreakingPercentage(0);
