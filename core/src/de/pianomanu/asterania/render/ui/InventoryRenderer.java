@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -79,7 +80,7 @@ public class InventoryRenderer {
                 for (int y = 0; y < ROWS; y++) {
                     InventoryObjectStack iO = inv.getStackAtPos(x + y * COLUMNS);
                     if (!iO.equals(InventoryObjectStack.EMPTY) && iO.getStackCount() > 0)
-                        TextRenderer.renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 12), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4), iO.getStackCount() + "");
+                        TextRenderer.renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + SLOT_SIZE.x / 2), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + SLOT_SIZE.y / 4), iO.getStackCount() + "", Color.WHITE);
                 }
             }
 
@@ -99,11 +100,17 @@ public class InventoryRenderer {
         Player player = world.getPlayer();
         float weight = player.getPlayerInventory().calcCurrentWeight();
 
+        int xWindowBorderOffset = 100;
+        int yWindowBorderOffset = 80;
+        int borderWidth = 10;
+        int borderHeight = 10;
+
+        Vector2 textDim = TextRenderer.getTextDimensions(weight + " kg");
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.6f);
-        shapeRenderer.rect(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100, 50, 50);
+        shapeRenderer.rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2);
         shapeRenderer.end();
 
-        TextRenderer.renderText(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 80, weight + " kg");
+        TextRenderer.renderText(Gdx.graphics.getWidth() - xWindowBorderOffset, Gdx.graphics.getHeight() - yWindowBorderOffset, weight + " kg", Color.WHITE, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 }
