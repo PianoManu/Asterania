@@ -3,6 +3,7 @@ package de.pianomanu.asterania.utils;
 import com.badlogic.gdx.Gdx;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
+import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 
 public class WindowUtils {
@@ -29,5 +30,6 @@ public class WindowUtils {
     private static void reloadAllRenderers() {
         DebugScreenRenderer.reloadGridRenderer();
         TextRenderer.reloadTextRenderers();
+        Buttons.reloadButtons();
     }
 }
