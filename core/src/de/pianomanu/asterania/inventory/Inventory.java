@@ -9,14 +9,15 @@ import java.util.List;
 public class Inventory {
     private final List<InventoryObjectStack> inventoryObjects = new ArrayList<>();
     private int iOStackPointer = 0;
+    private float currentWeight = 0;
 
     public Inventory() {
         //TODO Remove Debug stuff
-        this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 3));
-        //this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 30));
-        this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
-        this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
-        this.addStack(new InventoryObjectStack(InventoryObjects.TITANIUM_DIBORIDE_TILE, 30));
+        this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 1));
+        this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 12));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.TITANIUM_DIBORIDE_TILE, 30));
     }
 
     public List<InventoryObjectStack> getInventoryObjects() {
@@ -31,6 +32,7 @@ public class Inventory {
         } else {
             addStackToInventory(stack);
         }
+        this.currentWeight = calcCurrentWeight();
     }
 
     public boolean hasStack(InventoryObjectStack stack) {
@@ -122,5 +124,16 @@ public class Inventory {
         }
         b.replace(b.length() - 1, b.length(), "]");
         return b.toString();
+    }
+
+    public float calcCurrentWeight() {
+        float currentWeight = 0f;
+        for (InventoryObjectStack ios :
+                this.getInventoryObjects()) {
+            currentWeight += ios.getStackCount() * ios.getInventoryObject().getWeight();
+        }
+        currentWeight = Math.round(100 * currentWeight) / 100f;
+        this.currentWeight = currentWeight;
+        return this.currentWeight;
     }
 }

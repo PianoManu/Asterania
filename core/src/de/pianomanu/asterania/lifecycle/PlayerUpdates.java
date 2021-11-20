@@ -7,7 +7,9 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
+import de.pianomanu.asterania.render.ui.TileBreakingUI;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -16,6 +18,7 @@ import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {
@@ -130,25 +133,35 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject()));
                 player.getPlayerInventory().getCurrentIOStack().decrement();
             }
+            if (player.getPlayerInventory().calcCurrentWeight() >= player.getMaxWeight()) {
+                TileBreakingUI.renderNoBreakingPossible = false;
+            }
         }
         //TODO remove inventory debug console log
         //System.out.println(player.getPlayerInventory().toString());
 
         if (Gdx.input.isButtonPressed(KeyConfig.BREAK_TILE)) {
-            if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
-                player.setBreakingTile(true);
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             Tile old = world.findSection(mouse).getTile(mouse);
             float breakingTime = old.getSettings().get(TileProperties.BREAK_TIME);
-            old.setBreakingLevel(old.getBreakingLevel() + delta);
-            player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
-            LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
-            if (old.getBreakingLevel() >= breakingTime) {
-                //TODO Default tile
-                world.findSection(mouse).setTile(mouse, Tiles.GRASS);
-                old.setBreakingLevel(0);
-                player.setCurrentBreakingPercentage(0);
-                player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+            if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getInventoryObject(old)).getWeight() <= player.getMaxWeight()) {
+                TileBreakingUI.renderNoBreakingPossible = false;
+                if (Gdx.input.isButtonJustPressed(KeyConfig.BREAK_TILE))
+                    player.setBreakingTile(true);
+                old.setBreakingLevel(old.getBreakingLevel() + delta);
+                player.setCurrentBreakingPercentage(old.getBreakingLevel() / breakingTime);
+                LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
+                if (old.getBreakingLevel() >= breakingTime) {
+                    //TODO Default tile
+                    world.findSection(mouse).setTile(mouse, Tiles.GRASS);
+                    old.setBreakingLevel(0);
+                    player.setCurrentBreakingPercentage(0);
+                    player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+                }
+            } else {
+                //TODO
+                TileBreakingUI.renderNoBreakingPossible = true;
+                TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100, "Inventory full");
             }
         } else {
             player.setCurrentBreakingPercentage(0);
@@ -157,6 +170,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             Tile old = world.findSection(mouse).getTile(mouse);
             if (old != null)
                 old.setBreakingLevel(0);
+            TileBreakingUI.renderNoBreakingPossible = false;
         }
     }
 

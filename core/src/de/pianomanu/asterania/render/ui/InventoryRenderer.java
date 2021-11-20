@@ -82,6 +82,8 @@ public class InventoryRenderer {
                         TextRenderer.renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 12), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4), iO.getStackCount() + "");
                 }
             }
+
+            renderWeight(world, shapeRenderer);
         }
     }
 
@@ -91,5 +93,17 @@ public class InventoryRenderer {
 
     public static void changeInventoryOpen(boolean isInventoryOpen) {
         InventoryRenderer.isInventoryOpen = isInventoryOpen;
+    }
+
+    private static void renderWeight(World world, ShapeRenderer shapeRenderer) {
+        Player player = world.getPlayer();
+        float weight = player.getPlayerInventory().calcCurrentWeight();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.6f);
+        shapeRenderer.rect(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 100, 50, 50);
+        shapeRenderer.end();
+
+        TextRenderer.renderText(Gdx.graphics.getWidth() - 100, Gdx.graphics.getHeight() - 80, weight + " kg");
     }
 }
