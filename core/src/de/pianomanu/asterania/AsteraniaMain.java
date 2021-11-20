@@ -45,7 +45,11 @@ public class AsteraniaMain extends Game {
 		player = new Player();
 		world.joinWorld(player, world.getEntryPoint());
 
-		WorldReader.loadWorld(new File(GameConfig.SAVE_NAME), world);
+		if (new File(GameConfig.SAVE_NAME).exists())
+			WorldReader.loadWorld(new File(GameConfig.SAVE_NAME), world);
+		else {
+			world.preGenerateSurroundingWorldSections();
+		}
 		LOGGER.info("Initialization completed!");
 	}
 
