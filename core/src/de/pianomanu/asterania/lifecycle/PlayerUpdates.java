@@ -14,6 +14,7 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.Tiles;
 
 import java.util.logging.Logger;
 
@@ -36,7 +37,6 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         TileCoordinates right = playerTile.copy().moveRight();
         TileCoordinates up = playerTile.copy().moveUp();
         TileCoordinates down = playerTile.copy().moveDown();
-        System.out.println(world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE));
         float distanceFromInaccessibleBlocks = 0.000001f;
         if (player.isMoving())
             player.updateHitbox();
@@ -127,7 +127,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (Gdx.input.isButtonJustPressed(KeyConfig.SET_TILE)) {
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
-                world.findSection(mouse).addTile(mouse, GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject()));
+                world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject()));
                 player.getPlayerInventory().getCurrentIOStack().decrement();
             }
         }
@@ -145,7 +145,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
             if (old.getBreakingLevel() >= breakingTime) {
                 //TODO Default tile
-                world.findSection(mouse).removeTopTile(mouse);
+                world.findSection(mouse).setTile(mouse, Tiles.GRASS);
                 old.setBreakingLevel(0);
                 player.setCurrentBreakingPercentage(0);
                 player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
@@ -155,7 +155,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.setBreakingTile(false);
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
             Tile old = world.findSection(mouse).getTile(mouse);
-            old.setBreakingLevel(0);
+            if (old != null)
+                old.setBreakingLevel(0);
         }
     }
 
