@@ -1,8 +1,10 @@
 package de.pianomanu.asterania.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -13,6 +15,9 @@ import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DebugScreenRenderer {
     private static float deltaCounter = 0;
@@ -29,9 +34,9 @@ public class DebugScreenRenderer {
     public static void render(World world, ShapeRenderer shapeRenderer, float delta) {
         calculateFPS(delta);
 
-        DebugScreenRenderer.renderDebugText(world, fps);
         DebugScreenRenderer.renderHitbox(world, shapeRenderer);
         DebugScreenRenderer.renderGrid(world);
+        DebugScreenRenderer.renderDebugText(world, fps);
     }
 
     private static void calculateFPS(float delta) {
@@ -50,25 +55,34 @@ public class DebugScreenRenderer {
         int height = Gdx.graphics.getHeight();
         int xOffset = 4;
         int yOffset = 4;
-        TextRenderer.renderText(xOffset, height - yOffset, "FPS: " + frames);
-
-        TextRenderer.renderText(xOffset, height - yOffset - 16, "Position: X=" + world.getPlayer().getCharacterPos().x + ", Y=" + world.getPlayer().getCharacterPos().y);
-        TextRenderer.renderText(xOffset, height - yOffset - 32, "Feet position: X=" + world.getPlayer().getFootPos().x + ", Y=" + world.getPlayer().getFootPos().y);
 
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
-        TextRenderer.renderText(xOffset, height - yOffset - 48, "Cursor position: X=" + mouseX + ", Y=" + (height - mouseY));
+
         EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, world.getPlayer().getCharacterPos());
-        TextRenderer.renderText(xOffset, height - yOffset - 64, "Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
+
         Tile tile;
         try {
             tile = world.findSection(mouseECoordinates).getTile(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
         } catch (ArrayIndexOutOfBoundsException e) {
             tile = Tiles.ROCK;
         }
-        TextRenderer.renderText(xOffset, height - yOffset - 80, "Tile at cursor position: " + tile.toString());
 
-        TextRenderer.renderText(xOffset, 20, "Hitbox position: X_1=" + world.getPlayer().getPlayerHitbox().start.x + ", Y_1=" + world.getPlayer().getPlayerHitbox().start.y + "; X_2=" + world.getPlayer().getPlayerHitbox().end.x + ", Y_2=" + world.getPlayer().getPlayerHitbox().end.y);
+        List<String> debugStuff = new ArrayList<>();
+        debugStuff.add("FPS: " + frames);
+        debugStuff.add("Position: X=" + world.getPlayer().getCharacterPos().x + ", Y=" + world.getPlayer().getCharacterPos().y);
+        debugStuff.add("Feet position: X=" + world.getPlayer().getFootPos().x + ", Y=" + world.getPlayer().getFootPos().y);
+        debugStuff.add("Cursor position: X=" + mouseX + ", Y=" + (height - mouseY));
+        debugStuff.add("Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
+        debugStuff.add("Tile at cursor position: " + tile.toString());
+        debugStuff.add("Hitbox position: X_1=" + world.getPlayer().getPlayerHitbox().start.x + ", Y_1=" + world.getPlayer().getPlayerHitbox().start.y + "; X_2=" + world.getPlayer().getPlayerHitbox().end.x + ", Y_2=" + world.getPlayer().getPlayerHitbox().end.y);
+
+        for (int i = 0; i < debugStuff.size(); i++) {
+            if (i < debugStuff.size() - 1)
+                TextRenderer.renderText(xOffset, height - yOffset - 16 * i, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
+            else
+                TextRenderer.renderText(xOffset, 20, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
+        }
     }
 
     private static void renderGrid(World world) {
