@@ -31,16 +31,23 @@ public class TextRenderer {
         int xOffset = 0;
         int yOffset = 0;
         font.getData().setScale(textSize);
+        glyphLayout.setText(font, content);
         if (isCentered) {
-            glyphLayout.setText(font, content);
             xOffset = (int) (glyphLayout.width / 2);
             yOffset = (int) (glyphLayout.height / 2);
         }
         if (addBackgroundRectangle) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(rectangleColor);
-            shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
-            shapeRenderer.end();
+            if (isCentered) {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            } else {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            }
         }
         batch.begin();
         font.setColor(textColor);

@@ -1,12 +1,16 @@
 package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.World;
 
 public class TileBreakingUI {
     public static boolean renderNoBreakingPossible = false;
+    public static String renderNoBreakingPossibleMessage = "";
 
     public static void renderTileBreakingUI(World world, ShapeRenderer shapeRenderer) {
         Player player = world.getPlayer();
@@ -53,6 +57,11 @@ public class TileBreakingUI {
             shapeRenderer.setColor(0.8f, 0f, 0, 1);
             shapeRenderer.rect(barX, barY, barWidth, barHeight);
             shapeRenderer.end();
+
+            int xOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).x;
+            int yOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).y;
+            TextRenderer.renderText(barX, barY - 2 * yOffset, renderNoBreakingPossibleMessage, false, DisplayConfig.TEXT_SIZE, true, new Color(0.8f, 0, 0, 1), new Color(0.3f, 0.3f, 0.3f, 1));
+            renderNoBreakingPossibleMessage = "";
         }
     }
 }

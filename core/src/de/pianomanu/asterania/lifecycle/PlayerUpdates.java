@@ -7,7 +7,6 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
-import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.TileBreakingUI;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
@@ -126,8 +125,6 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
     public static void changeEnvironment(World world, float delta) {
         Player player = world.getPlayer();
-        //TODO remove inventory debug console log
-        //System.out.println(player.getPlayerInventory().toString());
 
         if (Gdx.input.isButtonPressed(KeyConfig.REPLACE_TILE)) {
             if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
@@ -145,16 +142,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                         LOGGER.finest("Breaking level " + old.getBreakingLevel() + ", BreakTime" + old.getSettings().get(TileProperties.BREAK_TIME));
                         if (old.getBreakingLevel() >= breakingTime) {
                             setNewTile(world);
-                            //world.findSection(mouse).setTile(mouse, Tiles.DEFAULT_TILE);
                             old.setBreakingLevel(0);
                             player.setCurrentBreakingPercentage(0);
                             player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
                             player.setBreakingTile(false);
                         }
                     } else {
-                        //TODO
                         TileBreakingUI.renderNoBreakingPossible = true;
-                        TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 100, "Inventory full");
+                        TileBreakingUI.renderNoBreakingPossibleMessage = "Inventory full";
                     }
                 }
             }
