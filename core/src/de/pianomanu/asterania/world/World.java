@@ -5,6 +5,7 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
+import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,12 +15,30 @@ public class World {
     private Player player = new Player();
     private TileCoordinates entryPoint;
     private final String worldName;
+    private final WorldType worldType;
 
-    public World(TileCoordinates entryPoint, String worldName) {
-        this.sections.add(new WorldSection(0, 0));
+    public World(String worldName, TileCoordinates entryPoint) {
+        this.sections.add(new WorldSection(0, 0, WorldSectionSettings.SettingList.GRASSLAND_PLAIN));
         this.sections.get(0).createTerrain();
         this.entryPoint = entryPoint;
         this.worldName = worldName;
+        this.worldType = WorldType.GRASSLAND;
+    }
+
+    public World(String worldName) {
+        this.sections.add(new WorldSection(0, 0, WorldSectionSettings.SettingList.GRASSLAND_PLAIN));
+        this.sections.get(0).createTerrain();
+        this.entryPoint = new TileCoordinates(0, 0);
+        this.worldName = worldName;
+        this.worldType = WorldType.GRASSLAND;
+    }
+
+    public World(String worldName, TileCoordinates entryPoint, WorldType worldType) {
+        this.sections.add(new WorldSection(0, 0, worldType.getSettings()));
+        this.sections.get(0).createTerrain();
+        this.entryPoint = entryPoint;
+        this.worldName = worldName;
+        this.worldType = worldType;
     }
 
     public void joinWorld(Player player, TileCoordinates entryPoint) {
@@ -75,7 +94,7 @@ public class World {
 
     public boolean addNewSection(int x, int y) {
         if (findSection(x, y) == null) {
-            this.sections.add(new WorldSection(x, y));
+            this.sections.add(new WorldSection(x, y, this.worldType.getSettings()));
             return true;
         }
         return false;
@@ -83,7 +102,7 @@ public class World {
 
     public boolean addNewSection(TileCoordinates tileCoordinates) {
         if (findSection(tileCoordinates) == null) {
-            this.sections.add(new WorldSection(tileCoordinates.toWorldSectionCoordinates().x, tileCoordinates.toWorldSectionCoordinates().y));
+            this.sections.add(new WorldSection(tileCoordinates.toWorldSectionCoordinates().x, tileCoordinates.toWorldSectionCoordinates().y, this.worldType.getSettings()));
             return true;
         }
         return false;

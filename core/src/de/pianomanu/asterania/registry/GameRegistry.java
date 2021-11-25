@@ -6,6 +6,7 @@ import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
+import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ public class GameRegistry {
     private static final List<InventoryObject> OBJECTS = new ArrayList<>();
     private static final List<TileProperty<?>> TILE_PROPERTIES = new ArrayList<>();
     private static final List<World> WORLDS = new ArrayList<>();
+    private static final List<WorldSectionSettings> WORLD_SECTION_SETTINGS = new ArrayList<>();
 
     public static <T extends Tile> void registerTile(T tile) {
         TILES.add(tile);
@@ -89,5 +91,13 @@ public class GameRegistry {
 
     public static List<World> getWorlds() {
         return WORLDS;
+    }
+
+    public static void registerWorldSectionSettings(WorldSectionSettings settings) {
+        WORLD_SECTION_SETTINGS.add(settings);
+    }
+
+    public static List<WorldSectionSettings> getWorldSectionSettings() {
+        return WORLD_SECTION_SETTINGS;
     }
 }

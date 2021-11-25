@@ -18,23 +18,25 @@ public class WorldSection {
     public final TileCoordinates start;
     public final TileCoordinates end;
     private final Tile[][] tiles;
+    private final WorldSectionSettings worldSectionSettings;
 
-    public WorldSection(int xPos, int yPos) {
+    public WorldSection(int xPos, int yPos, WorldSectionSettings settings) {
         this.sectionPos = new WorldSectionCoordinates(xPos, yPos);
         this.start = new TileCoordinates(xPos * SECTION_SIZE, yPos * SECTION_SIZE);
         this.end = new TileCoordinates(xPos * SECTION_SIZE + SECTION_SIZE - 1, yPos * SECTION_SIZE + SECTION_SIZE - 1);
         this.tiles = new Tile[SECTION_SIZE][SECTION_SIZE];
         this.createRockTerrain();
+        this.worldSectionSettings = settings;
     }
 
-    public WorldSection(WorldSectionCoordinates coordinates) {
+    /*public WorldSection(WorldSectionCoordinates coordinates) {
         this.sectionPos = coordinates;
         this.start = new TileCoordinates(coordinates.x * SECTION_SIZE, coordinates.y * SECTION_SIZE);
         this.end = new TileCoordinates(coordinates.x * SECTION_SIZE + SECTION_SIZE - 1, coordinates.y * SECTION_SIZE + SECTION_SIZE - 1);
         this.tiles = new Tile[SECTION_SIZE][SECTION_SIZE];
-    }
+    }*/
 
-    public void createTerrain() {
+    /*public void createTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
                 this.tiles[x][y] = Tiles.GRASS;
@@ -42,8 +44,17 @@ public class WorldSection {
                     this.tiles[x][y] = Tiles.ROCK;
             }
         }
+    }*/
+
+    public void createTerrain() {
+        for (int x = 0; x < SECTION_SIZE; x++) {
+            for (int y = 0; y < SECTION_SIZE; y++) {
+                this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
+            }
+        }
     }
 
+    //TODO createUndiscoveredTerrain
     private void createRockTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {

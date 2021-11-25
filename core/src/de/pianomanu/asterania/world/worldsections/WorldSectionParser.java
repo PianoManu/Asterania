@@ -100,7 +100,8 @@ public class WorldSectionParser {
 
         List<String> tilesString = parts.subList(2, parts.size());
 
-        WorldSection worldSection = new WorldSection(xPos, yPos);
+        //TODO change GrasslandPlain
+        WorldSection worldSection = new WorldSection(xPos, yPos, WorldSectionSettings.SettingList.GRASSLAND_PLAIN);
         List<Tile> tiles = new ArrayList<>();
         for (String t : tilesString) {
             tiles.addAll(Arrays.asList(getTilesFromPart(t)));
