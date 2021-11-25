@@ -105,8 +105,7 @@ public class WorldSection {
             //return Tiles.ROCK;
         } catch (Exception e) {
             LOGGER.warning("Unable to find tile in WorldSection " + this.getSectionPos().toString() + ". Using default tile instead.");
-            //TODO use rock as default tile?
-            return Tiles.ROCK;
+            return this.worldSectionSettings.getValidTiles().get(0);
         }
 
     }

@@ -14,22 +14,22 @@ public class HtmlLogFormatter extends Formatter {
         StringBuffer buffer = new StringBuffer(1024);
         buffer.append("<tr>\n");
         if (record.getLevel().intValue() == Level.WARNING.intValue()) {
-            buffer.append("\t<td style=\"color:fca503\">"); //TODO check color
+            buffer.append("\t<td style=\"color:fca503\">");
             buffer.append("<b>");
             buffer.append(record.getLevel());
             buffer.append("</b>");
         } else if (record.getLevel().intValue() == Level.SEVERE.intValue()) {
-            buffer.append("\t<td style=\"color:green\">"); //TODO check color
+            buffer.append("\t<td style=\"color:green\">");
             buffer.append("<b>");
             buffer.append(record.getLevel());
             buffer.append("</b>");
         } else if (record.getLevel().intValue() == Level.INFO.intValue()) {
-            buffer.append("\t<td style=\"color:yellow\">"); //TODO check color
+            buffer.append("\t<td style=\"color:yellow\">");
             buffer.append("<b>");
             buffer.append(record.getLevel());
             buffer.append("</b>");
         } else if (record.getLevel().intValue() == Level.FINE.intValue()) {
-            buffer.append("\t<td style=\"color:blue\">"); //TODO check color
+            buffer.append("\t<td style=\"color:blue\">");
             buffer.append("<b>");
             buffer.append(record.getLevel());
             buffer.append("</b>");

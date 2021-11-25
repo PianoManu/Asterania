@@ -22,15 +22,11 @@ public class Player {
     private float currentBreakingPercentage = 0;
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
-    //TODO change DEBUG stuff
-    //private InventoryObjectStack playerHolding = this.playerInventory.getCurrentIOStack();
 
     public Player() {
         this.characterPos = new EntityCoordinates();
-        //this.playerPosOnScreen = new Vector2(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f);
         this.characterSize.x = 3 / 4f;
         this.characterSize.y = 3 / 2f;
-        //this.playerHitbox = new SimpleHitbox(new EntityCoordinates(CoordinatesUtils.pixelToEntityCoordinates(0, 0, this.characterPos)), new EntityCoordinates(CoordinatesUtils.pixelToEntityCoordinates(0,0,this.characterPos)).add(CoordinatesUtils.pixelToEntityCoordinates((int) characterSize.x, (int) characterSize.y, this.characterPos))).move(-characterSize.x/2,-characterSize.y/2);
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(this.characterSize)).move(-this.characterSize.x / 2, -this.characterSize.y / 2);
     }
 

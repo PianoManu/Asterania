@@ -53,8 +53,6 @@ public class AsteraniaMain extends Game {
 				home = w;
 		}
 		if (home == null) {
-			//TODO Error
-			//return;
 			LOGGER.warning("No home world found. Creating a new home world...");
 			home = Worlds.HOME;
 		}
