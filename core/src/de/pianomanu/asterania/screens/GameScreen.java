@@ -28,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
     //TextureAtlas tileAtlas;
     //TextureAtlas playerAtlas;
     ShapeRenderer shapeRenderer;
-    World world = AsteraniaMain.world;
+    World world;
 
     public GameScreen() {
         batch = new SpriteBatch();
@@ -37,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
 
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
+        this.world = AsteraniaMain.saveFile.getHomeWorld();
     }
 
     @Override
@@ -67,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
     private void checkForImportantInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LOGGER.fine("Saving world data...");
-            WorldWriter.saveWorldContent(WorldSectionParser.createWSString(world));
+            WorldWriter.saveWorldContent(WorldSectionParser.createWSString(world), world.getWorldName());
             LOGGER.fine("Saved world data!");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());

@@ -10,15 +10,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class World {
-    //private final Tile[][] tiles = new Tile[GameConfig.WORLD_WIDTH][GameConfig.WORLD_HEIGHT];
     private List<WorldSection> sections = new ArrayList<>();
     private Player player = new Player();
     private TileCoordinates entryPoint;
+    private final String worldName;
 
-    public World(TileCoordinates entryPoint) {
+    public World(TileCoordinates entryPoint, String worldName) {
         this.sections.add(new WorldSection(0, 0));
         this.sections.get(0).createTerrain();
         this.entryPoint = entryPoint;
+        this.worldName = worldName;
     }
 
     public void joinWorld(Player player, TileCoordinates entryPoint) {
@@ -107,5 +108,9 @@ public class World {
         addNewSection(center.x + 1, center.y - 1);
         addNewSection(center.x + 1, center.y);
         addNewSection(center.x + 1, center.y + 1);
+    }
+
+    public String getWorldName() {
+        return this.worldName;
     }
 }

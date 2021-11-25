@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 public class WorldWriter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    public static void saveWorldContent(String worldContent) {
+    public static void saveWorldContent(String worldContent, String worldName) {
         LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVE_NAME);
-        File file = new File(GameConfig.SAVE_NAME);
+        File file = new File(GameConfig.SAVE_NAME + "\\" + worldName);
         try {
             writeFile(file, worldContent);
         } catch (IOException e) {

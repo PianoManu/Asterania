@@ -3,6 +3,7 @@ package de.pianomanu.asterania.registry;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
+import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
@@ -16,6 +17,7 @@ public class GameRegistry {
     private static final List<Tile> TILES = new ArrayList<>();
     private static final List<InventoryObject> OBJECTS = new ArrayList<>();
     private static final List<TileProperty<?>> TILE_PROPERTIES = new ArrayList<>();
+    private static final List<World> WORLDS = new ArrayList<>();
 
     public static <T extends Tile> void registerTile(T tile) {
         TILES.add(tile);
@@ -79,5 +81,13 @@ public class GameRegistry {
         }
         LOGGER.warning("Could not decode a tile property from input string \"" + tilePropertyName + "\", returning null...");
         return null;
+    }
+
+    public static void registerWorld(World world) {
+        WORLDS.add(world);
+    }
+
+    public static List<World> getWorlds() {
+        return WORLDS;
     }
 }

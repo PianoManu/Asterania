@@ -4,10 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.savegame.SaveFile;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.worldsections.WorldReader;
 
 import java.io.File;
@@ -23,8 +23,9 @@ public class AsteraniaMain extends Game {
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-	public static World world;
-	public static Player player;
+	//public static World world;
+	//public static Player player;
+	public static SaveFile saveFile;
 
 	public AsteraniaMain() {
 		INSTANCE = this;
@@ -41,14 +42,25 @@ public class AsteraniaMain extends Game {
 		setScreen(new LoadingScreen());
 
 
-		world = new World(new TileCoordinates(5, 8));
-		player = new Player();
-		world.joinWorld(player, world.getEntryPoint());
+		//TODO
+		saveFile = new SaveFile(GameConfig.SAVE_NAME);
+		saveFile.loadUniverse();
+		World home = null;
+		for (World w :
+				saveFile.getUniverse().getWorlds()) {
+			if (w.getWorldName().equals("home"))
+				home = w;
+		}
+		if (home == null)
+			//TODO Error
+			return;
+		Player player = new Player();
+		home.joinWorld(player, home.getEntryPoint());
 
-		if (new File(GameConfig.SAVE_NAME).exists())
-			WorldReader.loadWorld(new File(GameConfig.SAVE_NAME), world);
+		if (new File(GameConfig.SAVE_PATH).exists())
+			WorldReader.loadWorld(new File(GameConfig.SAVE_PATH), home);
 		else {
-			world.preGenerateSurroundingWorldSections();
+			home.preGenerateSurroundingWorldSections();
 		}
 		LOGGER.info("Initialization completed!");
 	}
