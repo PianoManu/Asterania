@@ -17,10 +17,9 @@ public class SaveFile {
         this.name = name;
 
         if (new File(name).mkdir()) {
-            LOGGER.info("Created directory " + name + " as save directory!");
+            LOGGER.info("Created directory \"" + name + "\" as save directory!");
         } else {
-            LOGGER.severe("Could not create directory " + name + ". Does it exist already?");
-            LOGGER.severe("You should change the name or move the directory before. Otherwise, your existing files might become corrupted or destroyed");
+            LOGGER.info("Found save directory \"" + name + "\"!");
         }
     }
 
