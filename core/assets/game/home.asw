@@ -1,8 +1,8 @@
 alpha0.1.0
 
-|0|0|66*grass|1*rock|4029*grass|
+|0|0|4096*grass|
 |-1|-1|4096*rock|
-|-1|0|4034*rock|1*grass|61*rock|
+|-1|0|4096*rock|
 |-1|1|4096*rock|
 |0|-1|4096*rock|
 |0|1|4096*rock|
