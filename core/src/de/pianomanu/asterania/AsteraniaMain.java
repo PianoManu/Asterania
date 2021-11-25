@@ -6,9 +6,10 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.savegame.SaveFile;
 import de.pianomanu.asterania.screens.LoadingScreen;
+import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.worldsections.WorldReader;
+import de.pianomanu.asterania.world.Worlds;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -51,15 +52,18 @@ public class AsteraniaMain extends Game {
 			if (w.getWorldName().equals("home"))
 				home = w;
 		}
-		if (home == null)
+		if (home == null) {
 			//TODO Error
-			return;
+			//return;
+			LOGGER.warning("No home world found. Creating a new home world...");
+			home = Worlds.HOME;
+		}
 		Player player = new Player();
 		home.joinWorld(player, home.getEntryPoint());
 
-		if (new File(GameConfig.SAVE_PATH).exists())
-			WorldReader.loadWorld(new File(GameConfig.SAVE_PATH), home);
-		else {
+		if (new File(GameConfig.SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
+			SaveGameUtils.loadWorldsFromDirectory(saveFile.getName());
+		} else {
 			home.preGenerateSurroundingWorldSections();
 		}
 		LOGGER.info("Initialization completed!");
