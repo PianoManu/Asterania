@@ -9,7 +9,6 @@ import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.Worlds;
 
 import java.io.File;
 import java.util.logging.Level;
@@ -25,7 +24,8 @@ public class AsteraniaMain extends Game {
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
 	//public static World world;
-	//public static Player player;
+	//TODO find better way to save player information
+	public static Player player;
 	public static SaveFile saveFile;
 
 	public AsteraniaMain() {
@@ -47,22 +47,22 @@ public class AsteraniaMain extends Game {
 		saveFile = new SaveFile(GameConfig.SAVE_NAME);
 		saveFile.loadUniverse();
 		World home = null;
-		for (World w :
+		/*for (World w :
 				saveFile.getUniverse().getWorlds()) {
 			if (w.getWorldName().equals("home"))
 				home = w;
-		}
+		}*/
 		if (home == null) {
 			LOGGER.warning("No home world found. Creating a new home world...");
-			home = Worlds.HOME;
+			//home = Worlds.HOME;
 		}
-		Player player = new Player();
-		home.joinWorld(player, home.getEntryPoint());
+		player = new Player();
+		//home.joinWorld(player, home.getEntryPoint());
 
 		if (new File(GameConfig.SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
 			SaveGameUtils.loadWorldsFromDirectory(saveFile.getName());
 		} else {
-			home.preGenerateSurroundingWorldSections();
+			//home.preGenerateSurroundingWorldSections();
 		}
 		LOGGER.info("Initialization completed!");
 	}

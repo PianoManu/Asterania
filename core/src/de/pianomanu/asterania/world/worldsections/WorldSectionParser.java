@@ -91,7 +91,14 @@ public class WorldSectionParser {
                 start = i + 1;
             }
         }
-        return buildWSfromPartList(parts);
+        if (parts.size() != 0)
+            return buildWSfromPartList(parts);
+        //TODO logging useful?
+        LOGGER.warning("Could not get WorldSection from input string...");
+        LOGGER.fine("================================================================================");
+        LOGGER.fine(oneWS);
+        LOGGER.fine("================================================================================");
+        return null;
     }
 
     private static WorldSection buildWSfromPartList(List<String> parts) {

@@ -1,6 +1,5 @@
 package de.pianomanu.asterania.savegame;
 
-import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.Worlds;
 
@@ -14,10 +13,12 @@ public class Universe {
 
     }
 
-    public void load() {
-        //TODO
+    public void load(String saveFileName) {
+        //TODO remove getWorldName if Worlds gets loaded somehow else
         Worlds.HOME.getWorldName();
-        this.worlds.addAll(GameRegistry.getWorlds());
+        //SaveGameUtils.loadWorldsFromDirectory(saveFileName);
+        //this.worlds.addAll(GameRegistry.getWorlds());
+        //this.worlds.addAll(SaveGameUtils.SAVE_GAME_WORLD);
     }
 
     public List<World> getWorlds() {

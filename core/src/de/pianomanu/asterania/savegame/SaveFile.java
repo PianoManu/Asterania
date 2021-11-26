@@ -10,11 +10,12 @@ public class SaveFile {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     private final String name;
-    private Universe universe = null;
+    private Universe universe;
     private World homeWorld;
 
     public SaveFile(String name) {
         this.name = name;
+        this.universe = new Universe();
 
         if (new File(name).mkdir()) {
             LOGGER.info("Created directory \"" + name + "\" as save directory!");
@@ -25,13 +26,7 @@ public class SaveFile {
 
     public void loadUniverse() {
         //TODO: load from file
-        this.universe = new Universe();
-        this.universe.load();
-
-        for (World w : this.universe.getWorlds()) {
-            if (w.getWorldName().equals("home"))
-                this.homeWorld = w;
-        }
+        this.universe.load(this.name);
     }
 
     public Universe getUniverse() {
@@ -39,6 +34,12 @@ public class SaveFile {
     }
 
     public World getHomeWorld() {
+        loadUniverse();
+        this.universe.getWorlds();
+        for (World w : this.universe.getWorlds()) {
+            if (w.getWorldName().equals("home"))
+                this.homeWorld = w;
+        }
         return this.homeWorld;
     }
 

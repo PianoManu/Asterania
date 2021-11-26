@@ -38,6 +38,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.saveFile.getHomeWorld();
+        this.world.joinWorld(AsteraniaMain.player, world.getEntryPoint());
     }
 
     @Override

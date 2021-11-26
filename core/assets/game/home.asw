@@ -1,11 +1,14 @@
 alpha0.1.0
 
-|0|0|4096*grass|
+|0|0|1*rock|9*grass|1*dirty_stone|2*grass|1*dirty_stone|51*grass|1*rock|8*grass|1*dirty_stone|2*grass|1*dirty_stone|52*grass|1*rock|10*grass|1*dirty_stone|53*grass|1*rock|6*grass|1*dirty_stone|2*grass|1*dirty_stone|54*grass|1*rock|5*grass|1*dirty_stone|2*grass|1*dirty_stone|55*grass|1*rock|4*grass|4*dirty_stone|1*grass|3*titanium_diboride|52*grass|1*rock|3*grass|4*soil|1*grass|3*titanium_diboride|53*grass|1*rock|2*grass|4*soil|1*grass|3*titanium_diboride|54*grass|1*rock|1*grass|4*soil|59*grass|1*rock|64*grass|2*rock|63*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|64*grass|1*rock|
 |-1|-1|4096*rock|
-|-1|0|4096*rock|
+|-1|0|4039*rock|3*grass|54*rock|
 |-1|1|4096*rock|
 |0|-1|4096*rock|
 |0|1|4096*rock|
 |1|-1|4096*rock|
 |1|0|4096*rock|
 |1|1|4096*rock|
+|-2|-1|4096*rock|
+|-2|0|4096*rock|
+|-2|1|4096*rock|
