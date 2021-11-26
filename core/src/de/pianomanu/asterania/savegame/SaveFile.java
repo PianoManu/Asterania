@@ -24,21 +24,16 @@ public class SaveFile {
         }
     }
 
-    public void loadUniverse() {
-        //TODO: load from file
-        this.universe.load(this.name);
-    }
-
     public Universe getUniverse() {
         return this.universe;
     }
 
     public World getHomeWorld() {
-        loadUniverse();
-        this.universe.getWorlds();
         for (World w : this.universe.getWorlds()) {
-            if (w.getWorldName().equals("home"))
+            if (w.getWorldName().equals("home")) {
                 this.homeWorld = w;
+                break;
+            }
         }
         return this.homeWorld;
     }

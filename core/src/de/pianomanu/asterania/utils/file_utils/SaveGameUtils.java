@@ -48,6 +48,7 @@ public class SaveGameUtils {
             }
         }
         AsteraniaMain.saveFile.getUniverse().getWorlds().addAll(SAVE_GAME_WORLD);
+        AsteraniaMain.saveFile.getHomeWorld();
     }
 
     private static String removeExtension(String fileName) {

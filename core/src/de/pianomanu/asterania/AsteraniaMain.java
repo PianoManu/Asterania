@@ -43,7 +43,6 @@ public class AsteraniaMain extends Game {
 
 		//TODO
 		saveFile = new SaveFile(GameConfig.SAVE_NAME);
-		saveFile.loadUniverse();
 		//TODO: maybe implement better way to create player?
 		player = new Player();
 

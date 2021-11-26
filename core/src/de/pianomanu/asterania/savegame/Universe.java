@@ -17,11 +17,6 @@ public class Universe {
 
     }
 
-    public void load(String saveFileName) {
-        //TODO remove getWorldName if Worlds gets loaded somehow else
-        //Worlds.HOME.getWorldName();
-    }
-
     public List<World> getWorlds() {
         return this.worlds;
     }
