@@ -25,15 +25,11 @@ public class GameScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     SpriteBatch batch;
-    //TextureAtlas tileAtlas;
-    //TextureAtlas playerAtlas;
     ShapeRenderer shapeRenderer;
     World world;
 
     public GameScreen() {
         batch = new SpriteBatch();
-        //tileAtlas = AsteraniaMain.assetManager.get("textures/tiles/atlas/tile_atlas.atlas", TextureAtlas.class);//new TextureAtlas("textures/tiles/atlas/tile_atlas.atlas");
-        //playerAtlas = AsteraniaMain.assetManager.get("textures/entities/player/atlas/player_atlas.atlas", TextureAtlas.class);
 
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);

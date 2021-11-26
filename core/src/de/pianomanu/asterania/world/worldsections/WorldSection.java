@@ -29,23 +29,6 @@ public class WorldSection {
         this.worldSectionSettings = settings;
     }
 
-    /*public WorldSection(WorldSectionCoordinates coordinates) {
-        this.sectionPos = coordinates;
-        this.start = new TileCoordinates(coordinates.x * SECTION_SIZE, coordinates.y * SECTION_SIZE);
-        this.end = new TileCoordinates(coordinates.x * SECTION_SIZE + SECTION_SIZE - 1, coordinates.y * SECTION_SIZE + SECTION_SIZE - 1);
-        this.tiles = new Tile[SECTION_SIZE][SECTION_SIZE];
-    }*/
-
-    /*public void createTerrain() {
-        for (int x = 0; x < SECTION_SIZE; x++) {
-            for (int y = 0; y < SECTION_SIZE; y++) {
-                this.tiles[x][y] = Tiles.GRASS;
-                if (x == y)
-                    this.tiles[x][y] = Tiles.ROCK;
-            }
-        }
-    }*/
-
     public void createTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
