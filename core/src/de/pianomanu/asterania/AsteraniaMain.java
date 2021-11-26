@@ -56,6 +56,7 @@ public class AsteraniaMain extends Game {
 			LOGGER.warning("No home world found. Creating a new home world...");
 			//home = Worlds.HOME;
 		}
+		//TODO: maybe implement better way to create player?
 		player = new Player();
 		//home.joinWorld(player, home.getEntryPoint());
 

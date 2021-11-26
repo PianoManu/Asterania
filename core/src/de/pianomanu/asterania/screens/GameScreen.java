@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.saveFile.getHomeWorld();
-        this.world.joinWorld(AsteraniaMain.player, world.getEntryPoint());
+        AsteraniaMain.player.changeCurrentWorld(this.world);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class GameScreen extends ScreenAdapter {
 
         ScreenUtils.clear(1, 0, 0, 1);
         WorldRenderer.renderAll(world, batch, shapeRenderer);
-        UIRenderer.renderAll(world, batch, shapeRenderer);
+        UIRenderer.renderAll(batch, shapeRenderer);
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
             DebugScreenRenderer.render(world, shapeRenderer, delta);
         }

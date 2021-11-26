@@ -25,13 +25,13 @@ public class WorldRenderer {
     private static void renderTerrain(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        int startRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() - 3 * width / (2 * DisplayConfig.TILE_SIZE);
-        int stopRenderingX = world.getPlayer().getCharacterPos().toTileCoordinates().getX() + 3 * width / (2 * DisplayConfig.TILE_SIZE);
-        int startRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() - 3 * height / (2 * DisplayConfig.TILE_SIZE);
-        int stopRenderingY = world.getPlayer().getCharacterPos().toTileCoordinates().getY() + 3 * height / (2 * DisplayConfig.TILE_SIZE);
+        int startRenderingX = AsteraniaMain.player.getCharacterPos().toTileCoordinates().getX() - 3 * width / (2 * DisplayConfig.TILE_SIZE);
+        int stopRenderingX = AsteraniaMain.player.getCharacterPos().toTileCoordinates().getX() + 3 * width / (2 * DisplayConfig.TILE_SIZE);
+        int startRenderingY = AsteraniaMain.player.getCharacterPos().toTileCoordinates().getY() - 3 * height / (2 * DisplayConfig.TILE_SIZE);
+        int stopRenderingY = AsteraniaMain.player.getCharacterPos().toTileCoordinates().getY() + 3 * height / (2 * DisplayConfig.TILE_SIZE);
         TileCoordinates startRendering = new TileCoordinates(startRenderingX, startRenderingY);
         TileCoordinates stopRendering = new TileCoordinates(stopRenderingX, stopRenderingY);
-        EntityCoordinates playerCoordinates = world.getPlayer().getCharacterPos();
+        EntityCoordinates playerCoordinates = AsteraniaMain.player.getCharacterPos();
         batch.begin();
 
         /*for (int x = startRendering.getX(); x < stopRendering.getX(); x++) {
@@ -39,7 +39,7 @@ public class WorldRenderer {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 try {
-                    batch.draw(world.findSection(world.getPlayer().getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    batch.draw(world.findSection(AsteraniaMain.player.getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 } catch (ArrayIndexOutOfBoundsException e) {
                     batch.draw(Tiles.ROCK.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 } catch (NullPointerException ignored) {
@@ -62,7 +62,7 @@ public class WorldRenderer {
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 //try {
                 if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY())
-                    batch.draw(world.findSection(world.getPlayer().getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    batch.draw(world.findSection(AsteraniaMain.player.getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                 else {
                     TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                     try {
@@ -79,7 +79,7 @@ public class WorldRenderer {
     }
 
     private static void renderHovering(World world, ShapeRenderer shapeRenderer) {
-        EntityCoordinates playerPos = world.getPlayer().getCharacterPos();
+        EntityCoordinates playerPos = AsteraniaMain.player.getCharacterPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         int hoveringXStart = (int) Math.floor(mousePos.x);
         int hoveringYStart = (int) Math.floor(mousePos.y);

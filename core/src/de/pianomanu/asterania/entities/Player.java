@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.inventory.Inventory;
+import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 
@@ -22,6 +23,7 @@ public class Player {
     private float currentBreakingPercentage = 0;
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
+    private World currentWorld = null;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -52,6 +54,20 @@ public class Player {
 
     public int getStepSize() {
         return this.stepSize;
+    }
+
+    public World getCurrentWorld() {
+        return this.currentWorld;
+    }
+
+    public void changeCurrentWorld(World currentWorld) {
+        //first: leave previous world (if existing)
+        if (this.currentWorld != null)
+            this.currentWorld.leaveWorld(this);
+
+        //then: join new world
+        currentWorld.joinWorld(this, currentWorld.getEntryPoint());
+        this.currentWorld = currentWorld;
     }
 
     public void moveRight(float delta) {

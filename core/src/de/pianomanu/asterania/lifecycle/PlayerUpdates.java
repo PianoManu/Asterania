@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.lifecycle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
@@ -31,7 +32,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     }
 
     private static void updateMovement(World world, float delta) {
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
         EntityCoordinates playerFootPos = player.getFootPos();
         TileCoordinates playerTile = playerFootPos.toTileCoordinates();
         TileCoordinates left = playerTile.copy().moveLeft();
@@ -124,7 +125,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     }
 
     public static void changeEnvironment(World world, float delta) {
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
 
         if (Gdx.input.isButtonPressed(KeyConfig.REPLACE_TILE)) {
             if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
@@ -162,10 +163,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 old.setBreakingLevel(0);
             TileBreakingUI.renderNoBreakingPossible = false;
         }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getWorlds().get(1));
+        }
     }
 
     private static void setNewTile(World world) {
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
         if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
             world.findSection(mouse).setTile(mouse, GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject()));
@@ -177,7 +182,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     }
 
     public static void changeInventory(World world) {
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
         if (timesScrolled > 0) {
             player.setPlayerHoldNextIOStack();
             timesScrolled = 0;

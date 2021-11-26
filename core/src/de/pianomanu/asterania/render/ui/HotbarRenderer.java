@@ -11,13 +11,12 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class HotbarRenderer {
 
-    public static void renderHotbar(World world, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public static void renderHotbar(SpriteBatch batch, ShapeRenderer shapeRenderer) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
@@ -39,7 +38,7 @@ public class HotbarRenderer {
         int tileStartY = startY + hHeight / 8;
         int tileWidth = hWidth * 3 / 4;
         int tileHeight = hHeight * 3 / 4;
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
         Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
         if (t.equals(Tiles.WHITE)) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);

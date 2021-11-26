@@ -12,7 +12,7 @@ import java.util.List;
 
 public class World {
     private List<WorldSection> sections = new ArrayList<>();
-    private Player player = new Player();
+    private final List<Player> players = new ArrayList<>();
     private TileCoordinates entryPoint;
     private final String worldName;
     private final WorldType worldType;
@@ -42,19 +42,24 @@ public class World {
     }
 
     public void joinWorld(Player player, TileCoordinates entryPoint) {
-        this.player = player;
-        this.player.setCharacterPos(entryPoint.toEntityCoordinates());
-        this.player.updateHitbox();
-
+        this.players.add(player);
+        player.setCharacterPos(entryPoint.toEntityCoordinates());
+        for (Player p : players) {
+            p.updateHitbox();
+        }
         this.preGenerateSurroundingWorldSections();
+    }
+
+    public boolean leaveWorld(Player player) {
+        return this.players.remove(player);
     }
 
     public void loadWorldSections(List<WorldSection> sections) {
         this.sections = sections;
     }
 
-    public Player getPlayer() {
-        return this.player;
+    public List<Player> getPlayers() {
+        return this.players;
     }
 
     public WorldSection getStartTerrain() {
@@ -118,15 +123,17 @@ public class World {
 
     public void preGenerateSurroundingWorldSections() {
         //8 surrounding sections
-        WorldSectionCoordinates center = this.player.getCharacterPos().toWorldSectionCoordinates();
-        addNewSection(center.x - 1, center.y - 1);
-        addNewSection(center.x - 1, center.y);
-        addNewSection(center.x - 1, center.y + 1);
-        addNewSection(center.x, center.y - 1);
-        addNewSection(center.x, center.y + 1);
-        addNewSection(center.x + 1, center.y - 1);
-        addNewSection(center.x + 1, center.y);
-        addNewSection(center.x + 1, center.y + 1);
+        for (Player p : players) {
+            WorldSectionCoordinates center = p.getCharacterPos().toWorldSectionCoordinates();
+            addNewSection(center.x - 1, center.y - 1);
+            addNewSection(center.x - 1, center.y);
+            addNewSection(center.x - 1, center.y + 1);
+            addNewSection(center.x, center.y - 1);
+            addNewSection(center.x, center.y + 1);
+            addNewSection(center.x + 1, center.y - 1);
+            addNewSection(center.x + 1, center.y);
+            addNewSection(center.x + 1, center.y + 1);
+        }
     }
 
     public String getWorldName() {

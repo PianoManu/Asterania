@@ -14,7 +14,7 @@ public class PlayerRenderer {
     public static void render(World world, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
-        Player player = world.getPlayer();
+        Player player = AsteraniaMain.player;
         TextureRegion playerTexture = getTexture(player);
         if (playerTexture == null) {
             playerTexture = AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
