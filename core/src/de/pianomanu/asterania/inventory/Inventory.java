@@ -13,8 +13,9 @@ public class Inventory {
 
     public Inventory() {
         //TODO Remove Debug stuff
-        this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 1));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 1));
         this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 12));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.MINE_LADDER, 1));
         //this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
         //this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
         //this.addStack(new InventoryObjectStack(InventoryObjects.TITANIUM_DIBORIDE_TILE, 30));

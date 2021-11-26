@@ -6,6 +6,7 @@ import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.inventory.Inventory;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
+import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 
 public class Player {
@@ -67,6 +68,16 @@ public class Player {
 
         //then: join new world
         currentWorld.joinWorld(this, currentWorld.getEntryPoint());
+        this.currentWorld = currentWorld;
+    }
+
+    public void changeCurrentWorld(World currentWorld, TileCoordinates playerPos) {
+        //first: leave previous world (if existing)
+        if (this.currentWorld != null)
+            this.currentWorld.leaveWorld(this);
+
+        //then: join new world
+        currentWorld.joinWorld(this, playerPos);
         this.currentWorld = currentWorld;
     }
 

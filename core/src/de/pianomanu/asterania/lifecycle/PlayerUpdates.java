@@ -147,6 +147,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                             player.setCurrentBreakingPercentage(0);
                             player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
                             player.setBreakingTile(false);
+                            world.findSection(mouse).getTile(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
                         }
                     } else {
                         TileBreakingUI.renderNoBreakingPossible = true;
@@ -163,10 +164,15 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 old.setBreakingLevel(0);
             TileBreakingUI.renderNoBreakingPossible = false;
         }
+        if (Gdx.input.isButtonJustPressed(KeyConfig.INTERACT_WITH_TILE)) {
+            EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
+            Tile tile = world.findSection(mouse).getTile(mouse);
+            tile.performAction(player, world);
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             LOGGER.fine("Changing world...");
-            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getNextWorld());
+            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getNextWorld(), player.getCharacterPos().toTileCoordinates());
         }
     }
 

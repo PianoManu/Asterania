@@ -100,4 +100,8 @@ public class GameRegistry {
     public static List<WorldSectionSettings> getWorldSectionSettings() {
         return WORLD_SECTION_SETTINGS;
     }
+
+    public static void setupRegistry() {
+        Tiles.setupTeleportingTiles();
+    }
 }

@@ -18,23 +18,30 @@ grass
   orig: 8, 8
   offset: 0, 0
   index: -1
-rock
+mine_ladder
   rotate: false
   xy: 44, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-soil
+rock
   rotate: false
   xy: 34, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-titanium_diboride
+soil
   rotate: false
   xy: 44, 14
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+titanium_diboride
+  rotate: false
+  xy: 54, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

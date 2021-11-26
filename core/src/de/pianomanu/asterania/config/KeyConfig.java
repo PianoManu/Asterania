@@ -8,6 +8,7 @@ public class KeyConfig {
     public static final int MOVE_UP = Input.Keys.UP;
     public static final int MOVE_DOWN = Input.Keys.DOWN;
     public static final int REPLACE_TILE = Input.Buttons.RIGHT;
+    public static final int INTERACT_WITH_TILE = Input.Buttons.LEFT;
     public static final int OPEN_OR_CLOSE_INVENTORY = Input.Keys.END;
 
     public static final int START = Input.Keys.SPACE;
