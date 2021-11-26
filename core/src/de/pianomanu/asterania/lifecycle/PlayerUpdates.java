@@ -165,7 +165,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
-            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getWorlds().get(1));
+            LOGGER.fine("Changing world...");
+            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getNextWorld());
         }
     }
 
