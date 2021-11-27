@@ -22,7 +22,8 @@ public class WorldSectionParser {
 
         for (WorldSection s :
                 world.getSections()) {
-            builder.append(createWSString(s));
+            if (s != null)
+                builder.append(createWSString(s));
         }
         return builder.toString();
     }

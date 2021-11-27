@@ -38,7 +38,6 @@ public class AsteraniaMain extends Game {
 		LOGGER.info("Initializing Asterania...");
 
 		assetManager = new AssetManager();
-		setScreen(new LoadingScreen());
 
 
 		//TODO
@@ -51,7 +50,8 @@ public class AsteraniaMain extends Game {
 		} else {
 			//TODO what if does not exist?
 		}
-		LOGGER.info("Initialization completed!");
+		setScreen(new LoadingScreen());
+        LOGGER.info("Initialization completed!");
 	}
 
 	public static Logger getLogger() {

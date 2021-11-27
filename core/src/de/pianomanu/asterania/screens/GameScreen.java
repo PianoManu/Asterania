@@ -65,7 +65,10 @@ public class GameScreen extends ScreenAdapter {
     private void checkForImportantInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LOGGER.fine("Saving world data...");
-            WorldWriter.saveWorldContent(WorldSectionParser.createWSString(world), world.getWorldName());
+            for (World w :
+                    AsteraniaMain.saveFile.getUniverse().getWorlds()) {
+                WorldWriter.saveWorldContent(WorldSectionParser.createWSString(w), w.getWorldName());
+            }
             LOGGER.fine("Saved world data!");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());

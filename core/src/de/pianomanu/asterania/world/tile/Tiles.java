@@ -1,7 +1,9 @@
 package de.pianomanu.asterania.world.tile;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.Worlds;
 
 public class Tiles {
@@ -21,6 +23,15 @@ public class Tiles {
     }
 
     public static void setupTeleportingTiles() {
-        MINE_LADDER.getTeleporter().setDestinyWorld(Worlds.MINE);
+        boolean mineExists = false;
+        for (World w :
+                AsteraniaMain.saveFile.getUniverse().getWorlds()) {
+            if (w.getWorldName().equals(Worlds.MINE.getWorldName())) {
+                MINE_LADDER.getTeleporter().setDestinyWorld(w);
+                mineExists = true;
+            }
+        }
+        if (!mineExists)
+            MINE_LADDER.getTeleporter().setDestinyWorld(Worlds.MINE);
     }
 }
