@@ -1,7 +1,6 @@
 package de.pianomanu.asterania.world.worldsections;
 
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -18,7 +17,7 @@ public class WorldSectionParser {
     private static final char sC = '|';
 
     public static String createWSString(World world) {
-        StringBuilder builder = new StringBuilder(GameConfig.GAME_VERSION).append("\n\n");
+        StringBuilder builder = new StringBuilder();
 
         for (WorldSection s :
                 world.getSections()) {
@@ -29,7 +28,7 @@ public class WorldSectionParser {
     }
 
     public static String createWSDecorativeLayerString(World world) {
-        StringBuilder builder = new StringBuilder(GameConfig.GAME_VERSION).append("\n\n");
+        StringBuilder builder = new StringBuilder();
 
         for (WorldSection s :
                 world.getSections()) {
@@ -100,7 +99,7 @@ public class WorldSectionParser {
     public static List<WorldSection> getWSfromString(String fileName, List<String> content) {
         List<WorldSection> sections = new ArrayList<>();
         //1st line: version number
-        LOGGER.info("Found version " + content.get(0) + " !");
+        //LOGGER.info("Found version " + content.get(0) + " !");
 
         //2nd line: empty
 
@@ -125,7 +124,7 @@ public class WorldSectionParser {
                 addDecorativeLayerToWS(content.get(worldIndex + 2), s);
             }
         } else {
-            for (int i = 2; i < content.size(); i++) {
+            for (int i = 0; i < content.size(); i++) {
                 sections.add(getWSfromString(removeLineBreaks(content.get(i))));
             }
         }
