@@ -6,7 +6,7 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.tile.teleporter.Teleporter;
 
-public class TeleportingTile extends Tile {
+public class TeleportingTile extends DecorationTile {
     private Teleporter teleporter;
 
     public TeleportingTile(String name, TileSettings settings) {

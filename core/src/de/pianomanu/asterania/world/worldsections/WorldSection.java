@@ -30,7 +30,7 @@ public class WorldSection {
         this.worldSectionSettings = settings;
 
         this.decorationLayer = new Tile[SECTION_SIZE][SECTION_SIZE];
-        this.decorationLayer[8][8] = Tiles.MINE_LADDER;
+        this.decorationLayer[8][7] = Tiles.MINE_LADDER;
     }
 
     public void createTerrain() {
