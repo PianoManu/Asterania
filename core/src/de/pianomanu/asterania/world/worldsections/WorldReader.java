@@ -25,7 +25,7 @@ public class WorldReader {
             }
         }
         LOGGER.fine("Found " + linesOfFile.size() + " lines of world information");
-        world.loadWorldSections(WorldSectionParser.getWSfromString(linesOfFile));
+        world.loadWorldSections(WorldSectionParser.getWSfromString(file.getName(), linesOfFile));
         LOGGER.fine("Started world " + world.toString());
 
         //reinitialize world loading string list

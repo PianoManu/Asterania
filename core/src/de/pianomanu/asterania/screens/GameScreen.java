@@ -68,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
             for (World w :
                     AsteraniaMain.saveFile.getUniverse().getWorlds()) {
                 WorldWriter.saveWorldContent(WorldSectionParser.createWSString(w), w.getWorldName());
+                WorldWriter.saveWorldContent(WorldSectionParser.createWSDecorativeLayerString(w), w.getWorldName() + "_decorative_layer");
             }
             LOGGER.fine("Saved world data!");
             this.dispose();
