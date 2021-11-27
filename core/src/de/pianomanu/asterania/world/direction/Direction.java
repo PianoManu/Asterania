@@ -25,4 +25,16 @@ public enum Direction {
         }
         return null;
     }
+
+    public static Direction toDirection(String direction) {
+        if (direction.equals("down") || direction.equals("DOWN"))
+            return DOWN;
+        if (direction.equals("up") || direction.equals("UP"))
+            return UP;
+        if (direction.equals("left") || direction.equals("LEFT"))
+            return LEFT;
+        if (direction.equals("right") || direction.equals("RIGHT"))
+            return RIGHT;
+        return null;
+    }
 }

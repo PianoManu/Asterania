@@ -40,7 +40,7 @@ public class WorldReader {
      * @return the content of the file with the name given as parameter
      * as byte array.
      */
-    private static char[] readFile(File file) {
+    public static char[] readFile(File file) {
         // Creates an array of character
         char[] array = new char[65536];
 

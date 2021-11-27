@@ -12,6 +12,7 @@ public class GameConfig {
     public static final String WORLDS_SAVE_PATH = SAVEGAME_NAME + "\\worlds\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
     public static final String VERSION_SAVE_PATH = SAVEGAME_NAME + "\\version";
+    public static final String PLAYER_DATA_SAVE_PATH = SAVEGAME_NAME + "\\playerdata";
     private static final String versionDescription = "alpha";
     private static final int patchVersion = 0;
     private static final int minorVersion = 1;

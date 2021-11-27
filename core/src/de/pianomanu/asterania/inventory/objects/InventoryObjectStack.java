@@ -49,4 +49,8 @@ public class InventoryObjectStack {
                 ", Count=" + this.stackCount +
                 '}';
     }
+
+    public String toSaveFileString() {
+        return this.stackCount + "*" + this.inventoryObject.getName();
+    }
 }

@@ -6,6 +6,7 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.savegame.SaveFile;
 import de.pianomanu.asterania.screens.LoadingScreen;
+import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 
@@ -43,7 +44,7 @@ public class AsteraniaMain extends Game {
 		//TODO
 		saveFile = new SaveFile(GameConfig.SAVEGAME_NAME);
 		//TODO: maybe implement better way to create player?
-		player = new Player();
+		player = PlayerSaveUtils.loadPlayerFromSaveFile();
 
 		if (new File(GameConfig.WORLDS_SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
 			SaveGameUtils.loadWorldsFromDirectory();

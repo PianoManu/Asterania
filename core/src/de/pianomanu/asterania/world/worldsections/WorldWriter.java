@@ -2,6 +2,7 @@ package de.pianomanu.asterania.world.worldsections;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public class WorldWriter {
      * @param content the content to write to the file.
      * @throws IOException if an I/O error occurs.
      */
-    private static void writeFile(File file, String content) throws IOException {
+    public static void writeFile(File file, String content) throws IOException {
         File newFile = new File(file.getAbsolutePath());
         try (FileWriter writer = new FileWriter(newFile.getAbsolutePath())) {
             writer.write(content);
@@ -42,6 +43,7 @@ public class WorldWriter {
     public static void saveGameInfo() {
         createVersionFile();
         saveAllWorlds();
+        PlayerSaveUtils.savePlayerToSaveFile();
     }
 
     private static void saveAllWorlds() {

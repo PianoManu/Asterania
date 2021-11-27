@@ -137,4 +137,12 @@ public class Inventory {
         this.currentWeight = currentWeight;
         return this.currentWeight;
     }
+
+    public String toSaveFileString() {
+        StringBuilder builder = new StringBuilder("INVENTORY ");
+        for (InventoryObjectStack iOS : this.getInventoryObjects()) {
+            builder.append(iOS.toSaveFileString()).append(" ");
+        }
+        return builder.toString();
+    }
 }
