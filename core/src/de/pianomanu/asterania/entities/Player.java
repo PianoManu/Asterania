@@ -71,14 +71,14 @@ public class Player {
         this.currentWorld = currentWorld;
     }
 
-    public void changeCurrentWorld(World currentWorld, TileCoordinates playerPos) {
+    public void changeCurrentWorld(World destinyWorld, TileCoordinates playerPos) {
         //first: leave previous world (if existing)
         if (this.currentWorld != null)
             this.currentWorld.leaveWorld(this);
 
         //then: join new world
-        currentWorld.joinWorld(this, playerPos);
-        this.currentWorld = currentWorld;
+        destinyWorld.joinWorld(this, playerPos);
+        this.currentWorld = destinyWorld;
     }
 
     public void moveRight(float delta) {
