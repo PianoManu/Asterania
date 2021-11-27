@@ -41,17 +41,17 @@ public class AsteraniaMain extends Game {
 
 
 		//TODO
-		saveFile = new SaveFile(GameConfig.SAVE_NAME);
+		saveFile = new SaveFile(GameConfig.SAVEGAME_NAME);
 		//TODO: maybe implement better way to create player?
 		player = new Player();
 
-		if (new File(GameConfig.SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
-			SaveGameUtils.loadWorldsFromDirectory(saveFile.getName());
+		if (new File(GameConfig.WORLDS_SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
+			SaveGameUtils.loadWorldsFromDirectory();
 		} else {
 			//TODO what if does not exist?
 		}
 		setScreen(new LoadingScreen());
-        LOGGER.info("Initialization completed!");
+		LOGGER.info("Initialization completed!");
 	}
 
 	public static Logger getLogger() {
