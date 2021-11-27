@@ -13,6 +13,7 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.tile.Tile;
 
 public class WorldRenderer {
 
@@ -41,6 +42,23 @@ public class WorldRenderer {
                     TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                     try {
                         batch.draw(world.findSection(tileCoordinates).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    } catch (NullPointerException e) {
+                        //Error trying to find the correct section: preGenerate all adjacent sections
+                        world.preGenerateSurroundingWorldSections();
+                    }
+                }
+                if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY()) {
+                    Tile decoration = world.findSection(AsteraniaMain.player.getCharacterPos()).getDecorationLayerTile(x, y);
+                    if (decoration != null) {
+                        batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    }
+                } else {
+                    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+                    try {
+                        Tile decoration = world.findSection(tileCoordinates).getDecorationLayerTile(x, y);
+                        if (decoration != null) {
+                            batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                        }
                     } catch (NullPointerException e) {
                         //Error trying to find the correct section: preGenerate all adjacent sections
                         world.preGenerateSurroundingWorldSections();
