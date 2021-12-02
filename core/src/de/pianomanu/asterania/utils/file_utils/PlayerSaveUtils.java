@@ -21,6 +21,7 @@ public class PlayerSaveUtils {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static Player loadPlayerFromSaveFile() {
+        GameConfig.reload();
         Player tmp = new Player();
         File f = new File(GameConfig.PLAYER_DATA_SAVE_PATH);
         if (f.exists()) {

@@ -41,7 +41,7 @@ public class AsteraniaMain extends Game {
 		assetManager = new AssetManager();
 
 
-		saveFile = new SaveFile(GameConfig.SAVEGAME_NAME);
+		saveFile = new SaveFile(GameConfig.SAVEGAME_PATH);
 
 		if (new File(GameConfig.WORLDS_SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
 			SaveGameUtils.loadWorldsFromDirectory();

@@ -69,7 +69,7 @@ public class MainMenuScreen extends ScreenAdapter {
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 1, 1, 0.2f);
         for (Button b :
-                Buttons.ALL_BUTTONS) {
+                Buttons.MAIN_MENU_BUTTONS) {
             if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
                 shapeRenderer.rect(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y);
             }
@@ -87,7 +87,7 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private void drawButtons() {
-        ButtonRenderer.renderMainMenuButtons(batch);
+        ButtonRenderer.renderButtons(batch, Buttons.MAIN_MENU_BUTTONS);
     }
 
     private void drawText() {
@@ -129,7 +129,7 @@ public class MainMenuScreen extends ScreenAdapter {
             Gdx.app.exit();
         }
 
-        if (mouseX >= Buttons.START_BUTTON.getStart().x && mouseY >= Buttons.START_BUTTON.getStart().y && mouseX <= Buttons.START_BUTTON.getEnd().x && mouseY <= Buttons.START_BUTTON.getEnd().y) {
+        if (mouseX >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().x && mouseY >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().y && mouseX <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().x && mouseY <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().y) {
             LOGGER.fine("Starting the game...");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
@@ -137,6 +137,8 @@ public class MainMenuScreen extends ScreenAdapter {
 
         if (mouseX >= Buttons.LOAD_BUTTON.getStart().x && mouseY >= Buttons.LOAD_BUTTON.getStart().y && mouseX <= Buttons.LOAD_BUTTON.getEnd().x && mouseY <= Buttons.LOAD_BUTTON.getEnd().y) {
             LOGGER.fine("Loading all existing worlds...");
+            this.dispose();
+            AsteraniaMain.INSTANCE.setScreen(new LoadSavesScreen());
         }
     }
 }

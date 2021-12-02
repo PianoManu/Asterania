@@ -8,11 +8,12 @@ public class GameConfig {
 
     public static final String WORLD_FILE_FORMAT = "asw"; //ASterania World
     public static final String SAVEGAME_PATH_OFFSET = "saves\\";
-    public static final String SAVEGAME_NAME = SAVEGAME_PATH_OFFSET + "game";
-    public static final String WORLDS_SAVE_PATH = SAVEGAME_NAME + "\\worlds\\";
+    public static String SAVEGAME_NAME = "game";
+    public static String SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
+    public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
-    public static final String VERSION_SAVE_PATH = SAVEGAME_NAME + "\\version";
-    public static final String PLAYER_DATA_SAVE_PATH = SAVEGAME_NAME + "\\playerdata";
+    public static final String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
+    public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
     private static final String versionDescription = "alpha";
     private static final int patchVersion = 0;
     private static final int minorVersion = 1;
@@ -21,5 +22,13 @@ public class GameConfig {
 
     public static void load() {
 
+    }
+
+    //TODO find way to load correctly from start
+    public static void reload() {
+        SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
+        WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
+        WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
+        PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
     }
 }

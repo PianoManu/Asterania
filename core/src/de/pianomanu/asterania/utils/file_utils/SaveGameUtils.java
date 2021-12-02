@@ -20,6 +20,7 @@ public class SaveGameUtils {
     public static final List<World> SAVE_GAME_WORLD = new ArrayList<>();
 
     public static void loadWorldsFromDirectory() {
+        GameConfig.reload();
         File folder = new File(GameConfig.WORLDS_SAVE_PATH);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Asterania World File Filter", "asw");
         File[] listOfFiles = folder.listFiles();
@@ -39,7 +40,7 @@ public class SaveGameUtils {
     public static void createNewGame() {
         File savesDir = new File(GameConfig.SAVEGAME_PATH_OFFSET);
         savesDir.mkdir();
-        File mainDir = new File(GameConfig.SAVEGAME_NAME);
+        File mainDir = new File(GameConfig.SAVEGAME_PATH);
         mainDir.mkdir();
 
         createStartWorldForNewGame();

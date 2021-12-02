@@ -18,9 +18,9 @@ public class SaveFile {
         this.universe = new Universe();
 
         if (new File(name).mkdir()) {
-            LOGGER.info("Created directory \"" + name + "\" as save directory!");
+            LOGGER.fine("Created directory \"" + name + "\" as save directory!");
         } else {
-            LOGGER.info("Found save directory \"" + name + "\"!");
+            LOGGER.finest("Found save directory \"" + name + "\"!");
         }
     }
 
@@ -39,6 +39,11 @@ public class SaveFile {
     }
 
     public String getName() {
-        return name;
+        return this.name;
+    }
+
+    @Override
+    public String toString() {
+        return "SaveFile{\"" + this.name + "\"" + ", universe:" + this.universe + '}';
     }
 }

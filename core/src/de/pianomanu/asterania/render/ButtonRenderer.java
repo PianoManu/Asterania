@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.render.button.Button;
-import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 
+import java.util.List;
+
 public class ButtonRenderer {
-    public static void renderMainMenuButtons(SpriteBatch batch) {
+    public static void renderButtons(SpriteBatch batch, List<Button> buttons) {
         for (Button b :
-                Buttons.ALL_BUTTONS) {
+                buttons) {
             renderButton(batch, b);
         }
     }

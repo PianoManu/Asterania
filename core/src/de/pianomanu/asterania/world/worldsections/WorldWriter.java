@@ -14,7 +14,7 @@ public class WorldWriter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static void saveWorldContent(String worldContent, String worldName) {
-        LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVEGAME_NAME);
+        LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVEGAME_PATH);
         File file = new File(GameConfig.WORLDS_SAVE_PATH + "\\" + worldName + "." + GameConfig.WORLD_FILE_FORMAT);
         try {
             writeFile(file, worldContent);
@@ -22,7 +22,7 @@ public class WorldWriter {
             LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();
         }
-        LOGGER.finest("Got string containing world info, saved it at " + GameConfig.SAVEGAME_NAME);
+        LOGGER.finest("Got string containing world info, saved it at " + GameConfig.SAVEGAME_PATH);
     }
 
     /**
