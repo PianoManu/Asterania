@@ -3,6 +3,9 @@ package de.pianomanu.asterania.utils.file_utils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.inventory.objects.InventoryObject;
+import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.worldsections.WorldReader;
 import de.pianomanu.asterania.world.worldsections.WorldWriter;
@@ -64,6 +67,7 @@ public class PlayerSaveUtils {
             }
             if (first.equals("INVENTORY")) {
                 //TODO
+                loadInventory(attributes, player);
             }
             if (first.equals("MAXINVENTORYCAPACITY")) {
                 player.setMaxWeight(Float.parseFloat(attributes.get(1)));
@@ -76,18 +80,53 @@ public class PlayerSaveUtils {
         int prevLineBreak = 0;
         for (int i = 0; i < playerData.length(); i++) {
             if (playerData.charAt(i) == separatingCharacter) {
-                //TODO i correct? or i, i-1?
-                lines.add(playerData.substring(prevLineBreak, i));
+                String sub = playerData.substring(prevLineBreak, i);
+                if (!sub.isEmpty())
+                    lines.add(sub);
                 prevLineBreak = i + 1;
             }
             if (i == playerData.length() - 1) {
-                lines.add(playerData.substring(prevLineBreak, i + 1));
+                String sub = playerData.substring(prevLineBreak, i + 1);
+                if (!sub.isEmpty())
+                    lines.add(sub);
             }
         }
         return lines;
     }
 
-    private static void loadInventory(String inventoryLine, Player player) {
+    private static void loadInventory(List<String> inventoryLine, Player player) {
+        //TODO
+        int iOSSize = inventoryLine.size() - 1; //subtract 1, because first object in list is "INVENTORY"
+        for (int i = 0; i < iOSSize; i++) {
+            try {
+                player.getPlayerInventory().addStackToInventory(parseIOS(inventoryLine.get(i + 1)));
+            } catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
+    private static InventoryObjectStack parseIOS(String iOSLine) {
+        //sC = separatingCharacter, used when saving how many objects of one kind player has in inventory
+        String sC = "*";
+        int asteriskIndex = iOSLine.indexOf(sC);
+
+        //asterisk found: string before asterisk equals number of inventory objects
+        //                string after asterisk is name of inventory object
+        if (asteriskIndex > 0) {
+            String countS = iOSLine.substring(0, asteriskIndex);
+            String inventoryObjectS = iOSLine.substring(asteriskIndex + 1);
+            int count = Integer.parseInt(countS);
+            InventoryObject inventoryObject = GameRegistry.getInventoryObjectFromString(inventoryObjectS);
+            if (inventoryObject != null) {
+                return new InventoryObjectStack(inventoryObject, count);
+            } else {
+                return InventoryObjectStack.EMPTY;
+            }
+        } else if (asteriskIndex == -1) {
+            throw new IndexOutOfBoundsException("Malformed Inventory Object String: no \"*\" found");
+        } else {
+            throw new IndexOutOfBoundsException("Malformed Inventory Object String: \"*\" is not at a valid place");
+        }
     }
 }

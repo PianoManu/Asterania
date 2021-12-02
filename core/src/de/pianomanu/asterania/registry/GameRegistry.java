@@ -2,6 +2,7 @@ package de.pianomanu.asterania.registry;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
+import de.pianomanu.asterania.inventory.objects.InventoryObjects;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -40,6 +41,17 @@ public class GameRegistry {
                 return iO;
             }
         }
+        return null;
+    }
+
+    public static InventoryObject getInventoryObjectFromString(String inventoryObjectName) {
+        for (InventoryObject io :
+                OBJECTS) {
+            if (io.getName().equals(inventoryObjectName)) {
+                return io;
+            }
+        }
+        LOGGER.warning("Could not decode an inventory object from input string \"" + inventoryObjectName + "\", using \"null\" instead!");
         return null;
     }
 
@@ -103,5 +115,6 @@ public class GameRegistry {
 
     public static void setupRegistry() {
         Tiles.setupTeleportingTiles();
+        InventoryObjects.setupObjects();
     }
 }

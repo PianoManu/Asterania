@@ -1,7 +1,6 @@
 package de.pianomanu.asterania.inventory;
 
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
-import de.pianomanu.asterania.inventory.objects.InventoryObjects;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,7 +13,7 @@ public class Inventory {
     public Inventory() {
         //TODO Remove Debug stuff
         //this.addStack(new InventoryObjectStack(InventoryObjects.ROCK_TILE, 1));
-        this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 12));
+        //this.addStack(new InventoryObjectStack(InventoryObjects.GRASS_TILE, 12));
         //this.addStack(new InventoryObjectStack(InventoryObjects.MINE_LADDER, 1));
         //this.addStack(new InventoryObjectStack(InventoryObjects.DIRTY_STONE_TILE, 30));
         //this.addStack(new InventoryObjectStack(InventoryObjects.SOIL_TILE, 30));
@@ -52,7 +51,7 @@ public class Inventory {
         this.iOStackPointer++;
         if (this.iOStackPointer == this.getInventoryObjects().size())
             this.iOStackPointer = 0;
-        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY) && this.getInventoryObjects().size() > 1) {
             return this.getNextIOStack();
         }
         return this.getCurrentIOStack();
@@ -62,7 +61,7 @@ public class Inventory {
         this.iOStackPointer--;
         if (this.iOStackPointer < 0)
             this.iOStackPointer = this.getInventoryObjects().size() - 1;
-        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+        if (this.getCurrentIOStack().equals(InventoryObjectStack.EMPTY) && this.getInventoryObjects().size() > 1) {
             return this.getPreviousIOStack();
         }
         return this.getCurrentIOStack();

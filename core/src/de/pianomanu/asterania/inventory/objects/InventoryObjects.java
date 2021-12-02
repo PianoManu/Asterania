@@ -15,4 +15,15 @@ public class InventoryObjects {
         GameRegistry.registerInventoryObjects(inventoryObject);
         return inventoryObject;
     }
+
+    public static void setupObjects() {
+        //TODO find a better way to load objects...
+        NONE.getName();
+        GRASS_TILE.getName();
+        ROCK_TILE.getName();
+        SOIL_TILE.getName();
+        DIRTY_STONE_TILE.getName();
+        TITANIUM_DIBORIDE_TILE.getName();
+        MINE_LADDER.getName();
+    }
 }
