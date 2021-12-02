@@ -11,6 +11,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.render.ButtonRenderer;
+import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
@@ -67,12 +68,11 @@ public class MainMenuScreen extends ScreenAdapter {
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(1, 1, 1, 0.2f);
-        if (mouseX >= Buttons.EXIT_BUTTON.getStart().x && mouseY >= Buttons.EXIT_BUTTON.getStart().y && mouseX <= Buttons.EXIT_BUTTON.getEnd().x && mouseY <= Buttons.EXIT_BUTTON.getEnd().y) {
-            shapeRenderer.rect(Buttons.EXIT_BUTTON.getStart().x, Buttons.EXIT_BUTTON.getStart().y, Buttons.EXIT_BUTTON.getFormat().x, Buttons.EXIT_BUTTON.getFormat().y);
-        }
-
-        if (mouseX >= Buttons.START_BUTTON.getStart().x && mouseY >= Buttons.START_BUTTON.getStart().y && mouseX <= Buttons.START_BUTTON.getEnd().x && mouseY <= Buttons.START_BUTTON.getEnd().y) {
-            shapeRenderer.rect(Buttons.START_BUTTON.getStart().x, Buttons.START_BUTTON.getStart().y, Buttons.START_BUTTON.getFormat().x, Buttons.START_BUTTON.getFormat().y);
+        for (Button b :
+                Buttons.ALL_BUTTONS) {
+            if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
+                shapeRenderer.rect(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y);
+            }
         }
         shapeRenderer.end();
 
@@ -133,6 +133,10 @@ public class MainMenuScreen extends ScreenAdapter {
             LOGGER.fine("Starting the game...");
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+        }
+
+        if (mouseX >= Buttons.LOAD_BUTTON.getStart().x && mouseY >= Buttons.LOAD_BUTTON.getStart().y && mouseX <= Buttons.LOAD_BUTTON.getEnd().x && mouseY <= Buttons.LOAD_BUTTON.getEnd().y) {
+            LOGGER.fine("Loading all existing worlds...");
         }
     }
 }
