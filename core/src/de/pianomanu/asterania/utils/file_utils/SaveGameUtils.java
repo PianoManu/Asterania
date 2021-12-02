@@ -61,7 +61,6 @@ public class SaveGameUtils {
                     GameRegistry.getWorlds()) {
                 if (w.getWorldName().equals(worldName)) {
                     File decoLayerFile = new File(path + "/" + worldName + "_decorative_layer.asw");
-                    System.out.println(decoLayerFile.exists());
                     WorldReader.loadWorld(f, w);
                     SAVE_GAME_WORLD.add(w);
                     AsteraniaMain.saveFile.getUniverse().getWorlds().add(w);
