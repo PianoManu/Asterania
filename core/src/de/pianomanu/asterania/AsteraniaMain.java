@@ -41,14 +41,12 @@ public class AsteraniaMain extends Game {
 		assetManager = new AssetManager();
 
 
-		//TODO
 		saveFile = new SaveFile(GameConfig.SAVEGAME_NAME);
-		//TODO: maybe implement better way to create player?
 
 		if (new File(GameConfig.WORLDS_SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
 			SaveGameUtils.loadWorldsFromDirectory();
 		} else {
-			//TODO what if does not exist?
+			//TODO what if does not exist? create new save with new worlds
 		}
 		setScreen(new LoadingScreen());
 		player = PlayerSaveUtils.loadPlayerFromSaveFile();

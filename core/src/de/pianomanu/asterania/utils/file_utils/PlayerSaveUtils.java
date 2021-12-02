@@ -66,7 +66,6 @@ public class PlayerSaveUtils {
                 player.setPlayerFacing(Direction.toDirection(attributes.get(1)));
             }
             if (first.equals("INVENTORY")) {
-                //TODO
                 loadInventory(attributes, player);
             }
             if (first.equals("MAXINVENTORYCAPACITY")) {
@@ -95,7 +94,6 @@ public class PlayerSaveUtils {
     }
 
     private static void loadInventory(List<String> inventoryLine, Player player) {
-        //TODO
         int iOSSize = inventoryLine.size() - 1; //subtract 1, because first object in list is "INVENTORY"
         for (int i = 0; i < iOSSize; i++) {
             try {
