@@ -37,6 +37,8 @@ public class SaveGameUtils {
     }
 
     public static void createNewGame() {
+        File savesDir = new File(GameConfig.SAVEGAME_PATH_OFFSET);
+        savesDir.mkdir();
         File mainDir = new File(GameConfig.SAVEGAME_NAME);
         mainDir.mkdir();
 

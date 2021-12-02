@@ -7,7 +7,7 @@ public class GameConfig {
     public static final int WORLD_HEIGHT = 64;
 
     public static final String WORLD_FILE_FORMAT = "asw"; //ASterania World
-    public static final String SAVEGAME_PATH_OFFSET = "";
+    public static final String SAVEGAME_PATH_OFFSET = "saves\\";
     public static final String SAVEGAME_NAME = SAVEGAME_PATH_OFFSET + "game";
     public static final String WORLDS_SAVE_PATH = SAVEGAME_NAME + "\\worlds\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
