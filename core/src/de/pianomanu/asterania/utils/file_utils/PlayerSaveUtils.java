@@ -6,6 +6,7 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.world.Worlds;
 import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.worldsections.WorldReader;
 import de.pianomanu.asterania.world.worldsections.WorldWriter;
@@ -26,6 +27,8 @@ public class PlayerSaveUtils {
             String playerData = String.valueOf(WorldReader.readFile(f));
             readAndAssignPlayerData(playerData, tmp);
 
+        } else {
+            tmp.setCharacterPos(Worlds.HOME.getEntryPoint().toEntityCoordinates());
         }
 
         return tmp;

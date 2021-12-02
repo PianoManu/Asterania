@@ -47,6 +47,7 @@ public class AsteraniaMain extends Game {
 			SaveGameUtils.loadWorldsFromDirectory();
 		} else {
 			//TODO what if does not exist? create new save with new worlds
+			SaveGameUtils.createNewGame();
 		}
 		setScreen(new LoadingScreen());
 		player = PlayerSaveUtils.loadPlayerFromSaveFile();

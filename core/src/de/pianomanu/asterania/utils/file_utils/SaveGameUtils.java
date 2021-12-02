@@ -4,6 +4,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.Worlds;
 import de.pianomanu.asterania.world.worldsections.WorldReader;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -33,6 +34,20 @@ public class SaveGameUtils {
             }
             loadWorlds();
         }
+    }
+
+    public static void createNewGame() {
+        File mainDir = new File(GameConfig.SAVEGAME_NAME);
+        mainDir.mkdir();
+
+        createStartWorldForNewGame();
+    }
+
+    private static void createStartWorldForNewGame() {
+        File folder = new File(GameConfig.WORLDS_SAVE_PATH);
+        folder.mkdir();
+        SAVE_GAME_WORLD.add(Worlds.HOME);
+        AsteraniaMain.saveFile.getUniverse().getWorlds().addAll(SAVE_GAME_WORLD);
     }
 
     private static void loadWorlds() {

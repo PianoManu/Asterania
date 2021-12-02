@@ -68,6 +68,9 @@ public class Inventory {
     }
 
     public InventoryObjectStack getCurrentIOStack() {
+        //prevents crash if the inventory is empty when initializing the game
+        if (this.getInventoryObjects().size() == 0)
+            this.getInventoryObjects().add(InventoryObjectStack.EMPTY);
         //prevents crash if the stack in the last slot is depleted
         if (this.iOStackPointer >= this.getInventoryObjects().size())
             this.iOStackPointer = 0;
