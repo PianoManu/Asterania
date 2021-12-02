@@ -187,6 +187,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             Tile old = world.findSection(mouse).getTile(mouse);
             if (old != null)
                 old.setBreakingLevel(0);
+            Tile decoTile = world.findSection(mouse).getDecorationLayerTile(mouse);
+            if (decoTile != null)
+                decoTile.setBreakingLevel(0);
             TileBreakingUI.renderNoBreakingPossible = false;
         }
         if (Gdx.input.isButtonJustPressed(KeyConfig.INTERACT_WITH_TILE)) {
