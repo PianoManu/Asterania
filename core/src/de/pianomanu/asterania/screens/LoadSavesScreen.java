@@ -17,7 +17,6 @@ import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
-import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.savegame.SaveFile;
 
@@ -141,7 +140,6 @@ public class LoadSavesScreen extends ScreenAdapter {
             GameConfig.SAVEGAME_NAME = saveFiles.get(saveFilePointer).getName();
             GameConfig.reload();
             SaveGameUtils.loadWorldsFromDirectory();
-            AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
         if (mouseX >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().x && mouseY >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().y && mouseX <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().x && mouseY <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().y) {

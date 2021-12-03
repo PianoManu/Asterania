@@ -114,7 +114,10 @@ public class GameRegistry {
     }
 
     public static void setupRegistry() {
-        Tiles.setupTeleportingTiles();
         InventoryObjects.setupObjects();
+    }
+
+    public static void setupRegistryGameLoading() {
+        Tiles.setupTeleportingTiles();
     }
 }

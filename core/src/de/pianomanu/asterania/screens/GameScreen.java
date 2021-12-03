@@ -10,11 +10,13 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
+import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.WorldRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.UIRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
+import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 import de.pianomanu.asterania.world.World;
 
@@ -28,11 +30,13 @@ public class GameScreen extends ScreenAdapter {
     World world;
 
     public GameScreen() {
+        GameRegistry.setupRegistryGameLoading();
         batch = new SpriteBatch();
 
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.saveFile.getHomeWorld();
+        AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
         //TODO differentiate between new and old worlds
         AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getCharacterPos().toTileCoordinates());
     }
