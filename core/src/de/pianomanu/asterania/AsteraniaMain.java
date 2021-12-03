@@ -4,10 +4,10 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.savegame.SaveFile;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
+import de.pianomanu.asterania.utils.savegame.SaveFile;
 
 import java.io.File;
 import java.util.logging.Level;

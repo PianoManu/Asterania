@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.world.worldsections;
+package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
@@ -49,8 +49,8 @@ public class WorldWriter {
     private static void saveAllWorlds() {
         for (World w :
                 AsteraniaMain.saveFile.getUniverse().getWorlds()) {
-            WorldWriter.saveWorldContent(WorldSectionParser.createWSString(w), w.getWorldName());
-            WorldWriter.saveWorldContent(WorldSectionParser.createWSDecorativeLayerString(w), w.getWorldName() + "_decorative_layer");
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWSString(w), w.getWorldName());
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWSDecorativeLayerString(w), w.getWorldName() + "_decorative_layer");
         }
     }
 

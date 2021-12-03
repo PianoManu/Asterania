@@ -15,8 +15,8 @@ import de.pianomanu.asterania.render.WorldRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.UIRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
+import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.worldsections.WorldWriter;
 
 import java.util.logging.Logger;
 

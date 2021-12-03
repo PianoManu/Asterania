@@ -3,9 +3,9 @@ package de.pianomanu.asterania.utils.file_utils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.utils.savegame.parsing.WorldReader;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.Worlds;
-import de.pianomanu.asterania.world.worldsections.WorldReader;
 
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;

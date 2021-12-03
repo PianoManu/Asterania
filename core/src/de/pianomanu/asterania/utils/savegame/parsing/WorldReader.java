@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.world.worldsections;
+package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.World;

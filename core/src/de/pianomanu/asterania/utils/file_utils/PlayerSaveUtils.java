@@ -6,10 +6,10 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.objects.InventoryObject;
 import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.utils.savegame.parsing.WorldReader;
+import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 import de.pianomanu.asterania.world.Worlds;
 import de.pianomanu.asterania.world.direction.Direction;
-import de.pianomanu.asterania.world.worldsections.WorldReader;
-import de.pianomanu.asterania.world.worldsections.WorldWriter;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.savegame;
+package de.pianomanu.asterania.utils.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;

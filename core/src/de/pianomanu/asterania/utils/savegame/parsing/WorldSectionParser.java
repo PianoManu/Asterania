@@ -1,100 +1,23 @@
-package de.pianomanu.asterania.world.worldsections;
+package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
+import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+//String -> WorldSection
 public class WorldSectionParser {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     //sC = separatingCharacter ... for better readability
-    private static final char sC = '|';
-
-    public static String createWSString(World world) {
-        StringBuilder builder = new StringBuilder();
-
-        for (WorldSection s :
-                world.getSections()) {
-            if (s != null)
-                builder.append(createWSString(s));
-        }
-        return builder.toString();
-    }
-
-    public static String createWSDecorativeLayerString(World world) {
-        StringBuilder builder = new StringBuilder();
-
-        for (WorldSection s :
-                world.getSections()) {
-            if (s != null)
-                builder.append(createWSDecorativeLayerString(s));
-        }
-        return builder.toString();
-    }
-
-    private static String createWSString(WorldSection section) {
-        StringBuilder builder = new StringBuilder();
-        //World section position
-        builder.append(sC).append(section.sectionPos.x).append(sC).append(section.sectionPos.y);
-
-        Tile previousTile = section.getTile(0, 0);
-        Tile newTile;
-        int tileCounter = 0;
-        for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
-            for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                newTile = section.getTile(x, y);
-                if (newTile == previousTile) {
-                    tileCounter++;
-                } else {
-                    builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
-                    previousTile = newTile;
-                    tileCounter = 1;
-                }
-                if (x == WorldSection.SECTION_SIZE - 1 && y == WorldSection.SECTION_SIZE - 1) {
-                    builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
-                }
-            }
-        }
-        return builder.append(sC).append("\n").toString();
-    }
-
-    private static String createWSDecorativeLayerString(WorldSection section) {
-        StringBuilder builder = new StringBuilder();
-        //World section position
-        builder.append(sC).append(section.sectionPos.x).append(sC).append(section.sectionPos.y);
-
-        Tile previousTile = section.getDecorationLayerTile(0, 0);
-        Tile newTile;
-        int tileCounter = 0;
-        for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
-            for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                newTile = section.getDecorationLayerTile(x, y);
-                if (newTile == previousTile) {
-                    tileCounter++;
-                } else {
-                    if (previousTile != null)
-                        builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
-                    else
-                        builder.append(sC).append(tileCounter).append("*").append("null");
-                    previousTile = newTile;
-                    tileCounter = 1;
-                }
-                if (x == WorldSection.SECTION_SIZE - 1 && y == WorldSection.SECTION_SIZE - 1) {
-                    if (previousTile != null)
-                        builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
-                    else
-                        builder.append(sC).append(tileCounter).append("*").append("null");
-                }
-            }
-        }
-        return builder.append(sC).append("\n").toString();
-    }
+    static final char sC = '|';
 
     public static List<WorldSection> getWSfromString(String fileName, List<String> content) {
         List<WorldSection> sections = new ArrayList<>();
