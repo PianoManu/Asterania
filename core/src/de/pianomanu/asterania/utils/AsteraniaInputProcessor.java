@@ -3,19 +3,31 @@ package de.pianomanu.asterania.utils;
 import com.badlogic.gdx.InputProcessor;
 import de.pianomanu.asterania.lifecycle.PlayerUpdates;
 
-public class ScrollingInputProcessor implements InputProcessor {
+public class AsteraniaInputProcessor implements InputProcessor {
+    private static final TextInput textInput = new TextInput();
+
+    public static TextInput getTextInput() {
+        return textInput;
+    }
+
     @Override
     public boolean keyDown(int keycode) {
+        textInput.setLastPressedKey(keycode);
         return false;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+        textInput.setLastReleasedKey(keycode);
         return false;
     }
 
     @Override
     public boolean keyTyped(char character) {
+        if (textInput.isValidCharacter(character)) {
+            textInput.setLastTypedChar(character);
+            textInput.setCharacterHasBeenTyped(true);
+        }
         return false;
     }
 
