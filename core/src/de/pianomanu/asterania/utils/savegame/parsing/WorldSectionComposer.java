@@ -68,7 +68,7 @@ public class WorldSectionComposer {
     private static String createWSDecorativeLayerString(WorldSection section) {
         StringBuilder builder = new StringBuilder();
         //World section position
-        builder.append(WorldSectionParser.sC).append(section.sectionPos.x).append(WorldSectionParser.sC).append(section.sectionPos.y);
+        builder.append(sC).append(section.sectionPos.x).append(sC).append(section.sectionPos.y);
 
         Tile previousTile = section.getDecorationLayerTile(0, 0);
         Tile newTile;
@@ -80,20 +80,20 @@ public class WorldSectionComposer {
                     tileCounter++;
                 } else {
                     if (previousTile != null)
-                        builder.append(WorldSectionParser.sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
+                        builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
                     else
-                        builder.append(WorldSectionParser.sC).append(tileCounter).append("*").append("null");
+                        builder.append(sC).append(tileCounter).append("*").append("null");
                     previousTile = newTile;
                     tileCounter = 1;
                 }
                 if (x == WorldSection.SECTION_SIZE - 1 && y == WorldSection.SECTION_SIZE - 1) {
                     if (previousTile != null)
-                        builder.append(WorldSectionParser.sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
+                        builder.append(sC).append(tileCounter).append("*").append(previousTile.getSaveFileString());
                     else
-                        builder.append(WorldSectionParser.sC).append(tileCounter).append("*").append("null");
+                        builder.append(sC).append(tileCounter).append("*").append("null");
                 }
             }
         }
-        return builder.append(WorldSectionParser.sC).append("\n").toString();
+        return builder.append(sC).append("\n").toString();
     }
 }

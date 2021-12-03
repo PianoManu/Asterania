@@ -17,7 +17,7 @@ public class WorldSectionParser {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     //sC = separatingCharacter ... for better readability
-    static final char sC = '|';
+    private static final char sC = '|';
 
     public static List<WorldSection> getWSfromString(String fileName, List<String> content) {
         List<WorldSection> sections = new ArrayList<>();
