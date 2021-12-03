@@ -110,6 +110,7 @@ public class MainMenuScreen extends ScreenAdapter {
             LOGGER.fine("Stopping the game...");
             Gdx.app.exit();
         }
+        //TODO remove this... not useful anymore
         if (Gdx.input.isKeyJustPressed(KeyConfig.START)) {
             LOGGER.fine("Starting the game...");
             this.dispose();
@@ -130,9 +131,9 @@ public class MainMenuScreen extends ScreenAdapter {
         }
 
         if (mouseX >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().x && mouseY >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().y && mouseX <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().x && mouseY <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().y) {
-            LOGGER.fine("Starting the game...");
+            LOGGER.fine("Opening game creation...");
             this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+            AsteraniaMain.INSTANCE.setScreen(new CreateSaveScreen());
         }
 
         if (mouseX >= Buttons.LOAD_BUTTON.getStart().x && mouseY >= Buttons.LOAD_BUTTON.getStart().y && mouseX <= Buttons.LOAD_BUTTON.getEnd().x && mouseY <= Buttons.LOAD_BUTTON.getEnd().y) {

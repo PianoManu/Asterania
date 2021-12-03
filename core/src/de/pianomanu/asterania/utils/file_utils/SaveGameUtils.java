@@ -20,7 +20,6 @@ public class SaveGameUtils {
     public static final List<World> SAVE_GAME_WORLD = new ArrayList<>();
 
     public static void loadWorldsFromDirectory() {
-        GameConfig.reload();
         File folder = new File(GameConfig.WORLDS_SAVE_PATH);
         FileNameExtensionFilter filter = new FileNameExtensionFilter("Asterania World File Filter", "asw");
         File[] listOfFiles = folder.listFiles();

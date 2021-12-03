@@ -7,7 +7,6 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.savegame.SaveFile;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
-import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 
 import java.io.File;
@@ -44,10 +43,10 @@ public class AsteraniaMain extends Game {
 		saveFile = new SaveFile(GameConfig.SAVEGAME_PATH);
 
 		if (new File(GameConfig.WORLDS_SAVE_PATH_HOME + "." + GameConfig.WORLD_FILE_FORMAT).exists()) {
-			SaveGameUtils.loadWorldsFromDirectory();
+			//SaveGameUtils.loadWorldsFromDirectory();
 		} else {
 			//TODO what if does not exist? create new save with new worlds
-			SaveGameUtils.createNewGame();
+			//SaveGameUtils.createNewGame();
 		}
 		setScreen(new LoadingScreen());
 		player = PlayerSaveUtils.loadPlayerFromSaveFile();

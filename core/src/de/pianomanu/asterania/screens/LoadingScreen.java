@@ -10,7 +10,7 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.button.Buttons;
-import de.pianomanu.asterania.utils.ScrollingInputProcessor;
+import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -25,7 +25,7 @@ public class LoadingScreen extends ScreenAdapter {
 
         DisplayConfig.setup();
         Buttons.setup();
-        Gdx.input.setInputProcessor(new ScrollingInputProcessor());
+        Gdx.input.setInputProcessor(new AsteraniaInputProcessor());
 
         GameRegistry.setupRegistry();
     }

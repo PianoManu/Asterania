@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
+import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
@@ -17,7 +18,7 @@ public class SaveFile {
         this.name = name;
         this.universe = new Universe();
 
-        if (new File(name).mkdir()) {
+        if (new File(GameConfig.SAVEGAME_PATH_OFFSET + name).mkdir()) {
             LOGGER.fine("Created directory \"" + name + "\" as save directory!");
         } else {
             LOGGER.finest("Found save directory \"" + name + "\"!");
