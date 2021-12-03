@@ -139,6 +139,7 @@ public class LoadSavesScreen extends ScreenAdapter {
             this.dispose();
             AsteraniaMain.saveFile = saveFiles.get(saveFilePointer);
             GameConfig.SAVEGAME_NAME = saveFiles.get(saveFilePointer).getName();
+            GameConfig.reload();
             SaveGameUtils.loadWorldsFromDirectory();
             AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
