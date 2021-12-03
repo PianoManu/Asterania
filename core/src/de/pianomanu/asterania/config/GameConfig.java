@@ -12,7 +12,7 @@ public class GameConfig {
     public static String SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
     public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
-    public static final String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
+    public static String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
     public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
     private static final String versionDescription = "alpha";
     private static final int patchVersion = 0;
@@ -30,5 +30,6 @@ public class GameConfig {
         WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
         WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
         PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
+        VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
     }
 }
