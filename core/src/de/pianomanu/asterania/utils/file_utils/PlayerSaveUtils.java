@@ -118,6 +118,8 @@ public class PlayerSaveUtils {
         if (asteriskIndex > 0) {
             String countS = iOSLine.substring(0, asteriskIndex);
             String inventoryObjectS = iOSLine.substring(asteriskIndex + 1);
+            if (inventoryObjectS.equals("none"))
+                return InventoryObjectStack.EMPTY;
             int count = Integer.parseInt(countS);
             InventoryObject inventoryObject = GameRegistry.getInventoryObjectFromString(inventoryObjectS);
             if (inventoryObject != null) {
