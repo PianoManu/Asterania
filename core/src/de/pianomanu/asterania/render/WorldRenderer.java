@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
@@ -14,6 +15,8 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.Tiles;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class WorldRenderer {
 
@@ -36,38 +39,89 @@ public class WorldRenderer {
             for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
-                if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY())
-                    batch.draw(world.findSection(AsteraniaMain.player.getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                else {
-                    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
-                    try {
-                        batch.draw(world.findSection(tileCoordinates).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                    } catch (NullPointerException e) {
-                        //Error trying to find the correct section: preGenerate all adjacent sections
-                        world.preGenerateSurroundingWorldSections();
-                    }
+                //if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY())
+                //    batch.draw(world.findSection(AsteraniaMain.player.getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                //else {
+                TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+                try {
+                    batch.draw(world.findSection(tileCoordinates).getTileAbsoluteCoordinates(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    addOverlay(batch, world, x, y, xTile, yTile);
+                } catch (NullPointerException e) {
+                    //Error trying to find the correct section: preGenerate all adjacent sections
+                    world.preGenerateSurroundingWorldSections();
                 }
-                if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY()) {
-                    Tile decoration = world.findSection(AsteraniaMain.player.getCharacterPos()).getDecorationLayerTile(x, y);
+                //}
+                //if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY()) {
+                //    Tile decoration = world.findSection(AsteraniaMain.player.getCharacterPos()).getDecorationLayerTile(x, y);
+                //    if (decoration != null) {
+                //        batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                //    }
+                //} else {
+                //    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+                try {
+                    Tile decoration = world.findSection(tileCoordinates).getDecorationLayerTileAbsoluteCoordinates(x, y);
                     if (decoration != null) {
                         batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                     }
-                } else {
-                    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
-                    try {
-                        Tile decoration = world.findSection(tileCoordinates).getDecorationLayerTile(x, y);
-                        if (decoration != null) {
-                            batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                        }
-                    } catch (NullPointerException e) {
-                        //Error trying to find the correct section: preGenerate all adjacent sections
-                        world.preGenerateSurroundingWorldSections();
-                    }
+                } catch (NullPointerException e) {
+                    //Error trying to find the correct section: preGenerate all adjacent sections
+                    world.preGenerateSurroundingWorldSections();
                 }
+                //}
             }
         }
 
         batch.end();
+    }
+
+    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+        TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+        WorldSection worldSection = world.findSection(tileCoordinates);
+        //try {
+        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(Tiles.SOIL_TILE)) {
+            boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
+            try {
+                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                //e.printStackTrace();
+                TileCoordinates tmp = tileCoordinates.copy();
+                tmp.moveLeft(64);
+                leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
+            }
+            try {
+                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(Tiles.GRASS);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                TileCoordinates tmp = tileCoordinates.copy();
+                tmp.moveRight(64);
+                rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(Tiles.GRASS);
+            }
+            //TODO check if +-1 is correct
+            try {
+                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                TileCoordinates tmp = tileCoordinates.copy();
+                tmp.moveUp(64);
+                upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
+            }
+            //boolean downIsGrass = worldSection.getTileAbsoluteCoordinates()()(x-1, y-2).equals(Tiles.GRASS);
+            try {
+                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(Tiles.GRASS);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                TileCoordinates tmp = tileCoordinates.copy();
+                tmp.moveDown(64);
+                downIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y - 1).equals(Tiles.GRASS);
+            }
+
+            TextureRegion grassRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion("grass_side");
+            if (upIsGrass)
+                batch.draw(grassRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
+            if (downIsGrass)
+                batch.draw(grassRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
+            if (leftIsGrass)
+                batch.draw(grassRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
+            if (rightIsGrass)
+                batch.draw(grassRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
+        }
     }
 
     private static void renderHovering(ShapeRenderer shapeRenderer) {

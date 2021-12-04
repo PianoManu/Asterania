@@ -31,12 +31,12 @@ public class WorldSectionComposer {
         //World section position
         builder.append(sC).append(section.sectionPos.x).append(sC).append(section.sectionPos.y);
 
-        Tile previousTile = section.getTile(0, 0);
+        Tile previousTile = section.getTileRelativeCoordinates(0, 0);
         Tile newTile;
         int tileCounter = 0;
         for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
             for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                newTile = section.getTile(x, y);
+                newTile = section.getTileRelativeCoordinates(x, y);
                 if (newTile == previousTile) {
                     tileCounter++;
                 } else {
@@ -70,12 +70,12 @@ public class WorldSectionComposer {
         //World section position
         builder.append(sC).append(section.sectionPos.x).append(sC).append(section.sectionPos.y);
 
-        Tile previousTile = section.getDecorationLayerTile(0, 0);
+        Tile previousTile = section.getDecorationLayerTileRelativeCoordinates(0, 0);
         Tile newTile;
         int tileCounter = 0;
         for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
             for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                newTile = section.getDecorationLayerTile(x, y);
+                newTile = section.getDecorationLayerTileRelativeCoordinates(x, y);
                 if (newTile == previousTile) {
                     tileCounter++;
                 } else {

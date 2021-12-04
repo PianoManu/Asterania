@@ -64,7 +64,7 @@ public class DebugScreenRenderer {
 
         Tile tile;
         try {
-            tile = world.findSection(mouseECoordinates).getTile(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
+            tile = world.findSection(mouseECoordinates).getTileAbsoluteCoordinates(mouseECoordinates.toTileCoordinates().getX(), mouseECoordinates.toTileCoordinates().getY());
         } catch (ArrayIndexOutOfBoundsException e) {
             tile = Tiles.ROCK;
         }

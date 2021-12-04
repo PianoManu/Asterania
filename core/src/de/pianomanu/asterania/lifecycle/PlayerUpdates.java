@@ -45,14 +45,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+            if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(up) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
                 EntityCoordinates up1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
                 EntityCoordinates up2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
-                boolean isAccessible1 = world.findSection(up1).getTile(up1).getSettings().get(TileProperties.IS_ACCESSIBLE);
-                boolean isAccessible2 = world.findSection(up2).getTile(up2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible1 = world.findSection(up1).getTileAbsoluteCoordinates(up1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible2 = world.findSection(up2).getTileAbsoluteCoordinates(up2).getSettings().get(TileProperties.IS_ACCESSIBLE);
                 if ((isAccessible1 && isAccessible2) || playerFootPos.y + player.getStepSize() * delta < up.getY()) {
                     player.moveUp(delta);
                 }
@@ -65,14 +65,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+            if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(down) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
                 EntityCoordinates down1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
                 EntityCoordinates down2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
-                boolean isAccessible1 = world.findSection(down1).getTile(down1).getSettings().get(TileProperties.IS_ACCESSIBLE);
-                boolean isAccessible2 = world.findSection(down2).getTile(down2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible1 = world.findSection(down1).getTileAbsoluteCoordinates(down1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible2 = world.findSection(down2).getTileAbsoluteCoordinates(down2).getSettings().get(TileProperties.IS_ACCESSIBLE);
                 if ((isAccessible1 && isAccessible2) || playerFootPos.y - player.getStepSize() * delta > down.getY() + 1) {
                     player.moveDown(delta);
                 }
@@ -85,11 +85,11 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+            if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(right) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                boolean rightAccessible = world.findSection(right).getTile(right).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean rightAccessible = world.findSection(right).getTileAbsoluteCoordinates(right).getSettings().get(TileProperties.IS_ACCESSIBLE);
                 if (rightAccessible || player.getPlayerHitbox().end.x < right.getX()) {
                     player.moveRight(delta);
                 }
@@ -103,11 +103,11 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTile(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+            if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
                 if (world.findSection(left) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                boolean leftAccessible = world.findSection(left).getTile(left).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean leftAccessible = world.findSection(left).getTileAbsoluteCoordinates(left).getSettings().get(TileProperties.IS_ACCESSIBLE);
                 if (leftAccessible || player.getPlayerHitbox().start.x > left.getX() + 1) {
                     player.moveLeft(delta);
                 }
@@ -131,8 +131,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (Gdx.input.isButtonPressed(KeyConfig.REPLACE_TILE)) {
             //destroy and place normal tile or destroy decorative tile
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            Tile old = world.findSection(mouse).getTile(mouse);
-            DecorationTile oldDecorationTile = (DecorationTile) world.findSection(mouse).getDecorationLayerTile(mouse);
+            Tile old = world.findSection(mouse).getTileAbsoluteCoordinates(mouse);
+            DecorationTile oldDecorationTile = (DecorationTile) world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
             //no decoration: replace tile
             if (oldDecorationTile == null) {
                 if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
@@ -184,10 +184,10 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.setCurrentBreakingPercentage(0);
             player.setBreakingTile(false);
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            Tile old = world.findSection(mouse).getTile(mouse);
+            Tile old = world.findSection(mouse).getTileAbsoluteCoordinates(mouse);
             if (old != null)
                 old.setBreakingLevel(0);
-            Tile decoTile = world.findSection(mouse).getDecorationLayerTile(mouse);
+            Tile decoTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
             if (decoTile != null)
                 decoTile.setBreakingLevel(0);
             TileBreakingUI.renderNoBreakingPossible = false;
@@ -197,19 +197,19 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
             //first check if decorative tile can be placed
             EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-            Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTile(mouse);
+            Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
             if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY) && decorationLayerTile == null) {
                 Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
                 if (holding instanceof DecorationTile) {
                     DecorationTile newDecorationTile = (DecorationTile) holding;
                     if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
-                        world.findSection(mouse).setDecorationLayerTile(mouse, newDecorationTile);
+                        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newDecorationTile);
                         player.getPlayerInventory().getCurrentIOStack().decrement();
                     }
                 }
             }
             if (decorationLayerTile != null) {
-                Tile tile = world.findSection(mouse).getDecorationLayerTile(mouse);
+                Tile tile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
                 tile.performAction(player, world);
             }
         }
@@ -241,12 +241,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Player player = AsteraniaMain.player;
         World world = player.getCurrentWorld();
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-        Tile old = world.findSection(mouse).getTile(mouse);
+        Tile old = world.findSection(mouse).getTileAbsoluteCoordinates(mouse);
         old.setBreakingLevel(0);
         player.setCurrentBreakingPercentage(0);
         player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
         player.setBreakingTile(false);
-        world.findSection(mouse).setTile(mouse, null);
+        world.findSection(mouse).setTileAbsoluteCoordinates(mouse, null);
     }
 
     private static void setTile(Tile newTile) {
@@ -254,8 +254,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         World world = player.getCurrentWorld();
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
 
-        world.findSection(mouse).setTile(mouse, newTile);
-        world.findSection(mouse).getTile(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
+        world.findSection(mouse).setTileAbsoluteCoordinates(mouse, newTile);
+        world.findSection(mouse).getTileAbsoluteCoordinates(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
     }
 
     private static void replaceDecorationTile(DecorationTile newTile) {
@@ -273,12 +273,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Player player = AsteraniaMain.player;
         World world = player.getCurrentWorld();
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
-        Tile old = world.findSection(mouse).getDecorationLayerTile(mouse);
+        Tile old = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
         old.setBreakingLevel(0);
         player.setCurrentBreakingPercentage(0);
         player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
         player.setBreakingTile(false);
-        world.findSection(mouse).setDecorationLayerTile(mouse, null);
+        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, null);
     }
 
     private static void setDecorationTile(DecorationTile newTile) {
@@ -286,8 +286,8 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         World world = player.getCurrentWorld();
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getCharacterPos());
 
-        world.findSection(mouse).setDecorationLayerTile(mouse, newTile);
-        world.findSection(mouse).getDecorationLayerTile(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
+        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newTile);
+        world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
     }
 
     public static void changeInventory(World world) {
