@@ -5,6 +5,7 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
+import java.util.Random;
 import java.util.logging.Logger;
 
 public class SaveFile {
@@ -13,6 +14,7 @@ public class SaveFile {
     private final String name;
     private Universe universe;
     private World homeWorld;
+    private final Random random;
 
     public SaveFile(String name) {
         this.name = name;
@@ -22,6 +24,11 @@ public class SaveFile {
             LOGGER.fine("Created directory \"" + name + "\" as save directory!");
         } else {
             LOGGER.finest("Found save directory \"" + name + "\"!");
+        }
+        if (GameConfig.SEED != 0) {
+            this.random = new Random();
+        } else {
+            this.random = new Random(GameConfig.SEED);
         }
     }
 
@@ -46,5 +53,9 @@ public class SaveFile {
     @Override
     public String toString() {
         return "SaveFile{\"" + this.name + "\"" + ", universe:" + this.universe + '}';
+    }
+
+    public Random getRandomNumberGenerator() {
+        return this.random;
     }
 }

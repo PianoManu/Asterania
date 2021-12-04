@@ -20,6 +20,8 @@ public class GameConfig {
     private static final int majorVersion = 0;
     public static final String GAME_VERSION = versionDescription + majorVersion + "." + minorVersion + "." + patchVersion;
 
+    public static final int SEED = 0;
+
     public static void load() {
 
     }

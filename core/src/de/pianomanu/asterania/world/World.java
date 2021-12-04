@@ -19,7 +19,7 @@ public class World {
 
     public World(String worldName, TileCoordinates entryPoint) {
         this.sections.add(new WorldSection(0, 0, WorldSectionSettings.SettingList.GRASSLAND_PLAIN));
-        this.sections.get(0).createTerrain();
+        this.sections.get(0).generateTerrain();
         this.entryPoint = entryPoint;
         this.worldName = worldName;
         this.worldType = WorldType.GRASSLAND;
@@ -27,7 +27,7 @@ public class World {
 
     public World(String worldName) {
         this.sections.add(new WorldSection(0, 0, WorldSectionSettings.SettingList.GRASSLAND_PLAIN));
-        this.sections.get(0).createTerrain();
+        this.sections.get(0).generateTerrain();
         this.entryPoint = new TileCoordinates(0, 0);
         this.worldName = worldName;
         this.worldType = WorldType.GRASSLAND;
@@ -35,7 +35,7 @@ public class World {
 
     public World(String worldName, TileCoordinates entryPoint, WorldType worldType) {
         this.sections.add(new WorldSection(0, 0, worldType.getSettings()));
-        this.sections.get(0).createTerrain();
+        this.sections.get(0).generateTerrain();
         this.entryPoint = entryPoint;
         this.worldName = worldName;
         this.worldType = worldType;

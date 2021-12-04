@@ -4,6 +4,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.gen.HomeWorldGeneration;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
@@ -20,35 +21,46 @@ public class WorldSection {
     private final Tile[][] tiles;
     private final Tile[][] decorationLayer;
     private final WorldSectionSettings worldSectionSettings;
+    private final float[][] data;
 
     public WorldSection(int xPos, int yPos, WorldSectionSettings settings) {
         this.sectionPos = new WorldSectionCoordinates(xPos, yPos);
         this.start = new TileCoordinates(xPos * SECTION_SIZE, yPos * SECTION_SIZE);
         this.end = new TileCoordinates(xPos * SECTION_SIZE + SECTION_SIZE - 1, yPos * SECTION_SIZE + SECTION_SIZE - 1);
         this.tiles = new Tile[SECTION_SIZE][SECTION_SIZE];
-        this.createRockTerrain();
+        //this.createRockTerrain();
         this.worldSectionSettings = settings;
 
         this.decorationLayer = new Tile[SECTION_SIZE][SECTION_SIZE];
         this.decorationLayer[8][7] = Tiles.MINE_LADDER;
+
+        this.data = HomeWorldGeneration.main(xPos, yPos);
+        this.generateTerrain();
     }
 
-    public void createTerrain() {
+    public void generateTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
-                this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
+                float heightValue = data[x][y];
+                if (heightValue < -0.1)
+                    this.tiles[x][y] = Tiles.GRASS;
+                else if (heightValue < 0.4)
+                    this.tiles[x][y] = Tiles.SOIL_TILE;
+                else
+                    this.tiles[x][y] = Tiles.ROCK; //TODO
+                //this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
             }
         }
     }
 
     //TODO createUndiscoveredTerrain
-    private void createRockTerrain() {
+    /*private void createRockTerrain() {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
                 this.tiles[x][y] = Tiles.ROCK;
             }
         }
-    }
+    }*/
 
     public Tile[][] getTiles() {
         return this.tiles;
