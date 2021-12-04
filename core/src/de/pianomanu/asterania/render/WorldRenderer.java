@@ -39,25 +39,14 @@ public class WorldRenderer {
             for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
-                //if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY())
-                //    batch.draw(world.findSection(AsteraniaMain.player.getCharacterPos()).getTile(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                //else {
                 TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                 try {
                     batch.draw(world.findSection(tileCoordinates).getTileAbsoluteCoordinates(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                    addOverlay(batch, world, x, y, xTile, yTile);
+                    addGrassOverlay(batch, world, x, y, xTile, yTile);
                 } catch (NullPointerException e) {
                     //Error trying to find the correct section: preGenerate all adjacent sections
                     world.preGenerateSurroundingWorldSections();
                 }
-                //}
-                //if (x >= centerSection.startToTileCoordinates().getX() && x <= centerSection.endToTileCoordinates().getX() && y >= centerSection.startToTileCoordinates().getY() && y <= centerSection.endToTileCoordinates().getY()) {
-                //    Tile decoration = world.findSection(AsteraniaMain.player.getCharacterPos()).getDecorationLayerTile(x, y);
-                //    if (decoration != null) {
-                //        batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                //    }
-                //} else {
-                //    TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                 try {
                     Tile decoration = world.findSection(tileCoordinates).getDecorationLayerTileAbsoluteCoordinates(x, y);
                     if (decoration != null) {
@@ -67,23 +56,25 @@ public class WorldRenderer {
                     //Error trying to find the correct section: preGenerate all adjacent sections
                     world.preGenerateSurroundingWorldSections();
                 }
-                //}
             }
         }
 
         batch.end();
     }
 
-    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+    private static void addGrassOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+        addGrassOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE);
+        addGrassOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK);
+    }
+
+    private static void addGrassOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile, Tile tileToAddOverlayOn) {
         TileCoordinates tileCoordinates = new TileCoordinates(x, y);
         WorldSection worldSection = world.findSection(tileCoordinates);
-        //try {
-        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(Tiles.SOIL_TILE)) {
+        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(tileToAddOverlayOn)) {
             boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
             try {
                 leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
             } catch (ArrayIndexOutOfBoundsException e) {
-                //e.printStackTrace();
                 TileCoordinates tmp = tileCoordinates.copy();
                 tmp.moveLeft(64);
                 leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
@@ -95,7 +86,6 @@ public class WorldRenderer {
                 tmp.moveRight(64);
                 rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(Tiles.GRASS);
             }
-            //TODO check if +-1 is correct
             try {
                 upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
             } catch (ArrayIndexOutOfBoundsException e) {
@@ -103,7 +93,6 @@ public class WorldRenderer {
                 tmp.moveUp(64);
                 upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
             }
-            //boolean downIsGrass = worldSection.getTileAbsoluteCoordinates()()(x-1, y-2).equals(Tiles.GRASS);
             try {
                 downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(Tiles.GRASS);
             } catch (ArrayIndexOutOfBoundsException e) {

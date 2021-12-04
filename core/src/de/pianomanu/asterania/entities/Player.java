@@ -11,7 +11,7 @@ import de.pianomanu.asterania.world.direction.Direction;
 
 public class Player {
     private EntityCoordinates characterPos;
-    private int stepSize = DisplayConfig.TILE_SIZE / 16 / DisplayConfig.ZOOM * 10;
+    private int stepSize = DisplayConfig.TILE_SIZE / 16 / DisplayConfig.ZOOM;
     private EntityCoordinates characterSize = new EntityCoordinates();
     private boolean isMoving = false;
     private SimpleHitbox playerHitbox;

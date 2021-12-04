@@ -43,9 +43,9 @@ public class WorldSection {
             for (int y = 0; y < SECTION_SIZE; y++) {
                 float heightValue = data[x][y];
                 if (heightValue < -0.1)
-                    this.tiles[x][y] = Tiles.GRASS;
-                else if (heightValue < 0.4)
                     this.tiles[x][y] = Tiles.SOIL_TILE;
+                else if (heightValue < 0.4)
+                    this.tiles[x][y] = Tiles.GRASS;
                 else
                     this.tiles[x][y] = Tiles.ROCK; //TODO
                 //this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
