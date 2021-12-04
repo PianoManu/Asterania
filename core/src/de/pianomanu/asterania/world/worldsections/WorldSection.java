@@ -51,14 +51,6 @@ public class WorldSection {
                 //this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
             }
         }
-        //this.tiles[4][4] = Tiles.GRASS;
-        //this.tiles[5][4] = Tiles.GRASS;
-        //this.tiles[5][6] = Tiles.GRASS;
-        //this.tiles[4][7] = Tiles.GRASS;
-        //this.tiles[4][9] = Tiles.GRASS;
-        //this.tiles[0][5] = Tiles.GRASS;
-        //this.tiles[0][7] = Tiles.GRASS;
-        //this.tiles[0][9] = Tiles.GRASS;
     }
 
     //TODO createUndiscoveredTerrain
