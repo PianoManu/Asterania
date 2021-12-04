@@ -88,6 +88,7 @@ public class GameScreen extends ScreenAdapter {
     private void checkForImportantChanges() {
         if (WindowUtils.windowSizeHasChanged()) {
             LOGGER.finest("Window was resized, updated window!");
+            WorldWriter.saveGameInfo();
             this.dispose();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
