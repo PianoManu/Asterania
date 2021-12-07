@@ -8,7 +8,7 @@ import de.pianomanu.asterania.world.Worlds;
 
 public class Tiles {
     public static final BasicTile GRASS = r(new BasicTile("grass", TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.2f)));
-    public static final BasicTile ROCK = r(new BasicTile("rock", TileSettings.Settings.INACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 5f)));
+    public static final BasicTile ROCK = r(new BasicTile("rock", TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 5f)));
     public static final BasicTile WHITE = r(new BasicTile("white", TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.2f)));
     public static final BasicTile SOIL_TILE = r(new BasicTile("soil", TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.2f)));
     public static final BasicTile DIRTY_STONE_TILE = r(new BasicTile("dirty_stone", TileSettings.Settings.INACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 5f)));
