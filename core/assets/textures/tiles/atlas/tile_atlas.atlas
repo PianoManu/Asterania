@@ -1,6 +1,6 @@
 
 tile_atlas.png
-size: 64, 32
+size: 128, 32
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
@@ -42,6 +42,34 @@ soil
 titanium_diboride
   rotate: false
   xy: 54, 24
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+water1
+  rotate: false
+  xy: 44, 4
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+water2
+  rotate: false
+  xy: 54, 14
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+water3
+  rotate: false
+  xy: 64, 24
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+water4
+  rotate: false
+  xy: 54, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

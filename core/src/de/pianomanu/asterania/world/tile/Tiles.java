@@ -15,6 +15,8 @@ public class Tiles {
     public static final BasicTile TITANIUM_DIBORIDE = r(new BasicTile("titanium_diboride", TileSettings.Settings.UNBREAKABLE_TILE));
     public static final TeleportingTile MINE_LADDER = r(new TeleportingTile("mine_ladder", TileSettings.Settings.ACCESSIBLE_TILE));
 
+    public static final AnimatedTile WATER_TILE = r(new AnimatedTile("water", TileSettings.Settings.INACCESSIBLE_TILE));
+
     public static final BasicTile DEFAULT_TILE = GRASS;
 
     private static <T extends Tile> T r(T tile) {

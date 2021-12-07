@@ -32,6 +32,7 @@ public class WorldSection {
         this.worldSectionSettings = settings;
 
         this.decorationLayer = new Tile[SECTION_SIZE][SECTION_SIZE];
+        //TODO remove ladder later
         this.decorationLayer[8][7] = Tiles.MINE_LADDER;
 
         this.data = HomeWorldGeneration.main(xPos, yPos);
@@ -42,7 +43,9 @@ public class WorldSection {
         for (int x = 0; x < SECTION_SIZE; x++) {
             for (int y = 0; y < SECTION_SIZE; y++) {
                 float heightValue = data[x][y];
-                if (heightValue < -0.1)
+                if (heightValue < -0.3)
+                    this.tiles[x][y] = Tiles.WATER_TILE;
+                else if (heightValue < -0.1)
                     this.tiles[x][y] = Tiles.SOIL_TILE;
                 else if (heightValue < 0.4)
                     this.tiles[x][y] = Tiles.GRASS;

@@ -41,8 +41,9 @@ public class WorldRenderer {
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                 try {
-                    batch.draw(world.findSection(tileCoordinates).getTileAbsoluteCoordinates(x, y).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                    addGrassOverlay(batch, world, x, y, xTile, yTile);
+                    Tile tile = world.findSection(tileCoordinates).getTileAbsoluteCoordinates(x, y);
+                    batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                    addOverlay(batch, world, x, y, xTile, yTile);
                 } catch (NullPointerException e) {
                     //Error trying to find the correct section: preGenerate all adjacent sections
                     world.preGenerateSurroundingWorldSections();
@@ -62,49 +63,55 @@ public class WorldRenderer {
         batch.end();
     }
 
-    private static void addGrassOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+        addOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
+        addOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
+        addOverlay(batch, world, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
+    }
+
+    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
         TileCoordinates tileCoordinates = new TileCoordinates(x, y);
         WorldSection worldSection = world.findSection(tileCoordinates);
-        if (!worldSection.getTileAbsoluteCoordinates(x, y).equals(Tiles.GRASS)) {
+        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(tileAddOverlayOn)) {
             boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
             try {
-                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
+                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
             } catch (ArrayIndexOutOfBoundsException e) {
                 TileCoordinates tmp = tileCoordinates.copy();
                 tmp.moveLeft(64);
-                leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
+                leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
             }
             try {
-                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(Tiles.GRASS);
+                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
             } catch (ArrayIndexOutOfBoundsException e) {
                 TileCoordinates tmp = tileCoordinates.copy();
                 tmp.moveRight(64);
-                rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(Tiles.GRASS);
+                rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
             }
             try {
-                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
+                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
             } catch (ArrayIndexOutOfBoundsException e) {
                 TileCoordinates tmp = tileCoordinates.copy();
                 tmp.moveUp(64);
-                upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(Tiles.GRASS);
+                upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
             }
             try {
-                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(Tiles.GRASS);
+                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
             } catch (ArrayIndexOutOfBoundsException e) {
                 TileCoordinates tmp = tileCoordinates.copy();
                 tmp.moveDown(64);
-                downIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y - 1).equals(Tiles.GRASS);
+                downIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
             }
 
-            TextureRegion grassRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion("grass_side");
+            TextureRegion overlayRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
             if (upIsGrass)
-                batch.draw(grassRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
+                batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
             if (downIsGrass)
-                batch.draw(grassRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
+                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
             if (leftIsGrass)
-                batch.draw(grassRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
+                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
             if (rightIsGrass)
-                batch.draw(grassRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
+                batch.draw(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
         }
     }
 
