@@ -11,7 +11,7 @@ public class GameConfig {
     public static String SAVEGAME_NAME = "game";
     public static String SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
     public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
-    public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
+    public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH; //" + Worlds.HOME.getWorldName();" -> causes NullPointer when initializing
     public static String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
     public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
     private static final String versionDescription = "alpha";

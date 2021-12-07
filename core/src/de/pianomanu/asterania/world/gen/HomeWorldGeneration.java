@@ -33,8 +33,7 @@ public class HomeWorldGeneration {
         We need a Random Number Generator, with or without seed, as specified
         in the config file
          */
-        //TODO AsteraniaMain.saveFile.getRandomNumberGenerator();
-        Random rand = new Random(5);//AsteraniaMain.saveFile.getRandomNumberGenerator();
+        Random rand = AsteraniaMain.saveFile.getRandomNumberGenerator();//new Random(5);
         for (int x = startX; x < startX + sizeX; x++) {
             for (int y = startY; y < startY + sizeY; y++) {
                 /*

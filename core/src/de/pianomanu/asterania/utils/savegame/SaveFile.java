@@ -25,7 +25,7 @@ public class SaveFile {
         } else {
             LOGGER.finest("Found save directory \"" + name + "\"!");
         }
-        if (GameConfig.SEED != 0) {
+        if (GameConfig.SEED == 0) {
             this.random = new Random();
         } else {
             this.random = new Random(GameConfig.SEED);
