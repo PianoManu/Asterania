@@ -16,6 +16,7 @@ import de.pianomanu.asterania.render.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.utils.DateUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
@@ -88,7 +89,13 @@ public class LoadSavesScreen extends ScreenAdapter {
         shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
         shapeRenderer.end();
 
-        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), saveFiles.get(saveFilePointer).getName());
+        SaveFile tmp = saveFiles.get(saveFilePointer);
+        SaveGameInfoUtils.loadInfo(tmp, GameConfig.SAVEGAME_PATH_OFFSET + tmp.getName());
+
+        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), tmp.getName());
+
+        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + tmp.getDateOfCreation(), false);
+        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(tmp.getTotalPlayTime()), false);
     }
 
     private void renderButtons() {

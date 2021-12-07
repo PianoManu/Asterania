@@ -31,7 +31,7 @@ public class SaveGameInfoUtils {
 
         builder.append(i("SEED", s.getSeed() + ""));
         builder.append(i("DATE-OF-CREATION", s.getDateOfCreation()));
-        builder.append(i("TOTAL-PLAYTIME", s.getTotalPlayTime() + ""));
+        builder.append(i("TOTAL-PLAYTIME", s.calcTotalPlayTime() + ""));
 
         return builder.toString();
     }
@@ -53,8 +53,19 @@ public class SaveGameInfoUtils {
         }
     }
 
-    private static void addInfoToSaveGame(String info) {
-        SaveFile s = AsteraniaMain.saveFile;
+    public static void loadInfo(SaveFile file, String path) {
+        File f = new File(path);
+        if (f.exists()) {
+            File info = new File(path + "\\savegameinfo");
+            String saveGameInfo = String.valueOf(WorldReader.readFile(info));
+            addInfoToSaveGame(file, saveGameInfo);
+
+        } else {
+            LOGGER.warning("No Savegame info file found! This may lead to corrupt worlds!");
+        }
+    }
+
+    private static void addInfoToSaveGame(SaveFile s, String info) {
         List<String> lines = ParserUtils.splitString(info, '\n');
         for (String line : lines) {
             List<String> attributes = ParserUtils.splitString(line, ' ');
@@ -69,4 +80,20 @@ public class SaveGameInfoUtils {
             }
         }
     }
+
+    private static void addInfoToSaveGame(String info) {
+        addInfoToSaveGame(AsteraniaMain.saveFile, info);
+    }
+
+    /*public static long getTotalPlaytime(SaveFile file) {
+        String info = loadInfo(GameConfig.SAVEGAME_PATH_OFFSET+file.getName());
+        List<String> lines = ParserUtils.splitString(info, '\n');
+        for (String line : lines) {
+            List<String> attributes = ParserUtils.splitString(line, ' ');
+            if (attributes.get(0).equals("TOTAL-PLAYTIME")) {
+                return Long.parseLong(attributes.get(1));
+            }
+        }
+        return 0;
+    }*/
 }

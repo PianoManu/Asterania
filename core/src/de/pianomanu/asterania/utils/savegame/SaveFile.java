@@ -85,9 +85,13 @@ public class SaveFile {
         this.dateOfCreation = dateOfCreation;
     }
 
-    public long getTotalPlayTime() {
+    public long calcTotalPlayTime() {
         this.quitTime = System.currentTimeMillis();
         this.totalPlayTime += this.quitTime - this.startTime;
+        return this.totalPlayTime;
+    }
+
+    public long getTotalPlayTime() {
         return this.totalPlayTime;
     }
 

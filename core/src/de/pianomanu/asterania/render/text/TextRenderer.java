@@ -19,6 +19,10 @@ public class TextRenderer {
         renderText(startX, startY, content, true, DisplayConfig.TEXT_SIZE, false, Color.BLACK, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 
+    public static void renderText(int startX, int startY, String content, boolean isCentered) {
+        renderText(startX, startY, content, isCentered, DisplayConfig.TEXT_SIZE, false, Color.BLACK, new Color(0.3f, 0.3f, 0.3f, 0.4f));
+    }
+
     public static void renderText(int startX, int startY, String content, Color textColor) {
         renderText(startX, startY, content, true, DisplayConfig.TEXT_SIZE, false, textColor, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
