@@ -63,14 +63,9 @@ public class WorldRenderer {
     }
 
     private static void addGrassOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
-        addGrassOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE);
-        addGrassOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK);
-    }
-
-    private static void addGrassOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile, Tile tileToAddOverlayOn) {
         TileCoordinates tileCoordinates = new TileCoordinates(x, y);
         WorldSection worldSection = world.findSection(tileCoordinates);
-        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(tileToAddOverlayOn)) {
+        if (!worldSection.getTileAbsoluteCoordinates(x, y).equals(Tiles.GRASS)) {
             boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
             try {
                 leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(Tiles.GRASS);
