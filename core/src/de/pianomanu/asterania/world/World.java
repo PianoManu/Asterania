@@ -43,7 +43,7 @@ public class World {
 
     public void joinWorld(Player player, TileCoordinates entryPoint) {
         this.players.add(player);
-        player.setCharacterPos(entryPoint.toEntityCoordinates());
+        player.setPos(entryPoint.toEntityCoordinates());
         for (Player p : players) {
             p.updateHitbox();
         }
@@ -124,7 +124,7 @@ public class World {
     public void preGenerateSurroundingWorldSections() {
         //8 surrounding sections
         for (Player p : players) {
-            WorldSectionCoordinates center = p.getCharacterPos().toWorldSectionCoordinates();
+            WorldSectionCoordinates center = p.getPos().toWorldSectionCoordinates();
             addNewSection(center.x - 1, center.y - 1);
             addNewSection(center.x - 1, center.y);
             addNewSection(center.x - 1, center.y + 1);

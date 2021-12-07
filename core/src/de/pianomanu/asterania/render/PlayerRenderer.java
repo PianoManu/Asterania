@@ -20,7 +20,7 @@ public class PlayerRenderer {
             playerTexture = AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
         }
         batch.begin();
-        batch.draw(playerTexture, width / 2f - player.getCharacterSizeInPixels().x / 2f, height / 2f - player.getCharacterSizeInPixels().y / 2f, player.getCharacterSizeInPixels().x, player.getCharacterSizeInPixels().y);
+        batch.draw(playerTexture, width / 2f - player.getCharacterSizeInPixels().x / 2f, height / 2f, player.getCharacterSizeInPixels().x, player.getCharacterSizeInPixels().y);
         batch.end();
     }
 

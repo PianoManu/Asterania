@@ -38,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
         this.world = AsteraniaMain.saveFile.getHomeWorld();
         AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
         //TODO differentiate between new and old worlds
-        AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getCharacterPos().toTileCoordinates());
+        AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getPos().toTileCoordinates());
     }
 
     @Override

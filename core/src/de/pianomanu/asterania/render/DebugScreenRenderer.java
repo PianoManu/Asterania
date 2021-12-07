@@ -35,8 +35,8 @@ public class DebugScreenRenderer {
     public static void render(World world, ShapeRenderer shapeRenderer, float delta) {
         calculateFPS(delta);
 
-        DebugScreenRenderer.renderHitbox(shapeRenderer);
         DebugScreenRenderer.renderGrid();
+        DebugScreenRenderer.renderHitbox(shapeRenderer);
         DebugScreenRenderer.renderDebugText(world, fps);
     }
 
@@ -60,7 +60,7 @@ public class DebugScreenRenderer {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
 
-        EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, AsteraniaMain.player.getCharacterPos());
+        EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, AsteraniaMain.player.getPos());
 
         Tile tile;
         try {
@@ -71,8 +71,8 @@ public class DebugScreenRenderer {
 
         List<String> debugStuff = new ArrayList<>();
         debugStuff.add("FPS: " + frames);
-        debugStuff.add("Position: X=" + AsteraniaMain.player.getCharacterPos().x + ", Y=" + AsteraniaMain.player.getCharacterPos().y);
-        debugStuff.add("Feet position: X=" + AsteraniaMain.player.getFootPos().x + ", Y=" + AsteraniaMain.player.getFootPos().y);
+        //debugStuff.add("Position: X=" + AsteraniaMain.player.getCharacterPos().x + ", Y=" + AsteraniaMain.player.getCharacterPos().y);
+        debugStuff.add("Feet position: X=" + AsteraniaMain.player.getPos().x + ", Y=" + AsteraniaMain.player.getPos().y);
         debugStuff.add("Cursor position: X=" + mouseX + ", Y=" + (height - mouseY));
         debugStuff.add("Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
         debugStuff.add("Tile at cursor position: " + tile.toString());
@@ -92,7 +92,7 @@ public class DebugScreenRenderer {
 
         gridRenderer.begin(ShapeRenderer.ShapeType.Line);
         gridRenderer.setColor(0, 0, 0, 1);
-        EntityCoordinates playerCoordinates = AsteraniaMain.player.getCharacterPos();
+        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
         WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);
@@ -112,7 +112,8 @@ public class DebugScreenRenderer {
     private static void renderHitbox(ShapeRenderer shapeRenderer) {
         Player player = AsteraniaMain.player;
         SimpleHitbox hitbox = player.getPlayerHitbox();
-        Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
+        //Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
+        Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
         Vector2 end = player.getCharacterSizeInPixels();//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f));
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         shapeRenderer.setColor(1, 0, 0, 1);

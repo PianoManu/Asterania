@@ -29,7 +29,7 @@ public class PlayerSaveUtils {
             readAndAssignPlayerData(playerData, tmp);
 
         } else {
-            tmp.setCharacterPos(Worlds.HOME.getEntryPoint().toEntityCoordinates());
+            tmp.setPos(Worlds.HOME.getEntryPoint().toEntityCoordinates());
         }
 
         return tmp;
@@ -49,7 +49,7 @@ public class PlayerSaveUtils {
     private static String createPlayerDataString() {
         Player player = AsteraniaMain.player;
         StringBuilder builder = new StringBuilder();
-        builder.append("POSITION ").append(player.getCharacterPos().x).append(" ").append(player.getCharacterPos().y).append("\n");
+        builder.append("POSITION ").append(player.getPos().x).append(" ").append(player.getPos().y).append("\n");
         builder.append("DIRECTION ").append(player.getPlayerFacing()).append("\n");
         //save Inventory
         builder.append(player.getPlayerInventory().toSaveFileString()).append("\n");
@@ -64,7 +64,7 @@ public class PlayerSaveUtils {
             List<String> attributes = splitString(s, ' ');
             String first = attributes.get(0);
             if (first.equals("POSITION")) {
-                player.setCharacterPos(Float.parseFloat(attributes.get(1)), Float.parseFloat(attributes.get(2)));
+                player.setPos(Float.parseFloat(attributes.get(1)), Float.parseFloat(attributes.get(2)));
             }
             if (first.equals("DIRECTION")) {
                 player.setPlayerFacing(Direction.toDirection(attributes.get(1)));

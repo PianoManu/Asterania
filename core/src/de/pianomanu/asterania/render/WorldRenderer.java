@@ -27,7 +27,7 @@ public class WorldRenderer {
     }
 
     private static void renderTerrain(World world, SpriteBatch batch) {
-        EntityCoordinates playerCoordinates = AsteraniaMain.player.getCharacterPos();
+        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
         batch.begin();
 
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
@@ -109,7 +109,7 @@ public class WorldRenderer {
     }
 
     private static void renderHovering(ShapeRenderer shapeRenderer) {
-        EntityCoordinates playerPos = AsteraniaMain.player.getCharacterPos();
+        EntityCoordinates playerPos = AsteraniaMain.player.getPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         int hoveringXStart = (int) Math.floor(mousePos.x);
         int hoveringYStart = (int) Math.floor(mousePos.y);

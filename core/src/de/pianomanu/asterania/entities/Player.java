@@ -10,9 +10,10 @@ import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 
 public class Player {
+    public static final EntityCoordinates CHARACTER_SIZE = new EntityCoordinates(3 / 4f, 3 / 2f);
+
     private EntityCoordinates characterPos;
     private int stepSize = DisplayConfig.TILE_SIZE / 16 / DisplayConfig.ZOOM;
-    private EntityCoordinates characterSize = new EntityCoordinates();
     private boolean isMoving = false;
     private SimpleHitbox playerHitbox;
     private final float timeBetweenAnimations = 0.1f;
@@ -28,29 +29,19 @@ public class Player {
 
     public Player() {
         this.characterPos = new EntityCoordinates();
-        this.characterSize.x = 3 / 4f;
-        this.characterSize.y = 3 / 2f;
-        this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(this.characterSize)).move(-this.characterSize.x / 2, -this.characterSize.y / 2);
+        this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, -CHARACTER_SIZE.y);
     }
 
-    public EntityCoordinates getCharacterPos() {
+    public EntityCoordinates getPos() {
         return this.characterPos;
     }
 
-    public EntityCoordinates getFootPos() {
-        return new EntityCoordinates(this.getCharacterPos().x, this.getCharacterPos().y - characterSize.y / 2);
-    }
-
-    public void setFootPos(EntityCoordinates characterPos) {
-        this.setCharacterPos(characterPos.x, characterPos.y - characterSize.y / 2);
-    }
-
-    public void setFootPos(float x, float y) {
-        this.setCharacterPos(x, y + characterSize.y / 2);
-    }
-
-    public void setCharacterPos(EntityCoordinates characterPos) {
+    public void setPos(EntityCoordinates characterPos) {
         this.characterPos = characterPos;
+    }
+
+    public void setPos(float x, float y) {
+        this.setPos(new EntityCoordinates(x, y));
     }
 
     public int getStepSize() {
@@ -112,7 +103,7 @@ public class Player {
     }
 
     public EntityCoordinates getCharacterSize() {
-        return this.characterSize;
+        return CHARACTER_SIZE;
     }
 
     public void setMoving() {
@@ -134,16 +125,11 @@ public class Player {
     }
 
     public Vector2 getCharacterSizeInPixels() {
-        return new Vector2(this.characterSize.x * DisplayConfig.TILE_SIZE, this.characterSize.y * DisplayConfig.TILE_SIZE);
+        return new Vector2(CHARACTER_SIZE.x * DisplayConfig.TILE_SIZE, CHARACTER_SIZE.y * DisplayConfig.TILE_SIZE);
     }
 
     public void updateHitbox() {
-        this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(this.characterSize)).move(-this.characterSize.x / 2, -this.characterSize.y / 2);
-    }
-
-    public void setCharacterPos(float x, float y) {
-        this.characterPos.x = x;
-        this.characterPos.y = y;
+        this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, 0);
     }
 
     public Direction getPlayerFacing() {
