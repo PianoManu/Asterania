@@ -30,6 +30,8 @@ public class SaveGameInfoUtils {
         StringBuilder builder = new StringBuilder();
 
         builder.append(i("SEED", s.getSeed() + ""));
+        builder.append(i("DATE-OF-CREATION", s.getDateOfCreation()));
+        builder.append(i("TOTAL-PLAYTIME", s.getTotalPlayTime() + ""));
 
         return builder.toString();
     }
@@ -58,6 +60,12 @@ public class SaveGameInfoUtils {
             List<String> attributes = ParserUtils.splitString(line, ' ');
             if (attributes.get(0).equals("SEED")) {
                 s.setSeed(Integer.parseInt(attributes.get(1)));
+            }
+            if (attributes.get(0).equals("DATE-OF-CREATION")) {
+                s.setDateOfCreation(attributes.get(1));
+            }
+            if (attributes.get(0).equals("TOTAL-PLAYTIME")) {
+                s.setTotalPlayTime(Long.parseLong(attributes.get(1)));
             }
         }
     }

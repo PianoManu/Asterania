@@ -2,6 +2,7 @@ package de.pianomanu.asterania.utils.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.utils.DateUtils;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
@@ -16,6 +17,10 @@ public class SaveFile {
     private World homeWorld;
     private final Random random;
     private int seed;
+    private String dateOfCreation;
+    private long totalPlayTime = 0;
+    private long startTime;
+    private long quitTime;
 
     public SaveFile(String name) {
         this.name = name;
@@ -33,6 +38,8 @@ public class SaveFile {
             this.seed = GameConfig.SEED;
             this.random = new Random(GameConfig.SEED);
         }
+        this.dateOfCreation = DateUtils.calcDate();
+        this.startTime = System.currentTimeMillis();
     }
 
     public Universe getUniverse() {
@@ -68,5 +75,27 @@ public class SaveFile {
 
     public void setSeed(int seed) {
         this.seed = seed;
+    }
+
+    public String getDateOfCreation() {
+        return this.dateOfCreation;
+    }
+
+    public void setDateOfCreation(String dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public long getTotalPlayTime() {
+        this.quitTime = System.currentTimeMillis();
+        this.totalPlayTime += this.quitTime - this.startTime;
+        return this.totalPlayTime;
+    }
+
+    public void setTotalPlayTime(long totalPlayTime) {
+        this.totalPlayTime = totalPlayTime;
+    }
+
+    public void resetStartTime() {
+        this.startTime = System.currentTimeMillis();
     }
 }

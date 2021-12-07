@@ -36,6 +36,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer = new ShapeRenderer();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.saveFile.getHomeWorld();
+        AsteraniaMain.saveFile.resetStartTime();
         AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
         //TODO differentiate between new and old worlds
         AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getPos().toTileCoordinates());
