@@ -249,4 +249,12 @@ public class WorldSection {
     public void setDecorationLayerTileRelativeCoordinates(TileCoordinates tileCoordinates, Tile tile) {
         setDecorationLayerTileRelativeCoordinates(tileCoordinates.getX(), tileCoordinates.getY(), tile);
     }
+
+    public boolean isInsideWorldSectionBounds(int x, int y) {
+        return x >= this.start.getX() && x <= this.end.getX() && y >= this.start.getY() && y <= this.end.getY();
+    }
+
+    public boolean isInsideWorldSectionBounds(TileCoordinates tileCoordinates) {
+        return this.isInsideWorldSectionBounds(tileCoordinates.getX(), tileCoordinates.getY());
+    }
 }

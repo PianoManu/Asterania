@@ -31,6 +31,12 @@ public class TileCoordinates {
         return new TileCoordinates(this.x, this.y);
     }
 
+    public TileCoordinates copy(TileCoordinates coordinates) {
+        this.x = coordinates.x;
+        this.y = coordinates.y;
+        return this;
+    }
+
     public TileCoordinates moveUp() {
         return moveUp(1);
     }

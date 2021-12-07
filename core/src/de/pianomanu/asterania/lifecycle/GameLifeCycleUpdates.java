@@ -7,5 +7,7 @@ public class GameLifeCycleUpdates {
     public static void update(World world, float delta) {
         PlayerUpdates.updatePlayer(world, delta);
         TileUpdates.updateTiles();
+
+        System.out.println(delta);
     }
 }

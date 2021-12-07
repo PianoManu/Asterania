@@ -40,16 +40,17 @@ public class WorldRenderer {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 TileCoordinates tileCoordinates = new TileCoordinates(x, y);
+                WorldSection section = world.findSection(tileCoordinates);
                 try {
-                    Tile tile = world.findSection(tileCoordinates).getTileAbsoluteCoordinates(x, y);
+                    Tile tile = section.getTileAbsoluteCoordinates(x, y);
                     batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                    addOverlay(batch, world, x, y, xTile, yTile);
+                    addOverlay(batch, world, section, x, y, xTile, yTile);
                 } catch (NullPointerException e) {
                     //Error trying to find the correct section: preGenerate all adjacent sections
                     world.preGenerateSurroundingWorldSections();
                 }
                 try {
-                    Tile decoration = world.findSection(tileCoordinates).getDecorationLayerTileAbsoluteCoordinates(x, y);
+                    Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
                     if (decoration != null) {
                         batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
                     }
@@ -63,45 +64,44 @@ public class WorldRenderer {
         batch.end();
     }
 
-    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
-        addOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
-        addOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
-        addOverlay(batch, world, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
+    private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile) {
+        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
+        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
+        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
     }
 
-    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
+    private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
         TileCoordinates tileCoordinates = new TileCoordinates(x, y);
-        WorldSection worldSection = world.findSection(tileCoordinates);
         if (worldSection.getTileAbsoluteCoordinates(x, y).equals(tileAddOverlayOn)) {
             boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
-            try {
-                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                TileCoordinates tmp = tileCoordinates.copy();
+            TileCoordinates tmp = tileCoordinates.copy();
+            if (!worldSection.isInsideWorldSectionBounds(x - 1, y)) {
                 tmp.moveLeft(64);
                 leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
+            } else {
+                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
             }
-            try {
-                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                TileCoordinates tmp = tileCoordinates.copy();
+
+            tmp.copy(tileCoordinates);
+            if (!worldSection.isInsideWorldSectionBounds(x + 1, y)) {
                 tmp.moveRight(64);
                 rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
-            }
-            try {
-                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                TileCoordinates tmp = tileCoordinates.copy();
+            } else
+                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
+
+            tmp.copy(tileCoordinates);
+            if (!worldSection.isInsideWorldSectionBounds(x, y + 1)) {
                 tmp.moveUp(64);
                 upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
-            }
-            try {
-                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
-            } catch (ArrayIndexOutOfBoundsException e) {
-                TileCoordinates tmp = tileCoordinates.copy();
+            } else
+                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
+
+            tmp.copy(tileCoordinates);
+            if (!worldSection.isInsideWorldSectionBounds(x, y - 1)) {
                 tmp.moveDown(64);
                 downIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
-            }
+            } else
+                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
 
             TextureRegion overlayRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
             if (upIsGrass)
