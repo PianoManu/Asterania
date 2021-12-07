@@ -13,7 +13,6 @@ import de.pianomanu.asterania.world.direction.Direction;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -59,9 +58,9 @@ public class PlayerSaveUtils {
     }
 
     private static void readAndAssignPlayerData(String playerData, Player player) {
-        List<String> lines = splitString(playerData, '\n');
+        List<String> lines = ParserUtils.splitString(playerData, '\n');
         for (String s : lines) {
-            List<String> attributes = splitString(s, ' ');
+            List<String> attributes = ParserUtils.splitString(s, ' ');
             String first = attributes.get(0);
             if (first.equals("POSITION")) {
                 player.setPos(Float.parseFloat(attributes.get(1)), Float.parseFloat(attributes.get(2)));
@@ -76,25 +75,6 @@ public class PlayerSaveUtils {
                 player.setMaxWeight(Float.parseFloat(attributes.get(1)));
             }
         }
-    }
-
-    private static List<String> splitString(String playerData, char separatingCharacter) {
-        List<String> lines = new ArrayList<>();
-        int prevLineBreak = 0;
-        for (int i = 0; i < playerData.length(); i++) {
-            if (playerData.charAt(i) == separatingCharacter) {
-                String sub = playerData.substring(prevLineBreak, i);
-                if (!sub.isEmpty())
-                    lines.add(sub);
-                prevLineBreak = i + 1;
-            }
-            if (i == playerData.length() - 1) {
-                String sub = playerData.substring(prevLineBreak, i + 1);
-                if (!sub.isEmpty())
-                    lines.add(sub);
-            }
-        }
-        return lines;
     }
 
     private static void loadInventory(List<String> inventoryLine, Player player) {

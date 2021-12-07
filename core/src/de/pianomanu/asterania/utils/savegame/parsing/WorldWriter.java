@@ -3,6 +3,7 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
+import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class WorldWriter {
         createVersionFile();
         saveAllWorlds();
         PlayerSaveUtils.savePlayerToSaveFile();
+        SaveGameInfoUtils.saveInfo();
     }
 
     private static void saveAllWorlds() {

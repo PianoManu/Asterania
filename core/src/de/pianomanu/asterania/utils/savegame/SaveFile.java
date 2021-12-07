@@ -15,6 +15,7 @@ public class SaveFile {
     private Universe universe;
     private World homeWorld;
     private final Random random;
+    private int seed;
 
     public SaveFile(String name) {
         this.name = name;
@@ -26,8 +27,10 @@ public class SaveFile {
             LOGGER.finest("Found save directory \"" + name + "\"!");
         }
         if (GameConfig.SEED == 0) {
-            this.random = new Random();
+            this.seed = (int) (Math.random() * Integer.MAX_VALUE);
+            this.random = new Random(this.seed);
         } else {
+            this.seed = GameConfig.SEED;
             this.random = new Random(GameConfig.SEED);
         }
     }
@@ -57,5 +60,13 @@ public class SaveFile {
 
     public Random getRandomNumberGenerator() {
         return this.random;
+    }
+
+    public int getSeed() {
+        return this.seed;
+    }
+
+    public void setSeed(int seed) {
+        this.seed = seed;
     }
 }
