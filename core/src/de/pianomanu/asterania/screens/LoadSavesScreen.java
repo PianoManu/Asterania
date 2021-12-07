@@ -35,11 +35,17 @@ public class LoadSavesScreen extends ScreenAdapter {
 
     private List<SaveFile> saveFiles = new ArrayList<>();
     private int saveFilePointer = 0;
+    private SaveFile tmpSaveFile;
 
     public LoadSavesScreen() {
         this.shapeRenderer = new ShapeRenderer();
         this.batch = new SpriteBatch();
         getAllExistingSaveFiles();
+
+        if (saveFiles.size() > 0)
+            this.tmpSaveFile = saveFiles.get(0);
+        else
+            this.tmpSaveFile = new SaveFile("tmp");
     }
 
     @Override
@@ -89,19 +95,17 @@ public class LoadSavesScreen extends ScreenAdapter {
         shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
         shapeRenderer.end();
 
-        SaveFile tmp = saveFiles.get(saveFilePointer);
-        SaveGameInfoUtils.loadInfo(tmp, GameConfig.SAVEGAME_PATH_OFFSET + tmp.getName());
+        this.tmpSaveFile = saveFiles.get(saveFilePointer);
+        SaveGameInfoUtils.loadInfo(this.tmpSaveFile, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSaveFile.getName());
 
-        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), tmp.getName());
+        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSaveFile.getName());
 
-        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + tmp.getDateOfCreation(), false);
-        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(tmp.getTotalPlayTime()), false);
+        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSaveFile.getDateOfCreation(), false);
+        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSaveFile.getTotalPlayTime()), false);
     }
 
     private void renderButtons() {
-        //batch.begin();
         ButtonRenderer.renderButtons(batch, Buttons.LOAD_SAVES_MENU_BUTTONS);
-        //batch.end();
     }
 
     private void drawHovering() {
