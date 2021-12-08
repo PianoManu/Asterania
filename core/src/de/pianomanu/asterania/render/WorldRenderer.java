@@ -28,35 +28,40 @@ public class WorldRenderer {
 
     private static void renderTerrain(World world, SpriteBatch batch) {
         EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
-        batch.begin();
+        EntityCoordinates bottomLeftEntityCoordinates = new EntityCoordinates(playerCoordinates.x - 32, playerCoordinates.y - 32);
+        EntityCoordinates topRightEntityCoordinates = new EntityCoordinates(playerCoordinates.x + 32, playerCoordinates.y + 32);
+        WorldSectionCoordinates bottomLeftWorldSectionCoordinates = bottomLeftEntityCoordinates.toWorldSectionCoordinates();
+        WorldSectionCoordinates topRightWorldSectionCoordinates = topRightEntityCoordinates.toWorldSectionCoordinates();
 
-        WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
-        WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
-        WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);
-        TileCoordinates bottomLeftTile = bottomleftSection.startToTileCoordinates();
-        TileCoordinates topRightTile = topRightSection.endToTileCoordinates();
+        batch.begin();
+        TileCoordinates bottomLeftTile = bottomLeftWorldSectionCoordinates.startToTileCoordinates();
+        TileCoordinates topRightTile = topRightWorldSectionCoordinates.endToTileCoordinates();
         for (int x = bottomLeftTile.getX(); x < topRightTile.getX(); x++) {
             for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                 WorldSection section = world.findSection(tileCoordinates);
-                try {
-                    Tile tile = section.getTileAbsoluteCoordinates(x, y);
-                    batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                    addOverlay(batch, world, section, x, y, xTile, yTile);
-                } catch (NullPointerException e) {
-                    //Error trying to find the correct section: preGenerate all adjacent sections
-                    world.preGenerateSurroundingWorldSections();
-                }
-                try {
-                    Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
-                    if (decoration != null) {
-                        batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                if (xTile >= -DisplayConfig.TILE_SIZE && xTile < Gdx.graphics.getWidth() && yTile >= -DisplayConfig.TILE_SIZE && yTile < Gdx.graphics.getHeight()) {
+                    try {
+                        Tile tile = section.getTileAbsoluteCoordinates(x, y);
+                        batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                        //TODO better way to check for overlay
+                        if (tile.equals(Tiles.SOIL_TILE) || tile.equals(Tiles.ROCK) || tile.equals(Tiles.WATER_TILE))
+                            addOverlay(batch, world, section, x, y, xTile, yTile);
+                    } catch (NullPointerException e) {
+                        //Error trying to find the correct section: preGenerate all adjacent sections
+                        world.preGenerateSurroundingWorldSections();
                     }
-                } catch (NullPointerException e) {
-                    //Error trying to find the correct section: preGenerate all adjacent sections
-                    world.preGenerateSurroundingWorldSections();
+                    try {
+                        Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
+                        if (decoration != null) {
+                            batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                        }
+                    } catch (NullPointerException e) {
+                        //Error trying to find the correct section: preGenerate all adjacent sections
+                        world.preGenerateSurroundingWorldSections();
+                    }
                 }
             }
         }
