@@ -1,6 +1,6 @@
 
 tile_atlas.png
-size: 128, 32
+size: 64, 32
 format: RGBA8888
 filter: Nearest, Nearest
 repeat: none
@@ -18,51 +18,44 @@ grass
   orig: 8, 8
   offset: 0, 0
   index: -1
-mine_ladder
+rock
   rotate: false
   xy: 44, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-rock
+soil
   rotate: false
   xy: 34, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-soil
+titanium_diboride
   rotate: false
   xy: 44, 14
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-titanium_diboride
+water1
   rotate: false
   xy: 54, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-water1
+water2
   rotate: false
   xy: 44, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-water2
-  rotate: false
-  xy: 54, 14
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
 water3
   rotate: false
-  xy: 64, 24
+  xy: 54, 14
   size: 8, 8
   orig: 8, 8
   offset: 0, 0

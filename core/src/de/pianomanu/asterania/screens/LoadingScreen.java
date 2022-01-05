@@ -33,6 +33,7 @@ public class LoadingScreen extends ScreenAdapter {
     private static void loadAtlases() {
         LOGGER.log(Level.FINE, "Loading atlases...");
         AsteraniaMain.assetManager.load(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.assetManager.load(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class);
         AsteraniaMain.assetManager.load(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class);
         AsteraniaMain.assetManager.load(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class);
         AsteraniaMain.assetManager.load(Atlases.BUTTON_ATLAS_LOCATION, TextureAtlas.class);

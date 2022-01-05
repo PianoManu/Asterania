@@ -54,6 +54,7 @@ public class WorldSection {
                 //this.tiles[x][y] = this.worldSectionSettings.getValidTiles().get(0);
             }
         }
+        WorldSectionGeneration.addDecorations(this);
     }
 
     //TODO createUndiscoveredTerrain

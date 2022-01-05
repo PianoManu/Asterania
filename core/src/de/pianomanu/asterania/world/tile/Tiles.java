@@ -17,6 +17,8 @@ public class Tiles {
 
     public static final AnimatedTile WATER_TILE = r(new AnimatedTile("water", TileSettings.Settings.INACCESSIBLE_TILE));
 
+    public static final BasicTile TWIG = r(new BasicTile("twig", TileSettings.Settings.INACCESSIBLE_TILE));
+
     public static final BasicTile DEFAULT_TILE = GRASS;
 
     private static <T extends Tile> T r(T tile) {
