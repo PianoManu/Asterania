@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
@@ -70,54 +69,11 @@ public class WorldRenderer {
     }
 
     private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile) {
-        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
-        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
-        addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
-    }
+        OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
+        OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
+        //OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
 
-    private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
-        TileCoordinates tileCoordinates = new TileCoordinates(x, y);
-        if (worldSection.getTileAbsoluteCoordinates(x, y).equals(tileAddOverlayOn)) {
-            boolean leftIsGrass, rightIsGrass, upIsGrass, downIsGrass;
-            TileCoordinates tmp = tileCoordinates.copy();
-            if (!worldSection.isInsideWorldSectionBounds(x - 1, y)) {
-                tmp.moveLeft(64);
-                leftIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
-            } else {
-                leftIsGrass = worldSection.getTileAbsoluteCoordinates(x - 1, y).equals(overlayTile);
-            }
-
-            tmp.copy(tileCoordinates);
-            if (!worldSection.isInsideWorldSectionBounds(x + 1, y)) {
-                tmp.moveRight(64);
-                rightIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
-            } else
-                rightIsGrass = worldSection.getTileAbsoluteCoordinates(x + 1, y).equals(overlayTile);
-
-            tmp.copy(tileCoordinates);
-            if (!worldSection.isInsideWorldSectionBounds(x, y + 1)) {
-                tmp.moveUp(64);
-                upIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
-            } else
-                upIsGrass = worldSection.getTileAbsoluteCoordinates(x, y + 1).equals(overlayTile);
-
-            tmp.copy(tileCoordinates);
-            if (!worldSection.isInsideWorldSectionBounds(x, y - 1)) {
-                tmp.moveDown(64);
-                downIsGrass = world.findSection(tmp).getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
-            } else
-                downIsGrass = worldSection.getTileAbsoluteCoordinates(x, y - 1).equals(overlayTile);
-
-            TextureRegion overlayRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
-            if (upIsGrass)
-                batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
-            if (downIsGrass)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
-            if (leftIsGrass)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
-            if (rightIsGrass)
-                batch.draw(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
-        }
+        OverlayRenderer.addStoneCoastOverlay(batch, world, worldSection, x, y, xTile, yTile);
     }
 
     private static void renderHovering(ShapeRenderer shapeRenderer) {
