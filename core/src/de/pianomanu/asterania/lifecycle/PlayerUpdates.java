@@ -45,14 +45,21 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             player.setMoving();
-            if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+            boolean tileAccessible = world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE);
+            boolean decorationAccessible = isDecorationAccessible(world, playerTile.toEntityCoordinates());
+            //boolean decorationAccessible = (world.findSection(playerTile).getDecorationLayerTileAbsoluteCoordinates(playerTile) == null) ? true : (boolean) decorationAccessible;
+            if (tileAccessible && decorationAccessible) {
                 if (world.findSection(up) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
                 EntityCoordinates up1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
                 EntityCoordinates up2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
-                boolean isAccessible1 = world.findSection(up1).getTileAbsoluteCoordinates(up1).getSettings().get(TileProperties.IS_ACCESSIBLE);
-                boolean isAccessible2 = world.findSection(up2).getTileAbsoluteCoordinates(up2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean decorationAccessible1 = isDecorationAccessible(world, up1);//(world.findSection(up1).getDecorationLayerTileAbsoluteCoordinates(up1).getSettings().get(TileProperties.IS_ACCESSIBLE));//(world.findSection(up1).getDecorationLayerTileAbsoluteCoordinates(up1) == null) ? true : (world.findSection(up1).getDecorationLayerTileAbsoluteCoordinates(up1).getSettings().get(TileProperties.IS_ACCESSIBLE));
+                boolean decorationAccessible2 = isDecorationAccessible(world, up2);//(world.findSection(up2).getDecorationLayerTileAbsoluteCoordinates(up2).getSettings().get(TileProperties.IS_ACCESSIBLE));//(world.findSection(up2).getDecorationLayerTileAbsoluteCoordinates(up2) == null) ? true : (world.findSection(up2).getDecorationLayerTileAbsoluteCoordinates(up2).getSettings().get(TileProperties.IS_ACCESSIBLE));
+                boolean tileAccessible1 = world.findSection(up1).getTileAbsoluteCoordinates(up1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean tileAccessible2 = world.findSection(up2).getTileAbsoluteCoordinates(up2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible1 = tileAccessible1 && decorationAccessible1;
+                boolean isAccessible2 = tileAccessible2 && decorationAccessible2;
                 if ((isAccessible1 && isAccessible2) || playerFootPos.y + player.getStepSize() * delta < up.getY() - distanceFromInaccessibleBlocks) {
                     player.moveUp(delta);
                 }
@@ -71,8 +78,12 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 }
                 EntityCoordinates down1 = new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
                 EntityCoordinates down2 = new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
-                boolean isAccessible1 = world.findSection(down1).getTileAbsoluteCoordinates(down1).getSettings().get(TileProperties.IS_ACCESSIBLE);
-                boolean isAccessible2 = world.findSection(down2).getTileAbsoluteCoordinates(down2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean decorationAccessible1 = isDecorationAccessible(world, down1); //world.findSection(down1).getDecorationLayerTileAbsoluteCoordinates(down1).getSettings().get(TileProperties.IS_ACCESSIBLE));//(world.findSection(down1).getDecorationLayerTileAbsoluteCoordinates(down1) == null) ? true : (world.findSection(down1).getDecorationLayerTileAbsoluteCoordinates(down1).getSettings().get(TileProperties.IS_ACCESSIBLE));
+                boolean decorationAccessible2 = isDecorationAccessible(world, down2); //(world.findSection(down2).getDecorationLayerTileAbsoluteCoordinates(down2).getSettings().get(TileProperties.IS_ACCESSIBLE));//(world.findSection(down2).getDecorationLayerTileAbsoluteCoordinates(down2) == null) ? true : (world.findSection(down2).getDecorationLayerTileAbsoluteCoordinates(down2).getSettings().get(TileProperties.IS_ACCESSIBLE));
+                boolean tileAccessible1 = world.findSection(down1).getTileAbsoluteCoordinates(down1).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean tileAccessible2 = world.findSection(down2).getTileAbsoluteCoordinates(down2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean isAccessible1 = tileAccessible1 && decorationAccessible1;
+                boolean isAccessible2 = tileAccessible2 && decorationAccessible2;
                 if ((isAccessible1 && isAccessible2) || playerFootPos.y - player.getStepSize() * delta > down.getY() + 1) {
                     player.moveDown(delta);
                 }
@@ -89,7 +100,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 if (world.findSection(right) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                boolean rightAccessible = world.findSection(right).getTileAbsoluteCoordinates(right).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean rightDecorationAccessible = isDecorationAccessible(world, right.toEntityCoordinates());
+                boolean rightTileAccessible = world.findSection(right).getTileAbsoluteCoordinates(right).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean rightAccessible = rightTileAccessible && rightDecorationAccessible;
                 if (rightAccessible || player.getPlayerHitbox().end.x < right.getX()) {
                     player.moveRight(delta);
                 }
@@ -107,7 +120,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 if (world.findSection(left) == null) {
                     world.preGenerateSurroundingWorldSections();
                 }
-                boolean leftAccessible = world.findSection(left).getTileAbsoluteCoordinates(left).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean leftDecorationAccessible = isDecorationAccessible(world, left.toEntityCoordinates());
+                boolean leftTileAccessible = world.findSection(left).getTileAbsoluteCoordinates(left).getSettings().get(TileProperties.IS_ACCESSIBLE);
+                boolean leftAccessible = leftTileAccessible && leftDecorationAccessible;
                 if (leftAccessible || player.getPlayerHitbox().start.x > left.getX() + 1) {
                     player.moveLeft(delta);
                 }
@@ -123,6 +138,13 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.checkForAnimationUpdate(delta);
         if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
             player.setStanding();
+    }
+
+    private static boolean isDecorationAccessible(World world, EntityCoordinates entityCoordinates) {
+        if (world.findSection(entityCoordinates).getDecorationLayerTileAbsoluteCoordinates(entityCoordinates) != null) {
+            return world.findSection(entityCoordinates).getDecorationLayerTileAbsoluteCoordinates(entityCoordinates).getSettings().get(TileProperties.IS_ACCESSIBLE);
+        }
+        return true;
     }
 
     public static void changeEnvironment(World world, float delta) {
