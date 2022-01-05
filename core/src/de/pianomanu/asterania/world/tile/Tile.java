@@ -12,6 +12,7 @@ public abstract class Tile {
     protected final String name;
     protected final TileSettings settings;
     protected float breakingLevel = 0;
+    protected int numberOfDifferentTextures = 1;
 
     protected Tile(String name, TileSettings settings) {
         this.name = name;
@@ -32,6 +33,10 @@ public abstract class Tile {
 
     public void increaseBreakingLevel() {
         this.breakingLevel++;
+    }
+
+    public int getNumberOfDifferentTextures() {
+        return this.numberOfDifferentTextures;
     }
 
     /**

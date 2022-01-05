@@ -23,6 +23,7 @@ public class Player {
     private Direction playerFacing = Direction.DOWN;
     private boolean isBreakingTile = false;
     private float currentBreakingPercentage = 0;
+    private boolean canChangeBackgroundLayer = false;
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
     private World currentWorld = null;
@@ -178,5 +179,13 @@ public class Player {
 
     public Inventory getPlayerInventory() {
         return this.playerInventory;
+    }
+
+    public boolean canChangeBackgroundLayer() {
+        return this.canChangeBackgroundLayer;
+    }
+
+    public void setCanChangeBackgroundLayer(boolean canChangeBackgroundLayer) {
+        this.canChangeBackgroundLayer = canChangeBackgroundLayer;
     }
 }

@@ -55,7 +55,7 @@ public class WorldRenderer {
                     try {
                         Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
                         if (decoration != null) {
-                            batch.draw(decoration.getTexture(AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+                            DecorationLayerRenderer.addDecorations(batch, section, x, y, xTile, yTile);
                         }
                     } catch (NullPointerException e) {
                         //Error trying to find the correct section: preGenerate all adjacent sections

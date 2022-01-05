@@ -17,6 +17,10 @@ public class WorldSectionGeneration {
                     if (section.getTileAbsoluteCoordinates(x, y).equals(Tiles.GRASS) && section.getDecorationLayerTileAbsoluteCoordinates(x, y) == null)
                         section.setDecorationLayerTileAbsoluteCoordinates(x, y, Tiles.TWIG);
                 }
+                if (Math.random() < 0.04) {
+                    if (section.getTileAbsoluteCoordinates(x, y).equals(Tiles.ROCK) && section.getDecorationLayerTileAbsoluteCoordinates(x, y) == null)
+                        section.setDecorationLayerTileAbsoluteCoordinates(x, y, Tiles.STONE);
+                }
             }
         }
         section.getDecorationLayerTiles();
