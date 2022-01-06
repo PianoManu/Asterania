@@ -47,6 +47,9 @@ public class HotbarRenderer {
             shapeRenderer.end();
         } else {
             TextureRegion tileTexture = t.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
+            if (tileTexture == null) {
+                tileTexture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(t.getSaveFileString() + "1");
+            }
             batch.begin();
             batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
             batch.end();

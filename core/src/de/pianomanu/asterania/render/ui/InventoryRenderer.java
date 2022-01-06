@@ -69,6 +69,9 @@ public class InventoryRenderer {
                     InventoryObjectStack iO = inv.getStackAtPos(x + y * COLUMNS);
                     if (!iO.equals(InventoryObjectStack.EMPTY) && iO.getStackCount() > 0) {
                         TextureRegion texture = GameRegistry.getTile(iO.getInventoryObject()).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
+                        if (texture == null) {
+                            texture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getInventoryObject().getName() + "1");
+                        }
                         batch.draw(texture, xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4, yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4, 32, 32);
                     }
                 }

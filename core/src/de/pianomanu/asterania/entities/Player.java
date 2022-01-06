@@ -4,6 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.inventory.Inventory;
+import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.inventory.objects.InventoryObjects;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
@@ -31,6 +33,7 @@ public class Player {
     public Player() {
         this.characterPos = new EntityCoordinates();
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, -CHARACTER_SIZE.y);
+        this.playerInventory.addStackToInventory(new InventoryObjectStack(InventoryObjects.STONE, 2));
     }
 
     public EntityCoordinates getPos() {
