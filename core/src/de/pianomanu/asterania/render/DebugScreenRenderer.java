@@ -38,6 +38,19 @@ public class DebugScreenRenderer {
         DebugScreenRenderer.renderGrid();
         DebugScreenRenderer.renderHitbox(shapeRenderer);
         DebugScreenRenderer.renderDebugText(world, fps);
+        DebugScreenRenderer.renderReachCircle(shapeRenderer);
+    }
+
+    private static void renderReachCircle(ShapeRenderer shapeRenderer) {
+        Player player = AsteraniaMain.player;
+        float reach = player.getReach(); //reach: radius
+        float diam = 2 * reach; //diameter = 2*r
+        Gdx.gl.glLineWidth(3);
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(0, 1, 0, 1f);
+        shapeRenderer.ellipse((Gdx.graphics.getWidth() - diam * DisplayConfig.TILE_SIZE) / 2f, (Gdx.graphics.getHeight() - diam * DisplayConfig.TILE_SIZE) / 2f, diam * DisplayConfig.TILE_SIZE, diam * DisplayConfig.TILE_SIZE);
+        shapeRenderer.end();
+        Gdx.gl.glLineWidth(1);
     }
 
     private static void calculateFPS(float delta) {

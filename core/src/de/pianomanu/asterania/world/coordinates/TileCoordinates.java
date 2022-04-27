@@ -3,8 +3,8 @@ package de.pianomanu.asterania.world.coordinates;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class TileCoordinates {
-    private int x;
-    private int y;
+    public int x;
+    public int y;
 
     public TileCoordinates(int x, int y) {
         this.x = x;

@@ -57,7 +57,7 @@ public class HomeWorldGeneration {
                     lastMin = data[x][y];
             }
         }
-        System.out.println(lastMax + ", " + lastMin);
+        //System.out.println(lastMax + ", " + lastMin);
         //System.out.println("Created random Z value array using Perlin Noise: " + Arrays.deepToString(data));
         //normalizeData(data, lastMax, lastMin);
         //System.out.println("Created random Z value array using Perlin Noise: " + Arrays.deepToString(data));

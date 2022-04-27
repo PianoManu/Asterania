@@ -4,8 +4,6 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.inventory.Inventory;
-import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
-import de.pianomanu.asterania.inventory.objects.InventoryObjects;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
@@ -29,11 +27,13 @@ public class Player {
     private final Inventory playerInventory = new Inventory();
     private float maxWeight = 20f;
     private World currentWorld = null;
+    private float reach = 2; //radius around the player, where he can interact with things
+    private boolean clickedOutOfReach = false;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, -CHARACTER_SIZE.y);
-        this.playerInventory.addStackToInventory(new InventoryObjectStack(InventoryObjects.STONE, 2));
+        //this.playerInventory.addStackToInventory(new InventoryObjectStack(InventoryObjects.STONE, 2));
     }
 
     public EntityCoordinates getPos() {
@@ -190,5 +190,32 @@ public class Player {
 
     public void setCanChangeBackgroundLayer(boolean canChangeBackgroundLayer) {
         this.canChangeBackgroundLayer = canChangeBackgroundLayer;
+    }
+
+    public float getReach() {
+        return this.reach;
+    }
+
+    public void setReach(float reach) {
+        this.reach = reach;
+    }
+
+    public boolean isInReach(EntityCoordinates coordinates) {
+        float distX = Math.abs(coordinates.x - this.characterPos.x);
+        float distY = Math.abs(coordinates.y - this.characterPos.y);
+        double dist = Math.sqrt(distX * distX + distY * distY);
+        return dist <= this.reach;
+    }
+
+    public boolean isInReach(TileCoordinates coordinates) {
+        return isInReach(coordinates.toEntityCoordinates());
+    }
+
+    public boolean hasClickedOutOfReach() {
+        return this.clickedOutOfReach;
+    }
+
+    public void setClickedOutOfReach(boolean clickedOutOfReach) {
+        this.clickedOutOfReach = clickedOutOfReach;
     }
 }

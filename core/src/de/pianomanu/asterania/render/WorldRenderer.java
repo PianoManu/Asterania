@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
+import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -77,8 +78,10 @@ public class WorldRenderer {
     }
 
     private static void renderHovering(ShapeRenderer shapeRenderer) {
-        EntityCoordinates playerPos = AsteraniaMain.player.getPos();
+        Player player = AsteraniaMain.player;
+        EntityCoordinates playerPos = player.getPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
+        boolean isInReach = player.isInReach(mousePos.toTileCoordinates());
         int hoveringXStart = (int) Math.floor(mousePos.x);
         int hoveringYStart = (int) Math.floor(mousePos.y);
         EntityCoordinates hoveringStart = new EntityCoordinates(hoveringXStart, hoveringYStart);
@@ -87,9 +90,26 @@ public class WorldRenderer {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 0.2f);
+        if (isInReach)
+            shapeRenderer.setColor(0.6f, 1, 0.6f, 0.2f);
+        else
+            shapeRenderer.setColor(1, 1, 1, 0.2f);
         shapeRenderer.rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         shapeRenderer.end();
+
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        if (isInReach) {
+            shapeRenderer.setColor(0f, 0.5f, 0f, 1f);
+        } else {
+            shapeRenderer.setColor(1f, 1f, 1f, 0.2f);
+        }
+
+        shapeRenderer.rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        shapeRenderer.rect(startPixelPos.x + 1, startPixelPos.y + 1, DisplayConfig.TILE_SIZE - 2, DisplayConfig.TILE_SIZE - 2);
+        shapeRenderer.rect(startPixelPos.x + 2, startPixelPos.y + 2, DisplayConfig.TILE_SIZE - 4, DisplayConfig.TILE_SIZE - 4);
+        shapeRenderer.rect(startPixelPos.x + 3, startPixelPos.y + 3, DisplayConfig.TILE_SIZE - 6, DisplayConfig.TILE_SIZE - 6);
+        shapeRenderer.end();
+
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }
 
