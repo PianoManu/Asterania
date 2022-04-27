@@ -1,8 +1,13 @@
 package de.pianomanu.asterania.inventory.item;
 
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
 
+import java.util.logging.Logger;
+
 public class Items {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     public static final Item NONE = r(new Item("none", 0));
     public static final Item GRASS_TILE = r(new Item("grass", 0.2f));
     public static final Item ROCK_TILE = r(new Item("rock", 10));
@@ -20,14 +25,7 @@ public class Items {
         return item;
     }
 
-    public static void setupItems() {
-        //TODO find a better way to load items...
-        NONE.getName();
-        GRASS_TILE.getName();
-        ROCK_TILE.getName();
-        SOIL_TILE.getName();
-        DIRTY_STONE_TILE.getName();
-        TITANIUM_DIBORIDE_TILE.getName();
-        MINE_LADDER.getName();
+    public static void load() {
+        LOGGER.info("Loading items...");
     }
 }

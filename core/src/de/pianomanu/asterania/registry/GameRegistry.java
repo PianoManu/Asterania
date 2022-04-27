@@ -114,7 +114,7 @@ public class GameRegistry {
     }
 
     public static void setupRegistry() {
-        Items.setupItems();
+        Items.load();
     }
 
     public static void setupRegistryGameLoading() {
