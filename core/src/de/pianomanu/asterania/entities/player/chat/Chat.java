@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Chat {
-    private final List<String> CHAT_LOG = new ArrayList<>();
+    private final List<ChatElement> CHAT_LOG = new ArrayList<>();
 
     private String currentMessage = "";
 
@@ -16,11 +16,7 @@ public class Chat {
 
     }
 
-    public void addMessage(String msg) {
-        this.CHAT_LOG.add(msg);
-    }
-
-    public List<String> getMessages() {
+    public List<ChatElement> getMessages() {
         return this.CHAT_LOG;
     }
 
@@ -35,7 +31,8 @@ public class Chat {
     public boolean isEmpty() {
         if (this.CHAT_LOG.size() == 0)
             return true;
-        for (String s : this.CHAT_LOG) {
+        for (ChatElement e : this.CHAT_LOG) {
+            String s = e.getContent();
             if (!s.isEmpty())
                 return false;
         }
@@ -44,7 +41,7 @@ public class Chat {
 
     public boolean addLastMessageToChat() {
         if (!currentMessage.isEmpty()) {
-            this.CHAT_LOG.add(currentMessage);
+            this.CHAT_LOG.add(new ChatElement(currentMessage));
             currentMessage = "";
             return true;
         }

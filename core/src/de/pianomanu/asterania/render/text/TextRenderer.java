@@ -2,6 +2,7 @@ package de.pianomanu.asterania.render.text;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -57,6 +58,46 @@ public class TextRenderer {
         font.setColor(textColor);
         font.draw(batch, content, startX - xOffset, startY + yOffset);
         batch.end();
+    }
+
+    public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor, boolean enableTransparency, float intensity) {
+        int xOffset = 0;
+        int yOffset = 0;
+        font.getData().setScale(textSize);
+        glyphLayout.setText(font, content);
+        if (isCentered) {
+            xOffset = (int) (glyphLayout.width / 2);
+            yOffset = (int) (glyphLayout.height / 2);
+        }
+
+        if (enableTransparency) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            rectangleColor.set(rectangleColor.r, rectangleColor.g, rectangleColor.b, intensity);
+            textColor.set(textColor.r, textColor.g, textColor.b, intensity);
+        }
+
+        if (addBackgroundRectangle) {
+            if (isCentered) {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            } else {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            }
+        }
+        batch.begin();
+        font.setColor(textColor);
+        font.draw(batch, content, startX - xOffset, startY + yOffset);
+        batch.end();
+
+        if (enableTransparency) {
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
     }
 
     public static void reloadTextRenderers() {
