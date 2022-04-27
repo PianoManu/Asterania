@@ -39,6 +39,7 @@ public class DebugScreenRenderer {
         DebugScreenRenderer.renderHitbox(shapeRenderer);
         DebugScreenRenderer.renderDebugText(world, fps);
         DebugScreenRenderer.renderReachCircle(shapeRenderer);
+        DebugScreenRenderer.renderCenterDot();
     }
 
     private static void renderReachCircle(ShapeRenderer shapeRenderer) {
@@ -132,5 +133,25 @@ public class DebugScreenRenderer {
         shapeRenderer.setColor(1, 0, 0, 1);
         shapeRenderer.rect(start.x, start.y, end.x, end.y);
         shapeRenderer.end();
+    }
+
+    private static void renderCenterDot() {
+
+        gridRenderer.begin(ShapeRenderer.ShapeType.Line);
+        gridRenderer.setColor(0, 0, 0, 1);
+        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
+        WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
+        WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
+        WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);
+        TileCoordinates bottomLeftTile = bottomleftSection.startToTileCoordinates();
+        TileCoordinates topRightTile = topRightSection.endToTileCoordinates();
+        for (int x = bottomLeftTile.getX(); x < topRightTile.getX(); x++) {
+            for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
+                int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
+                int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
+                gridRenderer.ellipse(xTile + DisplayConfig.TILE_SIZE / 2f, yTile + DisplayConfig.TILE_SIZE / 2f, 2, 2);
+            }
+        }
+        gridRenderer.end();
     }
 }
