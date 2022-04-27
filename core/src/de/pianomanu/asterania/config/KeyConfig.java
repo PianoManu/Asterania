@@ -10,6 +10,8 @@ public class KeyConfig {
     public static final int REMOVE_TILE = Input.Buttons.RIGHT;
     public static final int PLACE_OR_INTERACT_WITH_TILE = Input.Buttons.LEFT;
     public static final int OPEN_OR_CLOSE_INVENTORY = Input.Keys.END;
+    public static final int OPEN_CHAT = Input.Keys.ENTER;
+    public static final int SEND_MESSAGE = Input.Keys.ENTER;
 
     public static final int START = Input.Keys.SPACE;
 

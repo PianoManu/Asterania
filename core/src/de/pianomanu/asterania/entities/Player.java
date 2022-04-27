@@ -3,6 +3,7 @@ package de.pianomanu.asterania.entities;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
+import de.pianomanu.asterania.entities.player.chat.Chat;
 import de.pianomanu.asterania.inventory.Inventory;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -29,11 +30,15 @@ public class Player {
     private World currentWorld = null;
     private float reach = 2; //radius around the player, where he can interact with things
     private boolean clickedOutOfReach = false;
+    private final Chat chat;
+    private boolean isChatOpen = false;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, -CHARACTER_SIZE.y);
         //this.playerInventory.addStackToInventory(new ItemStack(Items.STONE, 2));
+
+        this.chat = new Chat();
     }
 
     public EntityCoordinates getPos() {
@@ -217,5 +222,17 @@ public class Player {
 
     public void setClickedOutOfReach(boolean clickedOutOfReach) {
         this.clickedOutOfReach = clickedOutOfReach;
+    }
+
+    public Chat getChat() {
+        return this.chat;
+    }
+
+    public boolean isChatOpen() {
+        return this.isChatOpen;
+    }
+
+    public void setChatOpen(boolean chatOpen) {
+        isChatOpen = chatOpen;
     }
 }

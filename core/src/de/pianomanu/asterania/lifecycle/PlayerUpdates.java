@@ -5,11 +5,14 @@ import com.badlogic.gdx.Input;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.entities.player.chat.Chat;
 import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.render.text.chat.ChatRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.TileBreakingUI;
+import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -30,6 +33,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         updateMovement(world, delta);
         changeEnvironment(world);
         changeInventory(world);
+        interactWithChat();
     }
 
     private static void updateMovement(World world, float delta) {
@@ -340,5 +344,34 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
     public static void setTimesScrolled(int timesScrolled) {
         PlayerUpdates.timesScrolled = timesScrolled;
+    }
+
+    private static void interactWithChat() {
+        Player player = AsteraniaMain.player;
+        Chat chat = player.getChat();
+        if (Gdx.input.isKeyJustPressed(KeyConfig.OPEN_CHAT) && !player.isChatOpen()) {
+            player.setChatOpen(true);
+
+            //remove any left-over input
+            AsteraniaInputProcessor.getTextInput().clear();
+            //render previous chat
+
+            //do render text line
+            ChatRenderer.setChatIsOpen(true);
+
+        } else if (Gdx.input.isKeyJustPressed(KeyConfig.SEND_MESSAGE) && player.isChatOpen()) {
+            player.setChatOpen(false);
+
+            //add typed message to chat log
+            chat.addLastMessageToChat();
+
+            //do no longer render text line
+            ChatRenderer.setChatIsOpen(false);
+
+            AsteraniaInputProcessor.getTextInput().clear();
+        } else if (player.isChatOpen()) {
+            chat.setCurrentMessage(AsteraniaInputProcessor.getTextInput().getInputString());
+            System.out.println(chat.getCurrentMessage());
+        }
     }
 }
