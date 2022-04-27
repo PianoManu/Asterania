@@ -1,8 +1,8 @@
 package de.pianomanu.asterania.registry;
 
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.inventory.objects.InventoryObject;
-import de.pianomanu.asterania.inventory.objects.InventoryObjects;
+import de.pianomanu.asterania.inventory.item.Item;
+import de.pianomanu.asterania.inventory.item.Items;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -17,7 +17,7 @@ public class GameRegistry {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     private static final List<Tile> TILES = new ArrayList<>();
-    private static final List<InventoryObject> OBJECTS = new ArrayList<>();
+    private static final List<Item> ITEMS = new ArrayList<>();
     private static final List<TileProperty<?>> TILE_PROPERTIES = new ArrayList<>();
     private static final List<World> WORLDS = new ArrayList<>();
     private static final List<WorldSectionSettings> WORLD_SECTION_SETTINGS = new ArrayList<>();
@@ -26,17 +26,17 @@ public class GameRegistry {
         TILES.add(tile);
     }
 
-    public static <I extends InventoryObject> void registerInventoryObjects(I inventoryObject) {
-        OBJECTS.add(inventoryObject);
+    public static <I extends Item> void registerItems(I item) {
+        ITEMS.add(item);
     }
 
     public static <T extends TileProperty<?>> void registerTileProperty(T tileProperty) {
         TILE_PROPERTIES.add(tileProperty);
     }
 
-    public static <T extends Tile> InventoryObject getInventoryObject(T tile) {
-        for (InventoryObject iO :
-                OBJECTS) {
+    public static <T extends Tile> Item getItem(T tile) {
+        for (Item iO :
+                ITEMS) {
             if (iO.getName().equals(tile.getSaveFileString())) {
                 return iO;
             }
@@ -44,18 +44,18 @@ public class GameRegistry {
         return null;
     }
 
-    public static InventoryObject getInventoryObjectFromString(String inventoryObjectName) {
-        for (InventoryObject io :
-                OBJECTS) {
-            if (io.getName().equals(inventoryObjectName)) {
+    public static Item getItemFromString(String itemName) {
+        for (Item io :
+                ITEMS) {
+            if (io.getName().equals(itemName)) {
                 return io;
             }
         }
-        LOGGER.warning("Could not decode an inventory object from input string \"" + inventoryObjectName + "\", using \"null\" instead!");
+        LOGGER.warning("Could not decode an item from input string \"" + itemName + "\", using \"null\" instead!");
         return null;
     }
 
-    public static <T extends Tile> T getTile(InventoryObject iO) {
+    public static <T extends Tile> T getTile(Item iO) {
         for (Tile t :
                 TILES) {
             if (t.getSaveFileString().equals(iO.getName())) {
@@ -114,7 +114,7 @@ public class GameRegistry {
     }
 
     public static void setupRegistry() {
-        InventoryObjects.setupObjects();
+        Items.setupItems();
     }
 
     public static void setupRegistryGameLoading() {

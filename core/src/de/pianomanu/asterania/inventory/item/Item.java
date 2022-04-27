@@ -1,13 +1,13 @@
-package de.pianomanu.asterania.inventory.objects;
+package de.pianomanu.asterania.inventory.item;
 
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
-public class InventoryObject {
+public class Item {
     private final String name;
     private final float weight;
 
-    public InventoryObject(String name, float weight) {
+    public Item(String name, float weight) {
         this.name = name;
         this.weight = weight;
     }

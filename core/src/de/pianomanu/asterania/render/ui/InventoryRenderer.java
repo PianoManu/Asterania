@@ -12,7 +12,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.Inventory;
-import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -66,11 +66,11 @@ public class InventoryRenderer {
             batch.begin();
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
-                    InventoryObjectStack iO = inv.getStackAtPos(x + y * COLUMNS);
-                    if (!iO.equals(InventoryObjectStack.EMPTY) && iO.getStackCount() > 0) {
-                        TextureRegion texture = GameRegistry.getTile(iO.getInventoryObject()).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
+                    ItemStack iO = inv.getStackAtPos(x + y * COLUMNS);
+                    if (!iO.equals(ItemStack.EMPTY) && iO.getStackCount() > 0) {
+                        TextureRegion texture = GameRegistry.getTile(iO.getItem()).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
                         if (texture == null) {
-                            texture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getInventoryObject().getName() + "1");
+                            texture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
                         }
                         batch.draw(texture, xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4, yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4, 32, 32);
                     }
@@ -80,8 +80,8 @@ public class InventoryRenderer {
 
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
-                    InventoryObjectStack iO = inv.getStackAtPos(x + y * COLUMNS);
-                    if (!iO.equals(InventoryObjectStack.EMPTY) && iO.getStackCount() > 0)
+                    ItemStack iO = inv.getStackAtPos(x + y * COLUMNS);
+                    if (!iO.equals(ItemStack.EMPTY) && iO.getStackCount() > 0)
                         TextRenderer.renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + SLOT_SIZE.x / 2), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + SLOT_SIZE.y / 4), iO.getStackCount() + "", Color.WHITE);
                 }
             }

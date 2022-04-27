@@ -5,7 +5,7 @@ import com.badlogic.gdx.Input;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.inventory.objects.InventoryObjectStack;
+import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
@@ -162,11 +162,11 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
             //first check if decorative tile can be placed
             Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-            if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY) && decorationLayerTile == null) {
-                Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
+            if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY) && decorationLayerTile == null) {
+                Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
                 if (holding instanceof DecorationTile) {
                     DecorationTile newDecorationTile = (DecorationTile) holding;
-                    if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+                    if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
                         world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newDecorationTile);
                         player.getPlayerInventory().getCurrentIOStack().decrement();
                     }
@@ -191,7 +191,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 if (oldDecorationTile != null) {
                     float breakingTime = oldDecorationTile.getSettings().get(TileProperties.BREAK_TIME);
                     //check how much player is already carrying
-                    if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getInventoryObject(oldDecorationTile)).getWeight() <= player.getMaxWeight()) {
+                    if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getItem(oldDecorationTile)).getWeight() <= player.getMaxWeight()) {
                         TileBreakingUI.renderNoBreakingPossible = false;
                         if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE))
                             player.setBreakingTile(true);
@@ -218,9 +218,9 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
                 Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
                 if (decorationLayerTile == null) {
 
-                    if (!player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
-                        Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
-                        if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+                    if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
+                        Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
+                        if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
                             world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, holding);
                             player.getPlayerInventory().getCurrentIOStack().decrement();
                         }
@@ -251,14 +251,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
         if (player.getPlayerInventory().calcCurrentWeight() >= player.getMaxWeight()) {
             TileBreakingUI.renderNoBreakingPossible = false;
-        } else if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+        } else if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
             removeTile();
             setTile(newTile);
         }
 
         /*old.setBreakingLevel(0);
         player.setCurrentBreakingPercentage(0);
-        player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+        player.getPlayerInventory().addStack(new ItemStack(GameRegistry.getItem(old)));
         player.setBreakingTile(false);
         world.findSection(mouse).getTile(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());*/
     }
@@ -270,7 +270,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Tile old = world.findSection(mouse).getTileAbsoluteCoordinates(mouse);
         old.setBreakingLevel(0);
         player.setCurrentBreakingPercentage(0);
-        player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+        player.getPlayerInventory().addStack(new ItemStack(GameRegistry.getItem(old)));
         player.setBreakingTile(false);
         world.findSection(mouse).setTileAbsoluteCoordinates(mouse, null);
     }
@@ -290,7 +290,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             TileBreakingUI.renderNoBreakingPossible = false;
         } else {
             removeDecorationTile();
-            if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(InventoryObjectStack.EMPTY)) {
+            if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
                 setDecorationTile(newTile);
             }
         }
@@ -304,7 +304,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         Tile old = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
         old.setBreakingLevel(0);
         player.setCurrentBreakingPercentage(0);
-        player.getPlayerInventory().addStack(new InventoryObjectStack(GameRegistry.getInventoryObject(old)));
+        player.getPlayerInventory().addStack(new ItemStack(GameRegistry.getItem(old)));
         player.setBreakingTile(false);
         world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, null);
     }

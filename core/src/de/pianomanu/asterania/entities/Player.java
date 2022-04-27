@@ -33,7 +33,7 @@ public class Player {
     public Player() {
         this.characterPos = new EntityCoordinates();
         this.playerHitbox = new SimpleHitbox(new EntityCoordinates(this.characterPos), new EntityCoordinates(this.characterPos).add(CHARACTER_SIZE)).move(-CHARACTER_SIZE.x / 2, -CHARACTER_SIZE.y);
-        //this.playerInventory.addStackToInventory(new InventoryObjectStack(InventoryObjects.STONE, 2));
+        //this.playerInventory.addStackToInventory(new ItemStack(Items.STONE, 2));
     }
 
     public EntityCoordinates getPos() {

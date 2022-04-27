@@ -1,25 +1,25 @@
-package de.pianomanu.asterania.inventory.objects;
+package de.pianomanu.asterania.inventory.item;
 
-public class InventoryObjectStack {
-    public static final InventoryObjectStack EMPTY = new InventoryObjectStack(InventoryObjects.NONE, Integer.MAX_VALUE);
-    private final InventoryObject inventoryObject;
+public class ItemStack {
+    public static final ItemStack EMPTY = new ItemStack(Items.NONE, Integer.MAX_VALUE);
+    private final Item item;
     private int stackCount;
 
-    public InventoryObjectStack(InventoryObject inventoryObject) {
-        this.inventoryObject = inventoryObject;
+    public ItemStack(Item item) {
+        this.item = item;
         this.stackCount = 1;
     }
 
-    public InventoryObjectStack(InventoryObject inventoryObject, int stackCount) {
-        this.inventoryObject = inventoryObject;
+    public ItemStack(Item item, int stackCount) {
+        this.item = item;
         if (stackCount > 0)
             this.stackCount = stackCount;
         else
             this.stackCount = 1;
     }
 
-    public InventoryObject getInventoryObject() {
-        return this.inventoryObject;
+    public Item getItem() {
+        return this.item;
     }
 
     public int getStackCount() {
@@ -45,12 +45,12 @@ public class InventoryObjectStack {
     @Override
     public String toString() {
         return "{" +
-                "IO:" + this.inventoryObject.getName() +
+                "IO:" + this.item.getName() +
                 ", Count=" + this.stackCount +
                 '}';
     }
 
     public String toSaveFileString() {
-        return this.stackCount + "*" + this.inventoryObject.getName();
+        return this.stackCount + "*" + this.item.getName();
     }
 }

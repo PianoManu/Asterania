@@ -39,7 +39,7 @@ public class HotbarRenderer {
         int tileWidth = hWidth * 3 / 4;
         int tileHeight = hHeight * 3 / 4;
         Player player = AsteraniaMain.player;
-        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getInventoryObject());
+        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
         if (t.equals(Tiles.WHITE)) {
             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
             shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
