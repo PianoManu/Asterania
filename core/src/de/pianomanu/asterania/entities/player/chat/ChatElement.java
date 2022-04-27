@@ -34,8 +34,6 @@ public class ChatElement {
             this.timer -= (int) (Gdx.graphics.getDeltaTime() * 1000);
         else
             this.timer = 0;
-        //TODO remove System.out.println
-        System.out.println(this.timer);
     }
 
     public float getFadingPortion() {

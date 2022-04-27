@@ -110,12 +110,6 @@ public class MainMenuScreen extends ScreenAdapter {
             LOGGER.fine("Stopping the game...");
             Gdx.app.exit();
         }
-        //TODO remove this... not useful anymore
-        if (Gdx.input.isKeyJustPressed(KeyConfig.START)) {
-            LOGGER.fine("Starting the game...");
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new GameScreen());
-        }
         if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             checkIfButtonPressed();
         }
