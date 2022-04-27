@@ -76,37 +76,37 @@ public class TextInput {
             case ',':
             case '#':
             case '+':
-                //case 'ß': //TODO fix font for sharp s symbol or remove
-                //case '§': //TODO fix font for paragraph symbol or remove
+            case 'ß': //TODO fix font for sharp s symbol or remove
+            case '§': //TODO fix font for paragraph symbol or remove
             case '$':
             case '%':
             case '&':
             case '(':
             case ')':
             case '=':
-                //case '°': //TODO fix font for degree symbol or remove
+            case '°': //TODO fix font for degree symbol or remove
             case '^':
             case '~':
                 //TODO fix special characters
-                //case 'ä':
-                //case 'ö':
-                //case 'ü':
-                //case 'á':
-                //case 'à':
-                //case 'â':
-                //case 'é':
-                //case 'è':
-                //case 'ê':
-                //case 'í':
-                //case 'ì':
-                //case 'î':
-                //case 'ó':
-                //case 'ò':
-                //case 'ô':
-                //case 'ú':
-                //case 'ù':
-                //case 'û':
-                //case 'ý':
+            case 'ä':
+            case 'ö':
+            case 'ü':
+            case 'á':
+            case 'à':
+            case 'â':
+            case 'é':
+            case 'è':
+            case 'ê':
+            case 'í':
+            case 'ì':
+            case 'î':
+            case 'ó':
+            case 'ò':
+            case 'ô':
+            case 'ú':
+            case 'ù':
+            case 'û':
+            case 'ý':
                 return true;
         }
         return false;
