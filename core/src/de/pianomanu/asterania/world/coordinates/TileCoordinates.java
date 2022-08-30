@@ -1,5 +1,6 @@
 package de.pianomanu.asterania.world.coordinates;
 
+import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class TileCoordinates {
@@ -70,6 +71,37 @@ public class TileCoordinates {
 
     public TileCoordinates moveLeft(int steps) {
         this.x -= steps;
+        return this;
+    }
+
+    /**
+     * Moves this coordinates instance by one step in the given direction. If
+     * the direction is <b>null</b>, nothing changes.
+     *
+     * @param direction the direction in which the coordinates should be moved.
+     * @return the moved coordinates instance.
+     */
+    public TileCoordinates move(Direction direction) {
+        return move(direction, 1);
+    }
+
+    /**
+     * Moves this coordinates instance by the given steps in the given
+     * direction. If the direction is <b>null</b>, nothing changes.
+     *
+     * @param direction the direction in which the coordinates should be moved.
+     * @param steps     the amount of steps to move in the given direction.
+     * @return the moved coordinates instance.
+     */
+    public TileCoordinates move(Direction direction, int steps) {
+        if (direction != null) {
+            return switch (direction) {
+                case RIGHT -> this.moveRight(steps);
+                case LEFT -> this.moveLeft(steps);
+                case UP -> this.moveUp(steps);
+                case DOWN -> this.moveDown(steps);
+            };
+        }
         return this;
     }
 }

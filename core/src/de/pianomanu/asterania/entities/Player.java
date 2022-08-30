@@ -32,6 +32,7 @@ public class Player {
     private boolean clickedOutOfReach = false;
     private final Chat chat;
     private boolean isChatOpen = false;
+    private float playerZDepth = 1 / 4f;
 
     public Player() {
         this.characterPos = new EntityCoordinates();
@@ -99,6 +100,22 @@ public class Player {
     public void moveDown(float delta) {
         this.characterPos.y -= this.stepSize * delta;
         this.setPlayerFacing(Direction.DOWN);
+    }
+
+    /**
+     * Moves this player instance by the given steps in the given
+     * direction. If the direction is <b>null</b>, nothing changes.
+     *
+     * @param direction the direction in which the coordinates should be moved.
+     * @param delta     the amount of steps to move in the given direction.
+     */
+    public void move(Direction direction, float delta) {
+        switch (direction) {
+            case RIGHT -> this.moveRight(delta);
+            case LEFT -> this.moveLeft(delta);
+            case UP -> this.moveUp(delta);
+            case DOWN -> this.moveDown(delta);
+        }
     }
 
     public void checkForAnimationUpdate(float delta) {
@@ -234,5 +251,13 @@ public class Player {
 
     public void setChatOpen(boolean chatOpen) {
         isChatOpen = chatOpen;
+    }
+
+    public float getPlayerZDepth() {
+        return this.playerZDepth;
+    }
+
+    public void setPlayerZDepth(float playerZDepth) {
+        this.playerZDepth = playerZDepth;
     }
 }
