@@ -2,7 +2,6 @@ package de.pianomanu.asterania.lifecycle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
@@ -80,30 +79,35 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     }
 
     private static boolean isAdjacentTileAccessible(World world, Player player, Direction direction) {
-        Vector2 offsetDirection = switch (direction) {
-            case RIGHT -> new Vector2(0, 0); //TODO fix left and right movement, especially for "corners"
-            case LEFT -> new Vector2(0, 0);
-            case UP -> new Vector2(0, 1);
-            case DOWN -> new Vector2(0, -1);
+        EntityCoordinates moved1 = switch (direction) {
+            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y);
+            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y);
+            case UP -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
+            case DOWN -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
         };
-        float playerDepth = switch (direction) {
-            case RIGHT -> player.getPlayerZDepth();
-            case LEFT -> player.getPlayerZDepth();
-            case UP, DOWN -> 0;
+        EntityCoordinates moved2 = switch (direction) {
+            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
+            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
+            case UP -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
+            case DOWN -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
         };
-        EntityCoordinates moved1 = new EntityCoordinates(player.getPlayerHitbox().start.x + offsetDirection.x, player.getPlayerHitbox().start.y + offsetDirection.y + playerDepth);
-        EntityCoordinates moved2 = new EntityCoordinates(player.getPlayerHitbox().end.x + offsetDirection.x, player.getPlayerHitbox().start.y + offsetDirection.y + playerDepth);
+        boolean moved1And2areSameTile = switch (direction) {
+            case RIGHT, LEFT -> Math.ceil(player.getPlayerHitbox().start.y) == Math.ceil(player.getPlayerHitbox().start.y + player.getPlayerZDepth());
+            case UP, DOWN -> Math.ceil(player.getPlayerHitbox().start.x) == Math.ceil(player.getPlayerHitbox().end.x);
+        };
         boolean decorationAccessible1 = isDecorationAccessible(world, moved1);
         boolean decorationAccessible2 = isDecorationAccessible(world, moved2);
         boolean tileAccessible1 = world.findSection(moved1).getTileAbsoluteCoordinates(moved1).getSettings().get(TileProperties.IS_ACCESSIBLE);
         boolean tileAccessible2 = world.findSection(moved2).getTileAbsoluteCoordinates(moved2).getSettings().get(TileProperties.IS_ACCESSIBLE);
+        if (moved1And2areSameTile)
+            return decorationAccessible1 && tileAccessible1;
         return tileAccessible1 && decorationAccessible1 && tileAccessible2 && decorationAccessible2;
     }
 
     private static boolean playerStaysOnTile(Player player, Direction direction, TileCoordinates adjacentTileCoords) {
         return switch (direction) {
             case RIGHT -> player.getPlayerHitbox().end.x < adjacentTileCoords.getX();
-            case LEFT -> player.getPlayerHitbox().start.x > adjacentTileCoords.getX() + 1;
+            case LEFT -> player.getPlayerHitbox().start.x >= adjacentTileCoords.getX() + 1;
             case UP -> player.getPos().y + player.getStepSize() * Gdx.graphics.getDeltaTime() < adjacentTileCoords.getY() - player.getPlayerZDepth();
             case DOWN -> player.getPos().y - player.getStepSize() * Gdx.graphics.getDeltaTime() > adjacentTileCoords.getY() + 1;
         };
