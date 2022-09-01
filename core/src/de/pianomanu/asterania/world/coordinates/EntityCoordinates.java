@@ -30,6 +30,10 @@ public class EntityCoordinates {
         return y;
     }
 
+    public EntityCoordinates copy() {
+        return new EntityCoordinates(this);
+    }
+
     public static EntityCoordinates getEntityCoordinates(float x, float y) {
         return new EntityCoordinates(x, y);
     }
