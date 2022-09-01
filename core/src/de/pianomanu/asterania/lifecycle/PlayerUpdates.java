@@ -7,8 +7,8 @@ import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.player.chat.Chat;
 import de.pianomanu.asterania.entities.player.interaction.PlayerMovement;
+import de.pianomanu.asterania.entities.player.interaction.environment.DecorationLayerInteraction;
 import de.pianomanu.asterania.inventory.item.ItemStack;
-import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.text.chat.ChatRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
@@ -21,7 +21,6 @@ import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.tile.DecorationTile;
 import de.pianomanu.asterania.world.tile.Tile;
 
-import java.util.Objects;
 import java.util.logging.Logger;
 
 public class PlayerUpdates extends GameLifeCycleUpdates {
@@ -93,33 +92,11 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     }
 
     private static void changeDecorationLayer(World world, Player player, EntityCoordinates mouse) {
-        Tile oldDecorationTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
         if (Gdx.input.isButtonPressed(KeyConfig.REMOVE_TILE)) {
-            if (player.isInReach(mouse.toTileCoordinates())) {
-                if (oldDecorationTile != null) {
-                    float breakingTime = oldDecorationTile.getSettings().get(TileProperties.BREAK_TIME);
-                    //check how much player is already carrying
-                    if (player.getPlayerInventory().calcCurrentWeight() + Objects.requireNonNull(GameRegistry.getItem(oldDecorationTile)).getWeight() <= player.getMaxWeight()) {
-                        TileBreakingUI.renderNoBreakingPossible = false;
-                        if (Gdx.input.isButtonJustPressed(KeyConfig.REMOVE_TILE))
-                            player.setBreakingTile(true);
-                        oldDecorationTile.setBreakingLevel(oldDecorationTile.getBreakingLevel() + Gdx.graphics.getDeltaTime());
-                        player.setCurrentBreakingPercentage(oldDecorationTile.getBreakingLevel() / breakingTime);
-                        LOGGER.finest("Breaking level " + oldDecorationTile.getBreakingLevel() + ", BreakTime" + oldDecorationTile.getSettings().get(TileProperties.BREAK_TIME));
-                        if (oldDecorationTile.getBreakingLevel() >= breakingTime) {
-                            //break decoration and replace
-                            removeDecorationTile();
-                        }
-                    } else {
-                        //too much weight in inventory
-                        TileBreakingUI.renderNoBreakingPossible = true;
-                        TileBreakingUI.renderNoBreakingPossibleMessage = "Inventory full";
-                    }
-                }
-            }
+            DecorationLayerInteraction.changeDecorationTile(world, player, mouse);
         } else {
             //breaking button released
-            resetProgressBar(player, oldDecorationTile);
+            resetProgressBar(player, world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse));
         }
         if (Gdx.input.isButtonJustPressed(KeyConfig.PLACE_OR_INTERACT_WITH_TILE)) {
             if (player.isInReach(mouse.toTileCoordinates())) {
@@ -190,40 +167,6 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
         world.findSection(mouse).setTileAbsoluteCoordinates(mouse, newTile);
         world.findSection(mouse).getTileAbsoluteCoordinates(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
-    }
-
-    private static void replaceDecorationTile(Tile newTile) {
-        Player player = AsteraniaMain.player;
-        if (player.getPlayerInventory().calcCurrentWeight() >= player.getMaxWeight()) {
-            TileBreakingUI.renderNoBreakingPossible = false;
-        } else {
-            removeDecorationTile();
-            if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
-                setDecorationTile(newTile);
-            }
-        }
-
-    }
-
-    private static void removeDecorationTile() {
-        Player player = AsteraniaMain.player;
-        World world = player.getCurrentWorld();
-        EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getPos());
-        Tile old = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-        old.setBreakingLevel(0);
-        player.setCurrentBreakingPercentage(0);
-        player.getPlayerInventory().addStack(new ItemStack(GameRegistry.getItem(old)));
-        player.setBreakingTile(false);
-        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, null);
-    }
-
-    private static void setDecorationTile(Tile newTile) {
-        Player player = AsteraniaMain.player;
-        World world = player.getCurrentWorld();
-        EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getPos());
-
-        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newTile);
-        world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse).runPlacementEvents(world, player, mouse.toTileCoordinates());
     }
 
     public static void changeInventory(World world) {
