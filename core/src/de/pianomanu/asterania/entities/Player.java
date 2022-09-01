@@ -48,6 +48,7 @@ public class Player {
 
     public void setPos(EntityCoordinates characterPos) {
         this.characterPos = characterPos;
+        this.updateHitbox();
     }
 
     public void setPos(float x, float y) {
@@ -83,22 +84,22 @@ public class Player {
     }
 
     public void moveRight(float delta) {
-        this.characterPos.x += this.stepSize * delta;
+        this.setPos(this.getPos().x + this.stepSize * delta, this.getPos().y);
         this.setPlayerFacing(Direction.RIGHT);
     }
 
     public void moveLeft(float delta) {
-        this.characterPos.x -= this.stepSize * delta;
+        this.setPos(this.getPos().x - this.stepSize * delta, this.getPos().y);
         this.setPlayerFacing(Direction.LEFT);
     }
 
     public void moveUp(float delta) {
-        this.characterPos.y += this.stepSize * delta;
+        this.setPos(this.getPos().x, this.getPos().y + this.stepSize * delta);
         this.setPlayerFacing(Direction.UP);
     }
 
     public void moveDown(float delta) {
-        this.characterPos.y -= this.stepSize * delta;
+        this.setPos(this.getPos().x, this.getPos().y - this.stepSize * delta);
         this.setPlayerFacing(Direction.DOWN);
     }
 
@@ -140,6 +141,7 @@ public class Player {
     public void setStanding() {
         this.movingAnimationCounter = 0;
         this.isMoving = false;
+        updateHitbox();
     }
 
     public boolean isMoving() {
@@ -223,8 +225,8 @@ public class Player {
     }
 
     public boolean isInReach(EntityCoordinates coordinates) {
-        float distX = Math.abs(coordinates.x - this.characterPos.x);
-        float distY = Math.abs(coordinates.y - this.characterPos.y);
+        float distX = Math.abs(coordinates.x - this.getPos().x);
+        float distY = Math.abs(coordinates.y - this.getPos().y);
         double dist = Math.sqrt(distX * distX + distY * distY);
         return dist <= this.reach;
     }
