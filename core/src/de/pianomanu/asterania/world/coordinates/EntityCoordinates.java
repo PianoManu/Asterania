@@ -58,6 +58,26 @@ public class EntityCoordinates {
         return this;
     }
 
+    public EntityCoordinates moveToRightBorder() {
+        this.x = (float) Math.ceil(this.x);
+        return this;
+    }
+
+    public EntityCoordinates moveToLeftBorder() {
+        this.x = (float) Math.floor(this.x);
+        return this;
+    }
+
+    public EntityCoordinates moveToUpBorder() {
+        this.y = (float) Math.ceil(this.y);
+        return this;
+    }
+
+    public EntityCoordinates moveToDownBorder() {
+        this.y = (float) Math.floor(this.y);
+        return this;
+    }
+
     @Override
     public String toString() {
         return "{" + "x=" + x + ", y=" + y + '}';
