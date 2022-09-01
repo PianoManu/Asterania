@@ -6,6 +6,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.player.chat.Chat;
+import de.pianomanu.asterania.entities.player.interaction.PlayerMovement;
 import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
@@ -16,7 +17,6 @@ import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
-import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.tile.DecorationTile;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -39,112 +39,21 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     private static void updateMovement(World world) {
         Player player = AsteraniaMain.player;
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
-            move(world, player, Direction.UP);
+            PlayerMovement.move(world, player, Direction.UP);
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN)) {
-            move(world, player, Direction.DOWN);
+            PlayerMovement.move(world, player, Direction.DOWN);
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT)) {
-            move(world, player, Direction.RIGHT);
+            PlayerMovement.move(world, player, Direction.RIGHT);
         }
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT)) {
-            move(world, player, Direction.LEFT);
+            PlayerMovement.move(world, player, Direction.LEFT);
         }
         if (player.isMoving())
             player.checkForAnimationUpdate(Gdx.graphics.getDeltaTime());
         if (!Gdx.input.isKeyPressed(KeyConfig.MOVE_RIGHT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_LEFT) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_UP) && !Gdx.input.isKeyPressed(KeyConfig.MOVE_DOWN))
             player.setStanding();
-    }
-
-    private static boolean move(World world, Player player, Direction direction) {
-        player.setMoving();
-        TileCoordinates playerTile = player.getPos().toTileCoordinates();
-        TileCoordinates adjacentTileCoords = switch (direction) {
-            case RIGHT -> player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().toTileCoordinates();
-            case LEFT -> player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().toTileCoordinates();
-            case UP, DOWN -> playerTile.copy().move(direction);
-        };
-        if (isTileAccessible(world, player.getPos())) {
-            generateSurroundingSections(world, adjacentTileCoords);
-            if (isAdjacentTileAccessible(world, player, direction) || playerStaysOnTile(player, direction, adjacentTileCoords)) {
-                player.move(direction, Gdx.graphics.getDeltaTime());
-                return true;
-            }
-            if (!playerStaysOnTile(player, direction, adjacentTileCoords)) {
-                teleportPlayerToTileBorder(player, direction, adjacentTileCoords);
-                if (Gdx.input.isKeyJustPressed(direction.getKeyFromDirection()))
-                    player.setPlayerFacing(direction);
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private static boolean isAdjacentTileAccessible(World world, Player player, Direction direction) {
-        EntityCoordinates moved1 = switch (direction) {
-            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x, player.getPlayerHitbox().start.y);
-            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x - 1, player.getPlayerHitbox().start.y);
-            case UP -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
-            case DOWN -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
-        };
-        EntityCoordinates moved2 = switch (direction) {
-            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
-            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x - 1, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
-            case UP -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
-            case DOWN -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
-        };
-        boolean moved1And2areSameTile = switch (direction) {
-            case RIGHT, LEFT -> Math.ceil(player.getPlayerHitbox().start.y) == Math.ceil(player.getPlayerHitbox().start.y + player.getPlayerZDepth());
-            case UP, DOWN -> Math.ceil(player.getPlayerHitbox().start.x) == Math.ceil(player.getPlayerHitbox().end.x);
-        };
-        if (moved1And2areSameTile)
-            return isTileAccessible(world, moved1);
-        return isTileAccessible(world, moved1) && isTileAccessible(world, moved2);
-    }
-
-    private static boolean isTileAccessible(World world, EntityCoordinates entityCoordinates) {
-        boolean decorationAccessible = isDecorationAccessible(world, entityCoordinates);
-        boolean backgroundAccessible = world.findSection(entityCoordinates).getTileAbsoluteCoordinates(entityCoordinates).getSettings().get(TileProperties.IS_ACCESSIBLE);
-        return decorationAccessible && backgroundAccessible;
-    }
-
-    private static boolean playerStaysOnTile(Player player, Direction direction, TileCoordinates adjacentTileCoords) {
-        float bottomRightX = player.getPlayerHitbox().getBottomRight().x;
-        float bottomLeftX = player.getPlayerHitbox().getBottomLeft().x;
-        float playerPosY = player.getPos().y;
-        float steps = player.getStepSize() * Gdx.graphics.getDeltaTime();
-        float bottomRightBorder = player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x;
-        float bottomLeftBorder = player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x;
-        return switch (direction) {
-            case RIGHT -> bottomRightX + steps < bottomRightBorder;
-            case LEFT -> bottomLeftX - steps > bottomLeftBorder;
-            case UP -> playerPosY + steps < adjacentTileCoords.getY() - player.getPlayerZDepth();
-            case DOWN -> playerPosY - steps > adjacentTileCoords.getY() + 1;
-        };
-    }
-
-    private static void teleportPlayerToTileBorder(Player player, Direction direction, TileCoordinates adjacentTileCoords) {
-        float xHitboxWidth = player.getCharacterSize().x;
-        EntityCoordinates pos = player.getPos();
-        switch (direction) {
-            case RIGHT -> player.setPos(adjacentTileCoords.getX() - xHitboxWidth / 2, pos.y);
-            case LEFT -> player.setPos(adjacentTileCoords.getX() + xHitboxWidth / 2, pos.y);
-            case UP -> player.setPos(pos.x, adjacentTileCoords.getY() - player.getPlayerZDepth());
-            case DOWN -> player.setPos(pos.x, adjacentTileCoords.getY() + 1);
-        }
-    }
-
-    private static void generateSurroundingSections(World world, TileCoordinates coordinatesOfNewSection) {
-        if (world.findSection(coordinatesOfNewSection) == null) {
-            world.preGenerateSurroundingWorldSections();
-        }
-    }
-
-    private static boolean isDecorationAccessible(World world, EntityCoordinates entityCoordinates) {
-        if (world.findSection(entityCoordinates).getDecorationLayerTileAbsoluteCoordinates(entityCoordinates) != null) {
-            return world.findSection(entityCoordinates).getDecorationLayerTileAbsoluteCoordinates(entityCoordinates).getSettings().get(TileProperties.IS_ACCESSIBLE);
-        }
-        return true;
     }
 
     public static void changeEnvironment(World world) {
@@ -164,8 +73,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
             if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY) && decorationLayerTile == null) {
                 Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
-                if (holding instanceof DecorationTile) {
-                    DecorationTile newDecorationTile = (DecorationTile) holding;
+                if (holding instanceof DecorationTile newDecorationTile) {
                     if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
                         world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newDecorationTile);
                         player.getPlayerInventory().getCurrentIOStack().decrement();
