@@ -38,8 +38,6 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
     private static void updateMovement(World world) {
         Player player = AsteraniaMain.player;
-        if (player.isMoving())
-            player.updateHitbox();
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             move(world, player, Direction.UP);
         }
@@ -61,14 +59,18 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     private static boolean move(World world, Player player, Direction direction) {
         player.setMoving();
         TileCoordinates playerTile = player.getPos().toTileCoordinates();
-        TileCoordinates adjacentTileCoords = playerTile.copy().move(direction);
-        if (world.findSection(playerTile).getTileAbsoluteCoordinates(playerTile).getSettings().get(TileProperties.IS_ACCESSIBLE)) {
+        TileCoordinates adjacentTileCoords = switch (direction) {
+            case RIGHT -> player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().toTileCoordinates();
+            case LEFT -> player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().toTileCoordinates();
+            case UP, DOWN -> playerTile.copy().move(direction);
+        };
+        if (isTileAccessible(world, player.getPos())) {
             generateSurroundingSections(world, adjacentTileCoords);
             if (isAdjacentTileAccessible(world, player, direction) || playerStaysOnTile(player, direction, adjacentTileCoords)) {
                 player.move(direction, Gdx.graphics.getDeltaTime());
                 return true;
             }
-            if (playerShouldStopMovement(player, direction, adjacentTileCoords)) {
+            if (!playerStaysOnTile(player, direction, adjacentTileCoords)) {
                 teleportPlayerToTileBorder(player, direction, adjacentTileCoords);
                 if (Gdx.input.isKeyJustPressed(direction.getKeyFromDirection()))
                     player.setPlayerFacing(direction);
@@ -80,14 +82,14 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
     private static boolean isAdjacentTileAccessible(World world, Player player, Direction direction) {
         EntityCoordinates moved1 = switch (direction) {
-            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y);
-            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y);
+            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x, player.getPlayerHitbox().start.y);
+            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x - 1, player.getPlayerHitbox().start.y);
             case UP -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + 1);
             case DOWN -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y - 1);
         };
         EntityCoordinates moved2 = switch (direction) {
-            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
-            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().start.x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
+            case RIGHT -> new EntityCoordinates(player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
+            case LEFT -> new EntityCoordinates(player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x - 1, player.getPlayerHitbox().start.y + player.getPlayerZDepth());
             case UP -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y + 1);
             case DOWN -> new EntityCoordinates(player.getPlayerHitbox().end.x, player.getPlayerHitbox().start.y - 1);
         };
@@ -95,30 +97,29 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             case RIGHT, LEFT -> Math.ceil(player.getPlayerHitbox().start.y) == Math.ceil(player.getPlayerHitbox().start.y + player.getPlayerZDepth());
             case UP, DOWN -> Math.ceil(player.getPlayerHitbox().start.x) == Math.ceil(player.getPlayerHitbox().end.x);
         };
-        boolean decorationAccessible1 = isDecorationAccessible(world, moved1);
-        boolean decorationAccessible2 = isDecorationAccessible(world, moved2);
-        boolean tileAccessible1 = world.findSection(moved1).getTileAbsoluteCoordinates(moved1).getSettings().get(TileProperties.IS_ACCESSIBLE);
-        boolean tileAccessible2 = world.findSection(moved2).getTileAbsoluteCoordinates(moved2).getSettings().get(TileProperties.IS_ACCESSIBLE);
         if (moved1And2areSameTile)
-            return decorationAccessible1 && tileAccessible1;
-        return tileAccessible1 && decorationAccessible1 && tileAccessible2 && decorationAccessible2;
+            return isTileAccessible(world, moved1);
+        return isTileAccessible(world, moved1) && isTileAccessible(world, moved2);
+    }
+
+    private static boolean isTileAccessible(World world, EntityCoordinates entityCoordinates) {
+        boolean decorationAccessible = isDecorationAccessible(world, entityCoordinates);
+        boolean backgroundAccessible = world.findSection(entityCoordinates).getTileAbsoluteCoordinates(entityCoordinates).getSettings().get(TileProperties.IS_ACCESSIBLE);
+        return decorationAccessible && backgroundAccessible;
     }
 
     private static boolean playerStaysOnTile(Player player, Direction direction, TileCoordinates adjacentTileCoords) {
+        float bottomRightX = player.getPlayerHitbox().getBottomRight().x;
+        float bottomLeftX = player.getPlayerHitbox().getBottomLeft().x;
+        float playerPosY = player.getPos().y;
+        float steps = player.getStepSize() * Gdx.graphics.getDeltaTime();
+        float bottomRightBorder = player.getPlayerHitbox().getBottomRight().copy().moveToRightBorder().x;
+        float bottomLeftBorder = player.getPlayerHitbox().getBottomLeft().copy().moveToLeftBorder().x;
         return switch (direction) {
-            case RIGHT -> player.getPlayerHitbox().end.x < adjacentTileCoords.getX();
-            case LEFT -> player.getPlayerHitbox().start.x >= adjacentTileCoords.getX() + 1;
-            case UP -> player.getPos().y + player.getStepSize() * Gdx.graphics.getDeltaTime() < adjacentTileCoords.getY() - player.getPlayerZDepth();
-            case DOWN -> player.getPos().y - player.getStepSize() * Gdx.graphics.getDeltaTime() > adjacentTileCoords.getY() + 1;
-        };
-    }
-
-    private static boolean playerShouldStopMovement(Player player, Direction direction, TileCoordinates adjacentTileCoords) {
-        return switch (direction) {
-            case RIGHT -> player.getPlayerHitbox().end.x + player.getStepSize() * Gdx.graphics.getDeltaTime() >= adjacentTileCoords.getX();
-            case LEFT -> player.getPlayerHitbox().start.x - player.getStepSize() * Gdx.graphics.getDeltaTime() <= adjacentTileCoords.getX() + 1;
-            case UP -> player.getPos().y + player.getStepSize() * Gdx.graphics.getDeltaTime() > adjacentTileCoords.getY() - player.getPlayerZDepth();
-            case DOWN -> player.getPos().y - player.getStepSize() * Gdx.graphics.getDeltaTime() < adjacentTileCoords.getY() + 1;
+            case RIGHT -> bottomRightX + steps < bottomRightBorder;
+            case LEFT -> bottomLeftX - steps > bottomLeftBorder;
+            case UP -> playerPosY + steps < adjacentTileCoords.getY() - player.getPlayerZDepth();
+            case DOWN -> playerPosY - steps > adjacentTileCoords.getY() + 1;
         };
     }
 
@@ -127,7 +128,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         EntityCoordinates pos = player.getPos();
         switch (direction) {
             case RIGHT -> player.setPos(adjacentTileCoords.getX() - xHitboxWidth / 2, pos.y);
-            case LEFT -> player.setPos(adjacentTileCoords.getX() + 1 + xHitboxWidth / 2, pos.y);
+            case LEFT -> player.setPos(adjacentTileCoords.getX() + xHitboxWidth / 2, pos.y);
             case UP -> player.setPos(pos.x, adjacentTileCoords.getY() - player.getPlayerZDepth());
             case DOWN -> player.setPos(pos.x, adjacentTileCoords.getY() + 1);
         }
