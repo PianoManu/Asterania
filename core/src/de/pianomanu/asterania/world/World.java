@@ -4,6 +4,7 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
@@ -95,6 +96,22 @@ public class World {
                 return s;
         }
         return null;
+    }
+
+    public Tile getTile(EntityCoordinates coordinates) {
+        return this.findSection(coordinates).getTileAbsoluteCoordinates(coordinates);
+    }
+
+    public void setTile(EntityCoordinates coordinates, Tile tile) {
+        this.findSection(coordinates).setTileAbsoluteCoordinates(coordinates, tile);
+    }
+
+    public Tile getDecorationLayerTile(EntityCoordinates coordinates) {
+        return this.findSection(coordinates).getDecorationLayerTileAbsoluteCoordinates(coordinates);
+    }
+
+    public void setDecorationLayerTile(EntityCoordinates coordinates, Tile tile) {
+        this.findSection(coordinates).setDecorationLayerTileAbsoluteCoordinates(coordinates, tile);
     }
 
     public boolean addNewSection(int x, int y) {
