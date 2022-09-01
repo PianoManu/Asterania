@@ -48,4 +48,20 @@ public class SimpleHitbox {
     public EntityCoordinates distanceFromStartToEnd() {
         return new EntityCoordinates(this.end.x - this.start.x, this.end.y - this.start.y);
     }
+
+    public EntityCoordinates getBottomLeft() {
+        return this.start;
+    }
+
+    public EntityCoordinates getBottomRight() {
+        return new EntityCoordinates(this.end.x, this.start.y);
+    }
+
+    public EntityCoordinates getTopLeft() {
+        return new EntityCoordinates(this.start.x, this.end.y);
+    }
+
+    public EntityCoordinates getTopRight() {
+        return this.end;
+    }
 }
