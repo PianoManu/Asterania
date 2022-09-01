@@ -18,7 +18,6 @@ import de.pianomanu.asterania.utils.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
-import de.pianomanu.asterania.world.tile.DecorationTile;
 import de.pianomanu.asterania.world.tile.Tile;
 
 import java.util.logging.Logger;
@@ -63,67 +62,13 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         if (player.canChangeBackgroundLayer()) {
             changeBackgroundTilesLayer(world, player, mouse);
         } else {
-            changeDecorationLayer(world, player, mouse);
-        }
-        if (Gdx.input.isButtonJustPressed(KeyConfig.PLACE_OR_INTERACT_WITH_TILE)) {
-            //interact with tile or place decorative tile
-
-            //first check if decorative tile can be placed
-            Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-            if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY) && decorationLayerTile == null) {
-                Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
-                if (holding instanceof DecorationTile newDecorationTile) {
-                    if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
-                        world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, newDecorationTile);
-                        player.getPlayerInventory().getCurrentIOStack().decrement();
-                    }
-                }
-            }
-            if (decorationLayerTile != null) {
-                Tile tile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-                tile.performAction(player, world);
-            }
+            DecorationLayerInteraction.checkChangeDecorationLayer(world, player, mouse);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             LOGGER.fine("Changing world...");
             AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getNextWorld(), player.getPos().toTileCoordinates());
         }
-    }
-
-    private static void changeDecorationLayer(World world, Player player, EntityCoordinates mouse) {
-        if (Gdx.input.isButtonPressed(KeyConfig.REMOVE_TILE)) {
-            DecorationLayerInteraction.changeDecorationTile(world, player, mouse);
-        } else {
-            //breaking button released
-            resetProgressBar(player, world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse));
-        }
-        if (Gdx.input.isButtonJustPressed(KeyConfig.PLACE_OR_INTERACT_WITH_TILE)) {
-            if (player.isInReach(mouse.toTileCoordinates())) {
-                Tile decorationLayerTile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-                if (decorationLayerTile == null) {
-
-                    if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
-                        Tile holding = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
-                        if (player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1 && !player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
-                            world.findSection(mouse).setDecorationLayerTileAbsoluteCoordinates(mouse, holding);
-                            player.getPlayerInventory().getCurrentIOStack().decrement();
-                        }
-                    }
-                } else {
-                    Tile tile = world.findSection(mouse).getDecorationLayerTileAbsoluteCoordinates(mouse);
-                    tile.performAction(player, world);
-                }
-            }
-        }
-    }
-
-    private static void resetProgressBar(Player player, Tile tile) {
-        player.setCurrentBreakingPercentage(0);
-        player.setBreakingTile(false);
-        if (tile != null)
-            tile.setBreakingLevel(0);
-        TileBreakingUI.renderNoBreakingPossible = false;
     }
 
     private static void changeBackgroundTilesLayer(World world, Player player, EntityCoordinates mouse) {
