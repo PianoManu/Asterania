@@ -64,4 +64,13 @@ public class TileBreakingUI {
             renderNoBreakingPossibleMessage = "";
         }
     }
+
+    public static void enableNoBreakingPossibleMessage(String message) {
+        renderNoBreakingPossible = true;
+        renderNoBreakingPossibleMessage = message;
+    }
+
+    public static void disableNoBreakingPossibleMessage() {
+        renderNoBreakingPossible = false;
+    }
 }
