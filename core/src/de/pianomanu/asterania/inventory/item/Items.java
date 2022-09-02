@@ -19,6 +19,7 @@ public class Items {
     public static final Item MINE_LADDER = r(new Item("mine_ladder", 4));
     public static final Item TWIG = r(new Item("twig", 0.2f));
     public static final Item STONE = r(new Item("stone", 6));
+    public static final Item FLOWER_YELLOW = r(new Item("flower_yellow", 0.02f));
 
     private static Item r(Item item) {
         GameRegistry.registerItems(item);

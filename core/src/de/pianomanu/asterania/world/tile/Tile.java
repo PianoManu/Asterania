@@ -13,10 +13,18 @@ public abstract class Tile {
     protected final TileSettings settings;
     protected float breakingLevel = 0;
     protected int numberOfDifferentTextures = 1;
+    protected final TileType tileType;
 
     protected Tile(String name, TileSettings settings) {
         this.name = name;
         this.settings = settings;
+        this.tileType = TileType.BACKGROUND;
+    }
+
+    protected Tile(String name, TileSettings settings, TileType tileType) {
+        this.name = name;
+        this.settings = settings;
+        this.tileType = tileType;
     }
 
     public TileSettings getSettings() {
@@ -54,6 +62,10 @@ public abstract class Tile {
 
     public void runPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
 
+    }
+
+    public TileType getTileType() {
+        return this.tileType;
     }
 
     /**
