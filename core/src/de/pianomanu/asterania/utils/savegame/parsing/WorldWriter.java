@@ -9,10 +9,19 @@ import de.pianomanu.asterania.world.World;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.logging.Logger;
 
 public class WorldWriter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
+
+    public static void saveWorldContent(List<String> worldContents, String worldName) {
+        int sectionNumber = 0;
+        for (String s : worldContents) {
+            saveWorldContent(s, worldName + sectionNumber);
+            sectionNumber++;
+        }
+    }
 
     public static void saveWorldContent(String worldContent, String worldName) {
         LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVEGAME_PATH);

@@ -79,10 +79,11 @@ public class World {
     public WorldSection findSection(EntityCoordinates entityCoordinates) {
         for (WorldSection s :
                 this.sections) {
-            if (s.getStart().getX() <= entityCoordinates.x && s.getStart().getY() <= entityCoordinates.y && s.getEnd().getX() + 1 >= entityCoordinates.x && s.getEnd().getY() + 1 >= entityCoordinates.y)
+            if (s.getStart().getX() <= entityCoordinates.x && s.getStart().getY() <= entityCoordinates.y && s.getEnd().getX() + 1 > entityCoordinates.x && s.getEnd().getY() + 1 > entityCoordinates.y)
                 return s;
         }
-        return null;
+        this.preGenerateSurroundingWorldSections();
+        return findSection(entityCoordinates);
     }
 
     public List<WorldSection> getSections() {
@@ -95,7 +96,8 @@ public class World {
             if (s.getStart().getX() <= tileCoordinates.getX() && s.getStart().getY() <= tileCoordinates.getY() && s.getEnd().getX() >= tileCoordinates.getX() && s.getEnd().getY() >= tileCoordinates.getY())
                 return s;
         }
-        return null;
+        this.preGenerateSurroundingWorldSections();
+        return findSection(tileCoordinates);
     }
 
     public Tile getTile(EntityCoordinates coordinates) {

@@ -5,6 +5,8 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 //WorldSection -> String
@@ -13,17 +15,17 @@ public class WorldSectionComposer {
     static final char sC = '|';
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    public static String createWSString(World world) {
+    public static List<String> createWSString(World world) {
         LOGGER.fine("Creating WorldSection string out of " + world.getSections().size() + " world sections...");
-        StringBuilder builder = new StringBuilder();
+        List<String> sections = new ArrayList<>();
 
         for (WorldSection s :
                 world.getSections()) {
             if (s != null)
-                builder.append(createWSString(s));
+                sections.add(createWSString(s));
         }
         LOGGER.fine("Created WorldSection string out of " + world.getSections().size() + " world sections!");
-        return builder.toString();
+        return sections;
     }
 
     private static String createWSString(WorldSection section) {
@@ -52,17 +54,17 @@ public class WorldSectionComposer {
         return builder.append(sC).append("\n").toString();
     }
 
-    public static String createWSDecorativeLayerString(World world) {
+    public static List<String> createWSDecorativeLayerString(World world) {
         LOGGER.fine("Adding decorative layers to " + world.getSections().size() + " world sections...");
-        StringBuilder builder = new StringBuilder();
+        List<String> sections = new ArrayList<>();
 
         for (WorldSection s :
                 world.getSections()) {
             if (s != null)
-                builder.append(createWSDecorativeLayerString(s));
+                sections.add(createWSDecorativeLayerString(s));
         }
         LOGGER.fine("Added decorative layers to " + world.getSections().size() + " world sections!");
-        return builder.toString();
+        return sections;
     }
 
     private static String createWSDecorativeLayerString(WorldSection section) {
