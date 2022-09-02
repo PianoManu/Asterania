@@ -39,72 +39,37 @@ soil
   orig: 8, 8
   offset: 0, 0
   index: -1
-stone1
+titanium_diboride
   rotate: false
   xy: 54, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-stone2
+water1
   rotate: false
   xy: 44, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-stone3
+water2
   rotate: false
   xy: 54, 14
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-stone4
+water3
   rotate: false
   xy: 64, 24
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
   index: -1
-titanium_diboride
-  rotate: false
-  xy: 54, 4
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-twig
-  rotate: false
-  xy: 64, 14
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-water1
-  rotate: false
-  xy: 74, 24
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-water2
-  rotate: false
-  xy: 64, 4
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
-water3
-  rotate: false
-  xy: 74, 14
-  size: 8, 8
-  orig: 8, 8
-  offset: 0, 0
-  index: -1
 water4
   rotate: false
-  xy: 84, 24
+  xy: 54, 4
   size: 8, 8
   orig: 8, 8
   offset: 0, 0
