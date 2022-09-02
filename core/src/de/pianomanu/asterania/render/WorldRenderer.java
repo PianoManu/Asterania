@@ -15,19 +15,23 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.tile.Tiles;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class WorldRenderer {
 
-    public static void renderAll(World world, SpriteBatch batch, ShapeRenderer shapeRenderer) {
-        renderTerrain(world, batch);
+    public static void renderAll(World world, Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+        renderTerrain(world, player, batch);
         renderHovering(shapeRenderer);
         PlayerRenderer.render(world, batch);
     }
 
-    private static void renderTerrain(World world, SpriteBatch batch) {
-        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
+    private static void renderTerrain(World world, Player player, SpriteBatch batch) {
+        EntityCoordinates playerCoordinates = player.getPos();
         EntityCoordinates bottomLeftEntityCoordinates = new EntityCoordinates(playerCoordinates.x - 32, playerCoordinates.y - 32);
         EntityCoordinates topRightEntityCoordinates = new EntityCoordinates(playerCoordinates.x + 32, playerCoordinates.y + 32);
         WorldSectionCoordinates bottomLeftWorldSectionCoordinates = bottomLeftEntityCoordinates.toWorldSectionCoordinates();
@@ -42,22 +46,20 @@ public class WorldRenderer {
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
                 TileCoordinates tileCoordinates = new TileCoordinates(x, y);
                 WorldSection section = world.findSection(tileCoordinates);
-                if (xTile >= -DisplayConfig.TILE_SIZE && xTile < Gdx.graphics.getWidth() && yTile >= -DisplayConfig.TILE_SIZE && yTile < Gdx.graphics.getHeight()) {
+                if (isTileVisibleOnScreen(xTile, yTile)) {
                     try {
                         Tile tile = section.getTileAbsoluteCoordinates(x, y);
-                        batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-                        //TODO better way to check for overlay
-                        if (tile.equals(Tiles.SOIL_TILE) || tile.equals(Tiles.ROCK) || tile.equals(Tiles.WATER_TILE))
-                            addOverlay(batch, world, section, x, y, xTile, yTile);
-                    } catch (NullPointerException e) {
-                        //Error trying to find the correct section: preGenerate all adjacent sections
-                        world.preGenerateSurroundingWorldSections();
-                    }
-                    try {
                         Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
-                        if (decoration != null) {
-                            DecorationLayerRenderer.addDecorations(batch, section, x, y, xTile, yTile);
+                        if (tile != null) {
+                            renderTile(tile, xTile, yTile, batch);
+                            //TODO better way to check for overlay
+                            if (shouldHaveOverlay(tile))
+                                addOverlay(batch, world, section, x, y, xTile, yTile);
                         }
+                        if (decoration != null) {
+                            renderTile(decoration, xTile, yTile, batch);
+                        }
+
                     } catch (NullPointerException e) {
                         //Error trying to find the correct section: preGenerate all adjacent sections
                         world.preGenerateSurroundingWorldSections();
@@ -67,6 +69,27 @@ public class WorldRenderer {
         }
 
         batch.end();
+    }
+
+    private static boolean isTileVisibleOnScreen(int xTile, int yTile) {
+        return xTile >= -DisplayConfig.TILE_SIZE && xTile < Gdx.graphics.getWidth() && yTile >= -DisplayConfig.TILE_SIZE && yTile < Gdx.graphics.getHeight();
+    }
+
+    private static void renderTile(Tile tile, int xTile, int yTile, SpriteBatch batch) {
+        if (tile.getTileType() == TileType.BACKGROUND) {
+            batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+        }
+        if (tile.getTileType() == TileType.DECORATION) {
+            DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile);
+        }
+    }
+
+    private static boolean shouldHaveOverlay(Tile tile) {
+        List<Tile> tilesWithOverlays = new ArrayList<>();
+        tilesWithOverlays.add(Tiles.SOIL_TILE);
+        tilesWithOverlays.add(Tiles.ROCK);
+        tilesWithOverlays.add(Tiles.WATER_TILE);
+        return tilesWithOverlays.contains(tile);
     }
 
     private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile) {
