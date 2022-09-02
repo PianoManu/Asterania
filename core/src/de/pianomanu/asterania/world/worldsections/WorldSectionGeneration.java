@@ -13,6 +13,9 @@ public class WorldSectionGeneration {
         TileCoordinates end = section.getEnd();
         for (int x = start.getX(); x < end.getX(); x++) {
             for (int y = start.getY(); y < end.getY(); y++) {
+                if (Math.random() < 0.1)
+                    if (section.getTileAbsoluteCoordinates(x, y).equals(Tiles.GRASS) && section.getDecorationLayerTileAbsoluteCoordinates(x, y) == null)
+                        section.setDecorationLayerTileAbsoluteCoordinates(x, y, Tiles.FLOWER_YELLOW);
                 if (Math.random() < 0.01) {
                     if (section.getTileAbsoluteCoordinates(x, y).equals(Tiles.GRASS) && section.getDecorationLayerTileAbsoluteCoordinates(x, y) == null)
                         section.setDecorationLayerTileAbsoluteCoordinates(x, y, Tiles.TWIG);
