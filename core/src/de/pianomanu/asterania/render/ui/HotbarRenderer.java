@@ -12,6 +12,7 @@ import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class HotbarRenderer {
@@ -46,8 +47,8 @@ public class HotbarRenderer {
             shapeRenderer.rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6);
             shapeRenderer.end();
         } else {
-            TextureRegion tileTexture = t.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
-            if (tileTexture == null) {
+            TextureRegion tileTexture = getTileTextureRegion(t);
+            if (tileTexture == null) { //TODO this if structure is ugly
                 tileTexture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(t.getSaveFileString() + "1");
             }
             batch.begin();
@@ -56,5 +57,18 @@ public class HotbarRenderer {
 
             TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
         }
+    }
+
+    private static TextureRegion getTileTextureRegion(Tile tile) {
+        if (tile.getTileType() == TileType.BACKGROUND) {
+            return getTileTextureFromAtlas(tile, Atlases.TILE_ATLAS_LOCATION);
+        } else if (tile.getTileType() == TileType.DECORATION) {
+            return getTileTextureFromAtlas(tile, Atlases.DECORATION_ATLAS_LOCATION);
+        }
+        return null;
+    }
+
+    private static TextureRegion getTileTextureFromAtlas(Tile tile, String atlasLocation) {
+        return tile.getTexture(AsteraniaMain.assetManager.get(atlasLocation, TextureAtlas.class));
     }
 }
