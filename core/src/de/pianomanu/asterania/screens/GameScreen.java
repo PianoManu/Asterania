@@ -47,7 +47,7 @@ public class GameScreen extends ScreenAdapter {
         checkForImportantInput();
         checkForImportantChanges();
 
-        GameLifeCycleUpdates.update(AsteraniaMain.player.getCurrentWorld());
+        GameLifeCycleUpdates.update(AsteraniaMain.player.getCurrentWorld(), AsteraniaMain.player);
 
         ScreenUtils.clear(1, 0, 0, 1);
         WorldRenderer.renderAll(AsteraniaMain.player.getCurrentWorld(), batch, shapeRenderer);
