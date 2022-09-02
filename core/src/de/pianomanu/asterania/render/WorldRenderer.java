@@ -51,13 +51,13 @@ public class WorldRenderer {
                         Tile tile = section.getTileAbsoluteCoordinates(x, y);
                         Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
                         if (tile != null) {
-                            renderTile(tile, xTile, yTile, batch);
+                            renderTile(tile, xTile, yTile, x, y, batch);
                             //TODO better way to check for overlay
                             if (shouldHaveOverlay(tile))
                                 addOverlay(batch, world, section, x, y, xTile, yTile);
                         }
                         if (decoration != null) {
-                            renderTile(decoration, xTile, yTile, batch);
+                            renderTile(decoration, xTile, yTile, x, y, batch);
                         }
 
                     } catch (NullPointerException e) {
@@ -75,12 +75,12 @@ public class WorldRenderer {
         return xTile >= -DisplayConfig.TILE_SIZE && xTile < Gdx.graphics.getWidth() && yTile >= -DisplayConfig.TILE_SIZE && yTile < Gdx.graphics.getHeight();
     }
 
-    private static void renderTile(Tile tile, int xTile, int yTile, SpriteBatch batch) {
+    private static void renderTile(Tile tile, int xTile, int yTile, int x, int y, SpriteBatch batch) {
         if (tile.getTileType() == TileType.BACKGROUND) {
             batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         }
         if (tile.getTileType() == TileType.DECORATION) {
-            DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile);
+            DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile, x, y);
         }
     }
 
