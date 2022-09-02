@@ -1,9 +1,10 @@
 package de.pianomanu.asterania.world.tile;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 
@@ -73,12 +74,20 @@ public abstract class Tile {
      * Use {@link #getTexture(TextureAtlas)} instead (more resource-friendly).
      */
     @Deprecated
-    public Texture getTexture() {
+    /*public Texture getTexture() {
         return new Texture("textures\\tiles\\" + this.name + ".png");
-    }
+    }*/
 
     public TextureRegion getTexture(TextureAtlas atlas) {
         return atlas.findRegion(this.name);
+    }
+
+    public TextureRegion getTexture() {
+        if (this.tileType == TileType.BACKGROUND)
+            return AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
+        if (this.tileType == TileType.DECORATION)
+            return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
+        return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(Tiles.WHITE.name);
     }
 
     @Override
