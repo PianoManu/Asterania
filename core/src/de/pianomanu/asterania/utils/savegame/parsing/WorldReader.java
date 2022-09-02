@@ -15,7 +15,7 @@ public class WorldReader {
     private static List<String> linesOfFile = new ArrayList<>();
 
     public static void loadWorld(File file, World world) {
-        LOGGER.fine("Starting world " + world.toString());
+        LOGGER.fine("Starting world " + world.getWorldName() + " from file " + file.getName());
         String content = String.valueOf(readFile(file));
         int lowerBound = 0;
         for (int i = 0; i < content.length(); i++) {
@@ -26,7 +26,7 @@ public class WorldReader {
         }
         LOGGER.fine("Found " + linesOfFile.size() + " lines of world information");
         world.loadWorldSections(WorldSectionParser.getWSfromString(file.getName(), linesOfFile));
-        LOGGER.fine("Started world " + world.toString());
+        LOGGER.fine("Started world " + world.getWorldName() + " from file " + file.getName());
 
         //reinitialize world loading string list
         linesOfFile = new ArrayList<>();
