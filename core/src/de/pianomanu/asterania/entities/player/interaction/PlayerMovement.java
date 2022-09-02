@@ -13,6 +13,9 @@ public class PlayerMovement {
         player.setMoving();
         if (isTileAccessible(world, player.getPos())) {
             return playerMoves(world, player, direction);
+        } else {
+            //TODO indicate that no movement is possible
+            player.setPlayerFacing(direction);
         }
         return false;
     }
@@ -30,8 +33,6 @@ public class PlayerMovement {
         }
         if (!playerStaysOnTile(player, direction, adjacentTileCoordinates)) {
             teleportPlayerToTileBorder(player, direction, adjacentTileCoordinates);
-            if (Gdx.input.isKeyJustPressed(direction.getKeyFromDirection()))
-                player.setPlayerFacing(direction);
             return true;
         }
         return false;

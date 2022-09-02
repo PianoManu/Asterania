@@ -106,6 +106,14 @@ public class World {
         this.findSection(coordinates).setTileAbsoluteCoordinates(coordinates, tile);
     }
 
+    public Tile getTile(TileCoordinates coordinates) {
+        return this.findSection(coordinates).getTileAbsoluteCoordinates(coordinates);
+    }
+
+    public void setTile(TileCoordinates coordinates, Tile tile) {
+        this.findSection(coordinates).setTileAbsoluteCoordinates(coordinates, tile);
+    }
+
     public Tile getDecorationLayerTile(EntityCoordinates coordinates) {
         return this.findSection(coordinates).getDecorationLayerTileAbsoluteCoordinates(coordinates);
     }
