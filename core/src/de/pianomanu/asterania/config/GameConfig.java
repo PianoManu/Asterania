@@ -6,15 +6,18 @@ public class GameConfig {
     public static final int WORLD_WIDTH = 64;
     public static final int WORLD_HEIGHT = 64;
 
-    public static final String WORLD_FILE_FORMAT = "asw"; //ASterania World
+    public static final String WORLDSECTION_FILE_FORMAT = "asws"; //ASterania WorldSection
     public static final String SAVEGAME_PATH_OFFSET = "saves\\";
     public static String SAVEGAME_NAME = "game";
     public static String SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
-    public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
+    public static String WORLDS_SAVE_DIR_NAME = "worlds";
+    public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\" + WORLDS_SAVE_DIR_NAME + "\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH; //" + Worlds.HOME.getWorldName();" -> causes NullPointer when initializing
     public static String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
-    public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
+    public static String PLAYER_DATA_SAVE_FILE = "\\playerdata";
+    public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + PLAYER_DATA_SAVE_FILE;
     public static String SAVEGAMEINFO_DATA_PATH = SAVEGAME_PATH + "\\savegameinfo";
+    public static String DECORATION_LAYER_SUFFIX = "_decoration_layer";
     private static final String versionDescription = "alpha";
     private static final int patchVersion = 0;
     private static final int minorVersion = 1;
