@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
-import de.pianomanu.asterania.utils.savegame.SaveFile;
+import de.pianomanu.asterania.utils.savegame.Savegame;
 
 import java.util.logging.Level;
 import java.util.logging.LogManager;
@@ -21,7 +21,7 @@ public class AsteraniaMain extends Game {
 
 	//TODO find better way to save player information
 	public static Player player;
-	public static SaveFile saveFile;
+	public static Savegame currentActiveSavegame;
 
 	public AsteraniaMain() {
 		INSTANCE = this;

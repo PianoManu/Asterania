@@ -16,8 +16,8 @@ public class TeleportingTile extends Tile {
 
     @Override
     public boolean performAction(Player player, World world) {
-        if (!AsteraniaMain.saveFile.getUniverse().getWorlds().contains(this.teleporter.getDestinyWorld()))
-            AsteraniaMain.saveFile.getUniverse().getWorlds().add(this.teleporter.getDestinyWorld());
+        if (!AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds().contains(this.teleporter.getDestinyWorld()))
+            AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds().add(this.teleporter.getDestinyWorld());
         player.changeCurrentWorld(this.teleporter.getDestinyWorld(), AsteraniaMain.player.getPos().toTileCoordinates());
         return true;
     }

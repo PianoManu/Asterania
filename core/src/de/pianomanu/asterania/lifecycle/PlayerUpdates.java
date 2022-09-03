@@ -63,7 +63,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             LOGGER.fine("Changing world...");
-            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.saveFile.getUniverse().getNextWorld(), player.getPos().toTileCoordinates());
+            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.currentActiveSavegame.getUniverse().getNextWorld(), player.getPos().toTileCoordinates());
         }
     }
 

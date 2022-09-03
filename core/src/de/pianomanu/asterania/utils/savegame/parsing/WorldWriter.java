@@ -59,7 +59,7 @@ public class WorldWriter {
 
     private static void saveAllWorlds() {
         for (World w :
-                AsteraniaMain.saveFile.getUniverse().getWorlds()) {
+                AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds()) {
             WorldWriter.saveWorldContent(WorldSectionComposer.createWSString(w), w.getWorldName());
             WorldWriter.saveWorldContent(WorldSectionComposer.createWSDecorativeLayerString(w), w.getWorldName() + "_decorative_layer");
         }
