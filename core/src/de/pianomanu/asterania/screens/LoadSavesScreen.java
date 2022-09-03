@@ -19,7 +19,6 @@ import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.DateUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
-import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
 
 import java.io.File;
@@ -45,7 +44,7 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (savegames.size() > 0)
             this.tmpSavegame = savegames.get(0);
         else
-            this.tmpSavegame = new Savegame("tmp");
+            this.tmpSavegame = Savegame.loadSavegameInfo("tmp");
     }
 
     @Override
@@ -97,7 +96,7 @@ public class LoadSavesScreen extends ScreenAdapter {
             shapeRenderer.end();
 
             this.tmpSavegame = savegames.get(saveFilePointer);
-            SaveGameInfoUtils.loadInfo(this.tmpSavegame, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSavegame.getName());
+            SaveGameInfoUtils.loadInfo(this.tmpSavegame);
 
             TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
 
@@ -171,7 +170,7 @@ public class LoadSavesScreen extends ScreenAdapter {
         GameConfig.SAVEGAME_NAME = savegames.get(saveFilePointer).getName();
         GameConfig.reload();
         //====================================================================
-        AsteraniaMain.currentActiveSavegame = SaveGameUtils.loadSavegame(savegames.get(saveFilePointer).getName());
+        AsteraniaMain.currentActiveSavegame = Savegame.loadSavegame(savegames.get(saveFilePointer).getName());
         SaveGameInfoUtils.loadInfo();
     }
 
@@ -199,7 +198,7 @@ public class LoadSavesScreen extends ScreenAdapter {
             if (files != null) {
                 for (File f :
                         files) {
-                    this.savegames.add(new Savegame(f.getName()));
+                    this.savegames.add(Savegame.loadSavegameInfo(f.getName()));
                 }
             }
         } else {

@@ -5,6 +5,7 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.DateUtils;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
+import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.world.World;
 
@@ -28,7 +29,7 @@ public class Savegame {
     private final List<Player> playersOfSavegame = new ArrayList<>();
     private Player currentActivePlayer;
 
-    public Savegame(String name) {
+    private Savegame(String name) {
         this.name = name;
         this.universe = new Universe();
 
@@ -46,10 +47,17 @@ public class Savegame {
 
     public static Savegame loadSavegame(String savegameName) {
         if (savegameExists(savegameName)) {
-            return SaveGameUtils.loadSavegame(savegameName);
+            Savegame savegame = new Savegame(savegameName);
+            return SaveGameUtils.loadSavegameData(savegame);
         } else {
             return new Savegame(savegameName);
         }
+    }
+
+    public static Savegame loadSavegameInfo(String savegameName) {
+        Savegame tmp = new Savegame(savegameName);
+        SaveGameInfoUtils.loadInfo(tmp);
+        return tmp;
     }
 
     private static boolean savegameExists(String savegameName) {
@@ -119,5 +127,13 @@ public class Savegame {
 
     public void resetStartTime() {
         this.startTime = System.currentTimeMillis();
+    }
+
+    public Player getCurrentActivePlayer() {
+        return currentActivePlayer;
+    }
+
+    public void setCurrentActivePlayer(Player currentActivePlayer) {
+        this.currentActivePlayer = currentActivePlayer;
     }
 }

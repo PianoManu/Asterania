@@ -54,10 +54,9 @@ public class SaveGameUtils {
         return null;
     }
 
-    public static Savegame loadSavegame(String savegameName) {
-        Savegame savegame = new Savegame(savegameName);
+    public static Savegame loadSavegameData(Savegame savegame) {
         loadWorldsFromSavegame(savegame);
-
+        SaveGameInfoUtils.loadInfo(savegame);
         return savegame;
     }
 

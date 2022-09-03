@@ -15,10 +15,10 @@ public class SaveGameInfoUtils {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static void saveInfo() {
-        LOGGER.finest("Got string containing savegame data, saving it now at " + GameConfig.SAVEGAMEINFO_DATA_PATH);
+        LOGGER.finest("Got string containing savegame data, saving it now at " + GameConfig.SAVEGAME_INFO_DATA_PATH);
         try {
-            WorldWriter.writeFile(new File(GameConfig.SAVEGAMEINFO_DATA_PATH), createSaveGameInfoString());
-            LOGGER.finest("Got string containing savegame data, saved it  at " + GameConfig.SAVEGAMEINFO_DATA_PATH);
+            WorldWriter.writeFile(new File(GameConfig.SAVEGAME_INFO_DATA_PATH), createSaveGameInfoString());
+            LOGGER.finest("Got string containing savegame data, saved it  at " + GameConfig.SAVEGAME_INFO_DATA_PATH);
         } catch (IOException e) {
             LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();
@@ -43,7 +43,7 @@ public class SaveGameInfoUtils {
 
 
     public static void loadInfo() {
-        File f = new File(GameConfig.SAVEGAMEINFO_DATA_PATH);
+        File f = new File(GameConfig.SAVEGAME_INFO_DATA_PATH);
         if (f.exists()) {
             String saveGameInfo = String.valueOf(WorldReader.readFile(f));
             addInfoToSaveGame(saveGameInfo);
@@ -53,30 +53,31 @@ public class SaveGameInfoUtils {
         }
     }
 
-    public static void loadInfo(Savegame file, String path) {
+    public static void loadInfo(Savegame savegame) {
+        String path = GameConfig.SAVEGAME_PATH_OFFSET + savegame.getName() + "\\" + GameConfig.SAVEGAME_INFO;
         File f = new File(path);
         if (f.exists()) {
-            File info = new File(path + "\\savegameinfo");
+            File info = new File(path);
             String saveGameInfo = String.valueOf(WorldReader.readFile(info));
-            addInfoToSaveGame(file, saveGameInfo);
+            addInfoToSaveGame(savegame, saveGameInfo);
 
         } else {
             LOGGER.warning("No Savegame info file found! This may lead to corrupt worlds!");
         }
     }
 
-    private static void addInfoToSaveGame(Savegame s, String info) {
+    private static void addInfoToSaveGame(Savegame savegame, String info) {
         List<String> lines = ParserUtils.splitString(info, '\n');
         for (String line : lines) {
             List<String> attributes = ParserUtils.splitString(line, ' ');
             if (attributes.get(0).equals("SEED")) {
-                s.setSeed(Integer.parseInt(attributes.get(1)));
+                savegame.setSeed(Integer.parseInt(attributes.get(1)));
             }
             if (attributes.get(0).equals("DATE-OF-CREATION")) {
-                s.setDateOfCreation(attributes.get(1));
+                savegame.setDateOfCreation(attributes.get(1));
             }
             if (attributes.get(0).equals("TOTAL-PLAYTIME")) {
-                s.setTotalPlayTime(Long.parseLong(attributes.get(1)));
+                savegame.setTotalPlayTime(Long.parseLong(attributes.get(1)));
             }
         }
     }
