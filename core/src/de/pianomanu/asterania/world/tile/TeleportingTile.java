@@ -10,7 +10,7 @@ public class TeleportingTile extends Tile {
     private Teleporter teleporter;
 
     public TeleportingTile(String name, TileSettings settings) {
-        super(name, settings, TileType.DECORATION);
+        super(name, settings, LayerType.DECORATION);
         this.teleporter = new Teleporter();
     }
 

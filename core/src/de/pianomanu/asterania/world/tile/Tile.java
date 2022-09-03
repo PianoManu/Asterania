@@ -14,18 +14,18 @@ public abstract class Tile {
     protected final TileSettings settings;
     protected float breakingLevel = 0;
     protected int numberOfDifferentTextures = 1;
-    protected final TileType tileType;
+    protected final LayerType layerType;
 
     protected Tile(String name, TileSettings settings) {
         this.name = name;
         this.settings = settings;
-        this.tileType = TileType.BACKGROUND;
+        this.layerType = LayerType.BACKGROUND;
     }
 
-    protected Tile(String name, TileSettings settings, TileType tileType) {
+    protected Tile(String name, TileSettings settings, LayerType layerType) {
         this.name = name;
         this.settings = settings;
-        this.tileType = tileType;
+        this.layerType = layerType;
     }
 
     public TileSettings getSettings() {
@@ -65,8 +65,8 @@ public abstract class Tile {
 
     }
 
-    public TileType getTileType() {
-        return this.tileType;
+    public LayerType getTileType() {
+        return this.layerType;
     }
 
     /**
@@ -83,9 +83,9 @@ public abstract class Tile {
     }
 
     public TextureRegion getTexture() {
-        if (this.tileType == TileType.BACKGROUND)
+        if (this.layerType == LayerType.BACKGROUND)
             return AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
-        if (this.tileType == TileType.DECORATION)
+        if (this.layerType == LayerType.DECORATION)
             return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
         return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(Tiles.WHITE.name);
     }

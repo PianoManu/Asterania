@@ -2,8 +2,8 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 import java.util.ArrayList;
@@ -16,25 +16,25 @@ public class WorldSectionComposer {
     static final char S_C = '|';
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    public static List<String> createWorldContentString(World world, TileType tileType) {
-        LOGGER.fine("Creating WorldSection string for layer " + tileType.toString() + " out of " + world.getSections().size() + " world sections...");
+    public static List<String> createWorldContentString(World world, LayerType layerType) {
+        LOGGER.fine("Creating WorldSection string for layer " + layerType.toString() + " out of " + world.getSections().size() + " world sections...");
         List<String> sections = new ArrayList<>();
 
         for (WorldSection s :
                 world.getSections()) {
             if (s != null)
-                sections.add(createWorldSectionString(s, tileType));
+                sections.add(createWorldSectionString(s, layerType));
         }
-        LOGGER.fine("Created WorldSection string for layer " + tileType.toString() + " out of " + world.getSections().size() + " world sections!");
+        LOGGER.fine("Created WorldSection string for layer " + layerType.toString() + " out of " + world.getSections().size() + " world sections!");
         return sections;
     }
 
-    private static String createWorldSectionString(WorldSection section, TileType tileType) {
+    private static String createWorldSectionString(WorldSection section, LayerType layerType) {
         StringBuilder builder = new StringBuilder();
         //World section position
         builder.append(section.sectionPos.x).append(S_C).append(section.sectionPos.y).append("\n");
 
-        Tile previousTile = switch (tileType) {
+        Tile previousTile = switch (layerType) {
             case DECORATION -> section.getDecorationLayerTileRelativeCoordinates(0, 0);
             case BACKGROUND -> section.getTileRelativeCoordinates(0, 0);
         };
@@ -42,7 +42,7 @@ public class WorldSectionComposer {
         int tileCounter = 0;
         for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
             for (int y = 0; y < WorldSection.SECTION_SIZE; y++) {
-                newTile = switch (tileType) {
+                newTile = switch (layerType) {
                     case DECORATION -> section.getDecorationLayerTileRelativeCoordinates(x, y);
                     case BACKGROUND -> section.getTileRelativeCoordinates(x, y);
                 };

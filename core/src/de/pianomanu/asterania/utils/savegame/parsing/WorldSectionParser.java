@@ -3,8 +3,8 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.utils.StringUtils;
+import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
@@ -60,9 +60,9 @@ public class WorldSectionParser {
         WorldSection worldSection = new WorldSection(xPos, yPos, WorldSectionSettings.SettingList.GRASSLAND_PLAIN);
         List<Tile> backgroundTiles = getParts(backgroundLayerParts, true);
         List<Tile> decorationTiles = getParts(decorationLayerParts, false);
-        if (!addTilesToWorldSection(worldSection, backgroundTiles, TileType.BACKGROUND))
+        if (!addTilesToWorldSection(worldSection, backgroundTiles, LayerType.BACKGROUND))
             LOGGER.warning("Background tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
-        if (!addTilesToWorldSection(worldSection, decorationTiles, TileType.DECORATION))
+        if (!addTilesToWorldSection(worldSection, decorationTiles, LayerType.DECORATION))
             LOGGER.warning("Decoration tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
 
         return worldSection;
@@ -76,11 +76,11 @@ public class WorldSectionParser {
         return tiles;
     }
 
-    private static boolean addTilesToWorldSection(WorldSection worldSection, List<Tile> tiles, TileType layerType) {
+    private static boolean addTilesToWorldSection(WorldSection worldSection, List<Tile> tiles, LayerType layerType) {
         Tile[] tileArrayUnprocessed = toTileArray(tiles);
         Tile[][] tileArray = getTilesFromTileArray(tileArrayUnprocessed);
         if (tileArray != null) {
-            if (layerType == TileType.BACKGROUND)
+            if (layerType == LayerType.BACKGROUND)
                 worldSection.setTiles(tileArray);
             else
                 worldSection.setDecorationLayerTiles(tileArray);

@@ -1,6 +1,6 @@
 package de.pianomanu.asterania.world.tile;
 
-public enum TileType {
+public enum LayerType {
     BACKGROUND,
     DECORATION
 }

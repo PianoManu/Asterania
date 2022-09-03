@@ -14,8 +14,8 @@ import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.tile.Tiles;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
@@ -76,10 +76,10 @@ public class WorldRenderer {
     }
 
     private static void renderTile(Tile tile, int xTile, int yTile, int x, int y, SpriteBatch batch) {
-        if (tile.getTileType() == TileType.BACKGROUND) {
+        if (tile.getTileType() == LayerType.BACKGROUND) {
             batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         }
-        if (tile.getTileType() == TileType.DECORATION) {
+        if (tile.getTileType() == LayerType.DECORATION) {
             DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile, x, y);
         }
     }

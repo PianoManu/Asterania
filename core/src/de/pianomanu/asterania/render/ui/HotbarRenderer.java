@@ -11,8 +11,8 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
-import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class HotbarRenderer {
@@ -60,9 +60,9 @@ public class HotbarRenderer {
     }
 
     private static TextureRegion getTileTextureRegion(Tile tile) {
-        if (tile.getTileType() == TileType.BACKGROUND) {
+        if (tile.getTileType() == LayerType.BACKGROUND) {
             return getTileTextureFromAtlas(tile, Atlases.TILE_ATLAS_LOCATION);
-        } else if (tile.getTileType() == TileType.DECORATION) {
+        } else if (tile.getTileType() == LayerType.DECORATION) {
             return getTileTextureFromAtlas(tile, Atlases.DECORATION_ATLAS_LOCATION);
         }
         return null;
