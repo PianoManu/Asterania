@@ -69,15 +69,6 @@ public abstract class Tile {
         return this.layerType;
     }
 
-    /**
-     * Causes massive lags and memory leaks because a new texture instance is created everytime this method is called.
-     * Use {@link #getTexture(TextureAtlas)} instead (more resource-friendly).
-     */
-    @Deprecated
-    /*public Texture getTexture() {
-        return new Texture("textures\\tiles\\" + this.name + ".png");
-    }*/
-
     public TextureRegion getTexture(TextureAtlas atlas) {
         return atlas.findRegion(this.name);
     }
