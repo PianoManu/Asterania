@@ -2,7 +2,7 @@ package de.pianomanu.asterania.utils.file_utils;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
-import de.pianomanu.asterania.utils.savegame.SaveFile;
+import de.pianomanu.asterania.utils.savegame.Savegame;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldReader;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 
@@ -26,7 +26,7 @@ public class SaveGameInfoUtils {
     }
 
     private static String createSaveGameInfoString() {
-        SaveFile s = AsteraniaMain.saveFile;
+        Savegame s = AsteraniaMain.currentActiveSavegame;
         StringBuilder builder = new StringBuilder();
 
         builder.append(i("SEED", s.getSeed() + ""));
@@ -53,7 +53,7 @@ public class SaveGameInfoUtils {
         }
     }
 
-    public static void loadInfo(SaveFile file, String path) {
+    public static void loadInfo(Savegame file, String path) {
         File f = new File(path);
         if (f.exists()) {
             File info = new File(path + "\\savegameinfo");
@@ -65,7 +65,7 @@ public class SaveGameInfoUtils {
         }
     }
 
-    private static void addInfoToSaveGame(SaveFile s, String info) {
+    private static void addInfoToSaveGame(Savegame s, String info) {
         List<String> lines = ParserUtils.splitString(info, '\n');
         for (String line : lines) {
             List<String> attributes = ParserUtils.splitString(line, ' ');
@@ -82,10 +82,10 @@ public class SaveGameInfoUtils {
     }
 
     private static void addInfoToSaveGame(String info) {
-        addInfoToSaveGame(AsteraniaMain.saveFile, info);
+        addInfoToSaveGame(AsteraniaMain.currentActiveSavegame, info);
     }
 
-    /*public static long getTotalPlaytime(SaveFile file) {
+    /*public static long getTotalPlaytime(Savegame file) {
         String info = loadInfo(GameConfig.SAVEGAME_PATH_OFFSET+file.getName());
         List<String> lines = ParserUtils.splitString(info, '\n');
         for (String line : lines) {
