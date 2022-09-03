@@ -26,36 +26,47 @@ public class HotbarRenderer {
         int hWidth = 64;//height / 12;
         int hHeight = 64;//height / 12;
 
+        renderHotbarBase(shapeRenderer, startX, startY, hWidth, hHeight);
+        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
+        if (t.equals(Tiles.WHITE)) {
+            renderHotbarEmpty(shapeRenderer, startX, startY, hWidth, hHeight);
+        } else {
+            TextureRegion tileTexture = getTileTextureRegion(t);
+            renderHotbarItem(player, tileTexture, batch, startX, startY, hWidth, hHeight);
+        }
+    }
+
+    private static void renderHotbarBase(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
+        int innerOffset = 5;//hWidth/10;
+
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
         shapeRenderer.rect(startX, startY, hWidth, hHeight);
 
-        int innerOffset = 5;//hWidth/10;
         shapeRenderer.setColor(0.6f, 0.6f, 0.6f, 1);
         shapeRenderer.rect(startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2);
         shapeRenderer.end();
+    }
 
+    private static void renderHotbarEmpty(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
+        int innerOffset = 5;//hWidth/10;
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
+        shapeRenderer.rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6);
+        shapeRenderer.end();
+    }
+
+    private static void renderHotbarItem(Player player, TextureRegion tileTexture, SpriteBatch batch, int startX, int startY, int hWidth, int hHeight) {
         int tileStartX = startX + hWidth / 8;
         int tileStartY = startY + hHeight / 8;
         int tileWidth = hWidth * 3 / 4;
         int tileHeight = hHeight * 3 / 4;
-        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
-        if (t.equals(Tiles.WHITE)) {
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
-            shapeRenderer.rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6);
-            shapeRenderer.end();
-        } else {
-            TextureRegion tileTexture = getTileTextureRegion(t);
-            if (tileTexture == null) { //TODO this if structure is ugly
-                tileTexture = AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(t.getSaveFileString() + "1");
-            }
-            batch.begin();
-            batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
-            batch.end();
 
-            TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
-        }
+        batch.begin();
+        batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
+        batch.end();
+
+        TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
     }
 
     private static TextureRegion getTileTextureRegion(Tile tile) {
