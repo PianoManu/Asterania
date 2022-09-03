@@ -4,6 +4,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
+import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
@@ -15,17 +16,17 @@ import java.util.logging.Logger;
 public class WorldWriter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    public static void saveWorldContent(List<String> worldContents, String worldName) {
+    public static void saveWorldContent(List<String> worldContents, String savegameDirectory, String worldName) {
         int sectionNumber = 0;
         for (String s : worldContents) {
-            saveWorldContent(s, worldName + sectionNumber);
+            saveWorldContent(s, savegameDirectory, worldName + sectionNumber);
             sectionNumber++;
         }
     }
 
-    public static void saveWorldContent(String worldContent, String worldName) {
+    public static void saveWorldContent(String worldContent, String savegameDirectory, String worldName) {
         LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVEGAME_PATH);
-        File file = new File(GameConfig.WORLDS_SAVE_PATH + "\\" + worldName + "." + GameConfig.WORLD_FILE_FORMAT);
+        File file = new File(savegameDirectory + "\\" + worldName + "." + GameConfig.WORLDSECTION_FILE_FORMAT);
         try {
             writeFile(file, worldContent);
         } catch (IOException e) {
@@ -60,8 +61,11 @@ public class WorldWriter {
     private static void saveAllWorlds() {
         for (World w :
                 AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds()) {
-            WorldWriter.saveWorldContent(WorldSectionComposer.createWSString(w), w.getWorldName());
-            WorldWriter.saveWorldContent(WorldSectionComposer.createWSDecorativeLayerString(w), w.getWorldName() + "_decorative_layer");
+            //Welt in eigenem Order speichern
+            File savegameDirectory = new File(SaveGameUtils.getSavegameWorldDirectory(AsteraniaMain.currentActiveSavegame.getName(), w.getWorldName()));
+            savegameDirectory.mkdir();
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWSString(w), savegameDirectory.getAbsolutePath(), w.getWorldName());
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWSDecorativeLayerString(w), savegameDirectory.getAbsolutePath(), w.getWorldName() + "_decorative_layer");
         }
     }
 
