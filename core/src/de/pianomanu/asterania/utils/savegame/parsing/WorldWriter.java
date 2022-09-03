@@ -6,6 +6,7 @@ import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.tile.TileType;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -64,8 +65,8 @@ public class WorldWriter {
             //Welt in eigenem Order speichern
             File savegameDirectory = new File(SaveGameUtils.getSavegameWorldDirectory(AsteraniaMain.currentActiveSavegame.getName(), w.getWorldName()));
             savegameDirectory.mkdir();
-            WorldWriter.saveWorldContent(WorldSectionComposer.createWSString(w), savegameDirectory.getAbsolutePath(), w.getWorldName());
-            WorldWriter.saveWorldContent(WorldSectionComposer.createWSDecorativeLayerString(w), savegameDirectory.getAbsolutePath(), w.getWorldName() + "_decorative_layer");
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWorldContentString(w, TileType.BACKGROUND), savegameDirectory.getAbsolutePath(), w.getWorldName());
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWorldContentString(w, TileType.DECORATION), savegameDirectory.getAbsolutePath(), w.getWorldName() + "_decorative_layer");
         }
     }
 
