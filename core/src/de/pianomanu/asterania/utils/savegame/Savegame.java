@@ -19,7 +19,6 @@ public class Savegame {
 
     private final String name;
     private Universe universe;
-    private World homeWorld;
     private final Random random;
     private int seed;
     private String dateOfCreation;
@@ -69,11 +68,10 @@ public class Savegame {
     public World getHomeWorld() {
         for (World w : this.universe.getWorlds()) {
             if (w.getWorldName().equals("home")) {
-                this.homeWorld = w;
-                break;
+                return w;
             }
         }
-        return this.homeWorld;
+        return null;
     }
 
     public String getName() {
