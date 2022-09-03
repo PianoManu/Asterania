@@ -16,6 +16,7 @@ import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.world.tile.Tile;
 
 public class InventoryRenderer {
     public static final Vector2 SLOT_SIZE = new Vector2(40, 40);
@@ -68,9 +69,10 @@ public class InventoryRenderer {
                 for (int y = 0; y < ROWS; y++) {
                     ItemStack iO = inv.getStackAtPos(x + y * COLUMNS);
                     if (!iO.equals(ItemStack.EMPTY) && iO.getStackCount() > 0) {
-                        TextureRegion texture = GameRegistry.getTile(iO.getItem()).getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class));
-                        if (texture == null) {
-                            texture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
+                        Tile tile = GameRegistry.getTile(iO.getItem());
+                        TextureRegion texture = tile.getTexture();
+                        if (tile.getNumberOfDifferentTextures() > 1) { //TODO fix for items with multiple textures
+                            texture = AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
                         }
                         batch.draw(texture, xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4, yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4, 32, 32);
                     }
