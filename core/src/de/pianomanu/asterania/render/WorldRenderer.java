@@ -53,8 +53,8 @@ public class WorldRenderer {
                         if (tile != null) {
                             renderTile(tile, xTile, yTile, x, y, batch);
                             //TODO better way to check for overlay
-                            if (shouldHaveOverlay(tile))
-                                addOverlay(batch, world, section, x, y, xTile, yTile);
+                            //if (shouldHaveOverlay(tile))
+                            addOverlay(batch, world, x, y, xTile, yTile);
                         }
                         if (decoration != null) {
                             renderTile(decoration, xTile, yTile, x, y, batch);
@@ -85,19 +85,19 @@ public class WorldRenderer {
     }
 
     private static boolean shouldHaveOverlay(Tile tile) {
-        List<Tile> tilesWithOverlays = new ArrayList<>();
+        List<Tile> tilesWithOverlays = new ArrayList<>();//TODO überarbeiten
         tilesWithOverlays.add(Tiles.SOIL_TILE);
         tilesWithOverlays.add(Tiles.ROCK);
         tilesWithOverlays.add(Tiles.WATER_TILE);
         return tilesWithOverlays.contains(tile);
     }
 
-    private static void addOverlay(SpriteBatch batch, World world, WorldSection worldSection, int x, int y, int xTile, int yTile) {
-        OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
-        OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
+    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+        OverlayRenderer.addOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
+        OverlayRenderer.addOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
         //OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
 
-        OverlayRenderer.addStoneCoastOverlay(batch, world, worldSection, x, y, xTile, yTile);
+        OverlayRenderer.addStoneCoastOverlay(batch, world, x, y, xTile, yTile);
     }
 
     private static void renderHovering(Player player, ShapeRenderer shapeRenderer) {
