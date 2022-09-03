@@ -70,14 +70,18 @@ public abstract class Tile {
     }
 
     public TextureRegion getTexture(TextureAtlas atlas) {
-        return atlas.findRegion(this.name);
+        //Some tiles have multiple textures ==> default texture is texture 1
+        String multipleTextureOffset = this.numberOfDifferentTextures > 1 ? "1" : "";
+        return atlas.findRegion(this.name + multipleTextureOffset);
     }
 
     public TextureRegion getTexture() {
+        //Some tiles have multiple textures ==> default texture is texture 1
+        String multipleTextureOffset = this.numberOfDifferentTextures > 1 ? "1" : "";
         if (this.layerType == LayerType.BACKGROUND)
-            return AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
+            return AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
         if (this.layerType == LayerType.DECORATION)
-            return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name);
+            return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
         return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(Tiles.WHITE.name);
     }
 
