@@ -85,23 +85,27 @@ public class LoadSavesScreen extends ScreenAdapter {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         int offset = 8;
+        if (savegames.size() > 0) {
 
-        Vector2 dim = TextRenderer.getTextDimensions(savegames.get(saveFilePointer).getName());
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(Color.OLIVE);
-        shapeRenderer.rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f);
-        shapeRenderer.rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f));
-        shapeRenderer.setColor(Color.FOREST);
-        shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
-        shapeRenderer.end();
+            Vector2 dim = TextRenderer.getTextDimensions(savegames.get(saveFilePointer).getName());
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+            shapeRenderer.setColor(Color.OLIVE);
+            shapeRenderer.rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f);
+            shapeRenderer.rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f));
+            shapeRenderer.setColor(Color.FOREST);
+            shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
+            shapeRenderer.end();
 
-        this.tmpSavegame = savegames.get(saveFilePointer);
-        SaveGameInfoUtils.loadInfo(this.tmpSavegame, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSavegame.getName());
+            this.tmpSavegame = savegames.get(saveFilePointer);
+            SaveGameInfoUtils.loadInfo(this.tmpSavegame, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSavegame.getName());
 
-        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
+            TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
 
-        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
-        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
+            TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
+            TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
+        } else {
+            TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), "NO SAVEGAMES FOUND");
+        }
     }
 
     private void renderButtons() {
@@ -145,11 +149,13 @@ public class LoadSavesScreen extends ScreenAdapter {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if (mouseX >= Buttons.START_GAME_BUTTON.getStart().x && mouseY >= Buttons.START_GAME_BUTTON.getStart().y && mouseX <= Buttons.START_GAME_BUTTON.getEnd().x && mouseY <= Buttons.START_GAME_BUTTON.getEnd().y) {
-            LOGGER.fine("Starting the game...");
-            this.dispose();
-            loadSavegame();
-            AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+        if (savegames.size() > 0) {
+            if (mouseX >= Buttons.START_GAME_BUTTON.getStart().x && mouseY >= Buttons.START_GAME_BUTTON.getStart().y && mouseX <= Buttons.START_GAME_BUTTON.getEnd().x && mouseY <= Buttons.START_GAME_BUTTON.getEnd().y) {
+                LOGGER.fine("Starting the game...");
+                this.dispose();
+                loadSavegame();
+                AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+            }
         }
         if (mouseX >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().x && mouseY >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().y && mouseX <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().x && mouseY <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().y) {
             LOGGER.fine("Going back to main menu...");
