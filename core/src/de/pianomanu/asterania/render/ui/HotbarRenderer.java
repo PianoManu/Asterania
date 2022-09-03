@@ -48,7 +48,7 @@ public class HotbarRenderer {
         } else {
             TextureRegion tileTexture = getTileTextureRegion(t);
             if (tileTexture == null) { //TODO this if structure is ugly
-                tileTexture = AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(t.getSaveFileString() + "1");
+                tileTexture = AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(t.getSaveFileString() + "1");
             }
             batch.begin();
             batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
