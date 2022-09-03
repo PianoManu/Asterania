@@ -2,9 +2,11 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
+import de.pianomanu.asterania.utils.savegame.Savegame;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.LayerType;
 
@@ -52,11 +54,16 @@ public class WorldWriter {
         }
     }
 
-    public static void saveGameInfo() {
+    public static void saveGameInfo(Savegame savegame) {
+        Player player = savegame.getCurrentActivePlayer();
         createVersionFile();
         saveAllWorlds();
-        PlayerSaveUtils.savePlayerToSaveFile();
+        PlayerSaveUtils.savePlayerToSaveFile(player);
         SaveGameInfoUtils.saveInfo();
+    }
+
+    public static void saveGameInfo() {
+        saveGameInfo(AsteraniaMain.currentActiveSavegame);
     }
 
     private static void saveAllWorlds() {

@@ -3,7 +3,6 @@ package de.pianomanu.asterania.render.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -12,8 +11,7 @@ public class TileBreakingUI {
     public static boolean renderNoBreakingPossible = false;
     public static String renderNoBreakingPossibleMessage = "";
 
-    public static void renderTileBreakingUI(ShapeRenderer shapeRenderer) {
-        Player player = AsteraniaMain.player;
+    public static void renderTileBreakingUI(Player player, ShapeRenderer shapeRenderer) {
         if (player.isBreakingTile() && !renderNoBreakingPossible) {
             int width = Gdx.graphics.getWidth();
             int height = Gdx.graphics.getHeight();

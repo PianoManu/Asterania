@@ -26,8 +26,8 @@ public class WorldRenderer {
 
     public static void renderAll(World world, Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         renderTerrain(world, player, batch);
-        renderHovering(shapeRenderer);
-        PlayerRenderer.render(world, batch);
+        renderHovering(player, shapeRenderer);
+        PlayerRenderer.render(player, batch);
     }
 
     private static void renderTerrain(World world, Player player, SpriteBatch batch) {
@@ -100,8 +100,7 @@ public class WorldRenderer {
         OverlayRenderer.addStoneCoastOverlay(batch, world, worldSection, x, y, xTile, yTile);
     }
 
-    private static void renderHovering(ShapeRenderer shapeRenderer) {
-        Player player = AsteraniaMain.player;
+    private static void renderHovering(Player player, ShapeRenderer shapeRenderer) {
         EntityCoordinates playerPos = player.getPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         boolean isInReach = player.isInReach(mousePos.toTileCoordinates());

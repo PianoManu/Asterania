@@ -25,7 +25,7 @@ public class InventoryRenderer {
     public static final int COLUMNS = 12;
     private static boolean isInventoryOpen = false;
 
-    public static void renderInventory(SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public static void renderInventory(Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
         if (isInventoryOpen) {
             int width = Gdx.graphics.getWidth();
             int height = Gdx.graphics.getHeight();
@@ -50,7 +50,6 @@ public class InventoryRenderer {
                     shapeRenderer.rect(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y);
                 }
             }
-            Player player = AsteraniaMain.player;
             int playerInventoryIOStackPointer = player.getPlayerInventory().getiOStackPointer();
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
@@ -88,7 +87,7 @@ public class InventoryRenderer {
                 }
             }
 
-            renderWeight(shapeRenderer);
+            renderWeight(player, shapeRenderer);
         }
     }
 
@@ -100,8 +99,7 @@ public class InventoryRenderer {
         InventoryRenderer.isInventoryOpen = isInventoryOpen;
     }
 
-    private static void renderWeight(ShapeRenderer shapeRenderer) {
-        Player player = AsteraniaMain.player;
+    private static void renderWeight(Player player, ShapeRenderer shapeRenderer) {
         float weight = player.getPlayerInventory().calcCurrentWeight();
 
         int xWindowBorderOffset = 100;

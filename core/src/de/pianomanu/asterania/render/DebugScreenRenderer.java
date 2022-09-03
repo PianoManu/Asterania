@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
-import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
@@ -32,18 +31,17 @@ public class DebugScreenRenderer {
         gridRenderer = new ShapeRenderer();
     }
 
-    public static void render(World world, ShapeRenderer shapeRenderer, float delta) {
+    public static void render(World world, Player player, ShapeRenderer shapeRenderer, float delta) {
         calculateFPS(delta);
 
-        DebugScreenRenderer.renderGrid();
-        DebugScreenRenderer.renderHitbox(shapeRenderer);
-        DebugScreenRenderer.renderDebugText(world, fps);
-        DebugScreenRenderer.renderReachCircle(shapeRenderer);
-        DebugScreenRenderer.renderCenterDot();
+        DebugScreenRenderer.renderGrid(player);
+        DebugScreenRenderer.renderHitbox(player, shapeRenderer);
+        DebugScreenRenderer.renderDebugText(world, player, fps);
+        DebugScreenRenderer.renderReachCircle(player, shapeRenderer);
+        DebugScreenRenderer.renderCenterDot(player);
     }
 
-    private static void renderReachCircle(ShapeRenderer shapeRenderer) {
-        Player player = AsteraniaMain.player;
+    private static void renderReachCircle(Player player, ShapeRenderer shapeRenderer) {
         float reach = player.getReach(); //reach: radius
         float diam = 2 * reach; //diameter = 2*r
         Gdx.gl.glLineWidth(3);
@@ -65,7 +63,7 @@ public class DebugScreenRenderer {
         }
     }
 
-    private static void renderDebugText(World world, int frames) {
+    private static void renderDebugText(World world, Player player, int frames) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
         int xOffset = 4;
@@ -74,7 +72,7 @@ public class DebugScreenRenderer {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.input.getY();
 
-        EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, AsteraniaMain.player.getPos());
+        EntityCoordinates mouseECoordinates = CoordinatesUtils.pixelToEntityCoordinates(mouseX, mouseY, player.getPos());
 
         Tile tile;
         try {
@@ -85,12 +83,12 @@ public class DebugScreenRenderer {
 
         List<String> debugStuff = new ArrayList<>();
         debugStuff.add("FPS: " + frames);
-        //debugStuff.add("Position: X=" + AsteraniaMain.player.getCharacterPos().x + ", Y=" + AsteraniaMain.player.getCharacterPos().y);
-        debugStuff.add("Feet position: X=" + AsteraniaMain.player.getPos().x + ", Y=" + AsteraniaMain.player.getPos().y);
+        //debugStuff.add("Position: X=" + player.getCharacterPos().x + ", Y=" + player.getCharacterPos().y);
+        debugStuff.add("Feet position: X=" + player.getPos().x + ", Y=" + player.getPos().y);
         debugStuff.add("Cursor position: X=" + mouseX + ", Y=" + (height - mouseY));
         debugStuff.add("Cursor position as Game coordinates: X=" + mouseECoordinates.x + ", Y=" + mouseECoordinates.y);
         debugStuff.add("Tile at cursor position: " + tile.toString());
-        debugStuff.add("Hitbox position: X_1=" + AsteraniaMain.player.getPlayerHitbox().start.x + ", Y_1=" + AsteraniaMain.player.getPlayerHitbox().start.y + "; X_2=" + AsteraniaMain.player.getPlayerHitbox().end.x + ", Y_2=" + AsteraniaMain.player.getPlayerHitbox().end.y);
+        debugStuff.add("Hitbox position: X_1=" + player.getPlayerHitbox().start.x + ", Y_1=" + player.getPlayerHitbox().start.y + "; X_2=" + player.getPlayerHitbox().end.x + ", Y_2=" + player.getPlayerHitbox().end.y);
 
         for (int i = 0; i < debugStuff.size(); i++) {
             if (i < debugStuff.size() - 1)
@@ -100,13 +98,13 @@ public class DebugScreenRenderer {
         }
     }
 
-    private static void renderGrid() {
+    private static void renderGrid(Player player) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
         gridRenderer.begin(ShapeRenderer.ShapeType.Line);
         gridRenderer.setColor(0, 0, 0, 1);
-        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
+        EntityCoordinates playerCoordinates = player.getPos();
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
         WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);
@@ -123,8 +121,7 @@ public class DebugScreenRenderer {
         gridRenderer.end();
     }
 
-    private static void renderHitbox(ShapeRenderer shapeRenderer) {
-        Player player = AsteraniaMain.player;
+    private static void renderHitbox(Player player, ShapeRenderer shapeRenderer) {
         SimpleHitbox hitbox = player.getPlayerHitbox();
         //Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
         Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
@@ -135,11 +132,10 @@ public class DebugScreenRenderer {
         shapeRenderer.end();
     }
 
-    private static void renderCenterDot() {
-
+    private static void renderCenterDot(Player player) {
         gridRenderer.begin(ShapeRenderer.ShapeType.Line);
         gridRenderer.setColor(0, 0, 0, 1);
-        EntityCoordinates playerCoordinates = AsteraniaMain.player.getPos();
+        EntityCoordinates playerCoordinates = player.getPos();
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
         WorldSectionCoordinates topRightSection = new WorldSectionCoordinates(centerSection.x + 1, centerSection.y + 1);

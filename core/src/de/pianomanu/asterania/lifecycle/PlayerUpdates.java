@@ -25,14 +25,13 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
     private static int timesScrolled = 0;
 
     protected static void updatePlayer(World world, Player player) {
-        updateMovement(world);
-        changeEnvironment(world);
+        updateMovement(world, player);
+        changeEnvironment(world, player);
         changeInventory(player);
-        interactWithChat();
+        interactWithChat(player);
     }
 
-    private static void updateMovement(World world) {
-        Player player = AsteraniaMain.player;
+    private static void updateMovement(World world, Player player) {
         if (Gdx.input.isKeyPressed(KeyConfig.MOVE_UP)) {
             PlayerMovement.move(world, player, Direction.UP);
         }
@@ -51,8 +50,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
             player.setStanding();
     }
 
-    public static void changeEnvironment(World world) {
-        Player player = AsteraniaMain.player;
+    public static void changeEnvironment(World world, Player player) {
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getPos());
 
         if (player.canChangeBackgroundLayer()) {
@@ -63,7 +61,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
             LOGGER.fine("Changing world...");
-            AsteraniaMain.player.changeCurrentWorld(AsteraniaMain.currentActiveSavegame.getUniverse().getNextWorld(), player.getPos().toTileCoordinates());
+            player.changeCurrentWorld(AsteraniaMain.currentActiveSavegame.getUniverse().getNextWorld(), player.getPos().toTileCoordinates());
         }
     }
 
@@ -90,8 +88,7 @@ public class PlayerUpdates extends GameLifeCycleUpdates {
         PlayerUpdates.timesScrolled = timesScrolled;
     }
 
-    private static void interactWithChat() {
-        Player player = AsteraniaMain.player;
+    private static void interactWithChat(Player player) {
         Chat chat = player.getChat();
         if (Gdx.input.isKeyJustPressed(KeyConfig.OPEN_CHAT) && !player.isChatOpen()) {
             player.setChatOpen(true);

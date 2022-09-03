@@ -8,6 +8,6 @@ public class GameLifeCycleUpdates {
     public static void update(World world, Player player) {
         PlayerUpdates.updatePlayer(world, player);
         TileUpdates.updateTiles();
-        ChatUpdates.updateChat();
+        ChatUpdates.updateChat(player);
     }
 }

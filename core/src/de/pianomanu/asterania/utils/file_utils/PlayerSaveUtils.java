@@ -38,10 +38,10 @@ public class PlayerSaveUtils {
         return tmp;
     }
 
-    public static void savePlayerToSaveFile() {
+    public static void savePlayerToSaveFile(Player player) {
         LOGGER.finest("Got string containing player data, saving it now at " + GameConfig.PLAYER_DATA_SAVE_PATH);
         try {
-            WorldWriter.writeFile(new File(GameConfig.PLAYER_DATA_SAVE_PATH), createPlayerDataString());
+            WorldWriter.writeFile(new File(GameConfig.PLAYER_DATA_SAVE_PATH), createPlayerDataString(player));
             LOGGER.finest("Got string containing player data, saved it  at " + GameConfig.PLAYER_DATA_SAVE_PATH);
         } catch (IOException e) {
             LOGGER.severe("An IO error occurred whilst saving the world!");
@@ -49,8 +49,7 @@ public class PlayerSaveUtils {
         }
     }
 
-    private static String createPlayerDataString() {
-        Player player = AsteraniaMain.player;
+    private static String createPlayerDataString(Player player) {
         StringBuilder builder = new StringBuilder();
         builder.append("POSITION ").append(player.getPos().x).append(" ").append(player.getPos().y).append("\n");
         builder.append("DIRECTION ").append(player.getPlayerFacing()).append("\n");

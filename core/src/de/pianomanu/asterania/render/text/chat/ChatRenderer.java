@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.player.chat.ChatElement;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -13,18 +12,18 @@ public class ChatRenderer {
 
     private static boolean chatIsOpen = false;
 
-    public static void renderAll(ShapeRenderer shapeRenderer) {
+    public static void renderAll(Player player, ShapeRenderer shapeRenderer) {
         if (chatIsOpen) {
-            renderTextLine(shapeRenderer);
+            renderTextLine(player, shapeRenderer);
         }
         if (chatIsOpen) {
-            renderChatLog(shapeRenderer);
+            renderChatLog(player, shapeRenderer);
         } else {
-            renderChatLog(shapeRenderer, true);
+            renderChatLog(player, shapeRenderer, true);
         }
     }
 
-    private static void renderTextLine(ShapeRenderer shapeRenderer) {
+    private static void renderTextLine(Player player, ShapeRenderer shapeRenderer) {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
@@ -34,17 +33,14 @@ public class ChatRenderer {
         shapeRenderer.end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
-
-        Player player = AsteraniaMain.player;
         TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
-    private static void renderChatLog(ShapeRenderer shapeRenderer) {
-        renderChatLog(shapeRenderer, false);
+    private static void renderChatLog(Player player, ShapeRenderer shapeRenderer) {
+        renderChatLog(player, shapeRenderer, false);
     }
 
-    private static void renderChatLog(ShapeRenderer shapeRenderer, boolean shouldFade) {
-        Player player = AsteraniaMain.player;
+    private static void renderChatLog(Player player, ShapeRenderer shapeRenderer, boolean shouldFade) {
         int chatSize = player.getChat().getMessages().size();
         float intensity = 1;
 

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
+import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
@@ -36,9 +37,9 @@ public class GameScreen extends ScreenAdapter {
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.currentActiveSavegame.getHomeWorld();
         AsteraniaMain.currentActiveSavegame.resetStartTime();
-        AsteraniaMain.player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer(); //TODO remove static player
         //TODO differentiate between new and old worlds
-        AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getPos().toTileCoordinates());
+        Player player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer();
+        player.changeCurrentWorld(this.world, player.getPos().toTileCoordinates());
     }
 
     @Override
@@ -46,13 +47,14 @@ public class GameScreen extends ScreenAdapter {
         checkForImportantInput();
         checkForImportantChanges();
 
-        GameLifeCycleUpdates.update(AsteraniaMain.player.getCurrentWorld(), AsteraniaMain.player);
+        Player player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer();
+        GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
         ScreenUtils.clear(1, 0, 0, 1);
-        WorldRenderer.renderAll(AsteraniaMain.player.getCurrentWorld(), AsteraniaMain.player, batch, shapeRenderer);
-        UIRenderer.renderAll(batch, shapeRenderer);
+        WorldRenderer.renderAll(player.getCurrentWorld(), player, batch, shapeRenderer);
+        UIRenderer.renderAll(player, batch, shapeRenderer);
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
-            DebugScreenRenderer.render(AsteraniaMain.player.getCurrentWorld(), shapeRenderer, delta);
+            DebugScreenRenderer.render(player.getCurrentWorld(), player, shapeRenderer, delta);
         }
     }
 
