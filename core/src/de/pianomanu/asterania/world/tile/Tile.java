@@ -79,10 +79,10 @@ public abstract class Tile {
         //Some tiles have multiple textures ==> default texture is texture 1
         String multipleTextureOffset = this.numberOfDifferentTextures > 1 ? "1" : "";
         if (this.layerType == LayerType.BACKGROUND)
-            return AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
+            return AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
         if (this.layerType == LayerType.DECORATION)
-            return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
-        return AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(Tiles.WHITE.name);
+            return AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(this.name + multipleTextureOffset);
+        return AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(Tiles.WHITE.name);
     }
 
     @Override

@@ -15,7 +15,7 @@ public class PlayerRenderer {
         int height = Gdx.graphics.getHeight();
         TextureRegion playerTexture = getTexture(player);
         if (playerTexture == null) {
-            playerTexture = AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
+            playerTexture = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(PlayerAtlas.STANDING_FRONT);
         }
         batch.begin();
         batch.draw(playerTexture, width / 2f - player.getCharacterSizeInPixels().x / 2f, height / 2f, player.getCharacterSizeInPixels().x, player.getCharacterSizeInPixels().y);
@@ -32,6 +32,6 @@ public class PlayerRenderer {
             animationTextureNumber = 3;
         Direction playerFacing = player.getPlayerFacing();
         String textureName = "p_" + playerFacing.toString() + (animationTextureNumber);
-        return AsteraniaMain.assetManager.get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(textureName);
+        return AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class).findRegion(textureName);
     }
 }

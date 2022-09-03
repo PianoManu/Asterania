@@ -15,10 +15,10 @@ import java.util.logging.Logger;
 public class AsteraniaMain extends Game {
 
 	public static AsteraniaMain INSTANCE;
-	public static AssetManager assetManager;//TODO make not static
 
-	private final ShapeRenderer shapeRenderer;
-	private final SpriteBatch batch;
+	private AssetManager assetManager;
+	private ShapeRenderer shapeRenderer;
+	private SpriteBatch batch;
 
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -30,8 +30,7 @@ public class AsteraniaMain extends Game {
 
 		LOGGER.setLevel(LOG_LEVEL);
 
-		this.shapeRenderer = new ShapeRenderer();
-		this.batch = new SpriteBatch();
+
 		LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(LOG_LEVEL);
 	}
 
@@ -40,7 +39,7 @@ public class AsteraniaMain extends Game {
 		LoggerUtils.initializeLogger();
 		LOGGER.info("Initializing Asterania...");
 
-		assetManager = new AssetManager();
+		initializeInstanceVariables();
 
 		setScreen(new LoadingScreen());
 		LOGGER.info("Initialization completed!");
@@ -48,6 +47,16 @@ public class AsteraniaMain extends Game {
 
 	public static Logger getLogger() {
 		return LOGGER;
+	}
+
+	private void initializeInstanceVariables() {
+		this.assetManager = new AssetManager();
+		this.shapeRenderer = new ShapeRenderer();
+		this.batch = new SpriteBatch();
+	}
+
+	public AssetManager getAssetManager() {
+		return this.assetManager;
 	}
 
 	public ShapeRenderer getShapeRenderer() {

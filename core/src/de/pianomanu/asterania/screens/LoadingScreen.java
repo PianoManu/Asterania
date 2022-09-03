@@ -32,11 +32,11 @@ public class LoadingScreen extends ScreenAdapter {
 
     private static void loadAtlases() {
         LOGGER.log(Level.FINE, "Loading atlases...");
-        AsteraniaMain.assetManager.load(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class);
-        AsteraniaMain.assetManager.load(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class);
-        AsteraniaMain.assetManager.load(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class);
-        AsteraniaMain.assetManager.load(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class);
-        AsteraniaMain.assetManager.load(Atlases.BUTTON_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.INSTANCE.getAssetManager().load(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.INSTANCE.getAssetManager().load(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.INSTANCE.getAssetManager().load(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.INSTANCE.getAssetManager().load(Atlases.PLAYER_ATLAS_LOCATION, TextureAtlas.class);
+        AsteraniaMain.INSTANCE.getAssetManager().load(Atlases.BUTTON_ATLAS_LOCATION, TextureAtlas.class);
         LOGGER.fine("Loaded atlases!");
     }
 
@@ -44,7 +44,7 @@ public class LoadingScreen extends ScreenAdapter {
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
 
-        if (AsteraniaMain.assetManager.update()) {
+        if (AsteraniaMain.INSTANCE.getAssetManager().update()) {
             AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
         }
     }

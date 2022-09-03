@@ -72,6 +72,6 @@ public class HotbarRenderer {
     }
 
     private static TextureRegion getTileTextureFromAtlas(Tile tile, String atlasLocation) {
-        return tile.getTexture(AsteraniaMain.assetManager.get(atlasLocation, TextureAtlas.class));
+        return tile.getTexture(AsteraniaMain.INSTANCE.getAssetManager().get(atlasLocation, TextureAtlas.class));
     }
 }

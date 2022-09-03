@@ -20,7 +20,7 @@ public class OverlayRenderer {
             boolean downIsGrass = neighborIsTile(world, overlayTile, x, y, Direction.DOWN);
 
 
-            TextureRegion overlayRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
+            TextureRegion overlayRegion = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
             if (upIsGrass)
                 batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
             if (downIsGrass)
@@ -57,7 +57,7 @@ public class OverlayRenderer {
         boolean upIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.UP);
         boolean downIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.DOWN);
 
-        TextureRegion overlayRegion = AsteraniaMain.assetManager.get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion("water_stone" + textureNumber);
+        TextureRegion overlayRegion = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion("water_stone" + textureNumber);
 
         //tile is water: check surrounding tiles, if not water -> add overlay
         if (positionIsTile(world, new TileCoordinates(x, y), Tiles.WATER_TILE)) {

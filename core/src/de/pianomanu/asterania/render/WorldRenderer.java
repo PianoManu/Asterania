@@ -73,7 +73,7 @@ public class WorldRenderer {
 
     private static void renderTile(Tile tile, int xTile, int yTile, int x, int y, SpriteBatch batch) {
         if (tile.getTileType() == LayerType.BACKGROUND) {
-            batch.draw(tile.getTexture(AsteraniaMain.assetManager.get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+            batch.draw(tile.getTexture(AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         }
         if (tile.getTileType() == LayerType.DECORATION) {
             DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile, x, y);

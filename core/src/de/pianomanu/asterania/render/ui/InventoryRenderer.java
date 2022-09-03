@@ -71,7 +71,7 @@ public class InventoryRenderer {
                         Tile tile = GameRegistry.getTile(iO.getItem());
                         TextureRegion texture = tile.getTexture();
                         if (tile.getNumberOfDifferentTextures() > 1) { //TODO fix for items with multiple textures
-                            texture = AsteraniaMain.assetManager.get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
+                            texture = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
                         }
                         batch.draw(texture, xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4, yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4, 32, 32);
                     }
