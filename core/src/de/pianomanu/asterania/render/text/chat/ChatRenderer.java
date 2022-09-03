@@ -2,10 +2,10 @@ package de.pianomanu.asterania.render.text.chat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.player.chat.ChatElement;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
 
 public class ChatRenderer {
@@ -24,15 +24,9 @@ public class ChatRenderer {
     }
 
     private static void renderTextLine(Player player, ShapeRenderer shapeRenderer) {
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 0.6f);
-        shapeRenderer.rect(40, 40, Gdx.graphics.getWidth() - 80, 40);
-        shapeRenderer.end();
-
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        RendererUtils.enableTransparency();
+        RendererUtils.rect(shapeRenderer, 40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
+        RendererUtils.disableTransparency();
         TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
@@ -44,8 +38,7 @@ public class ChatRenderer {
         int chatSize = player.getChat().getMessages().size();
         float intensity = 1;
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        RendererUtils.enableTransparency();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -59,7 +52,7 @@ public class ChatRenderer {
         }
         shapeRenderer.end();
 
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        RendererUtils.disableTransparency();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);

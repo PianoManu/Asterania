@@ -3,12 +3,14 @@ package de.pianomanu.asterania.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 import de.pianomanu.asterania.utils.TextInputBox;
@@ -51,10 +53,7 @@ public class CreateSaveScreen extends ScreenAdapter {
     }
 
     private void drawBackground() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.2f, 0.3f, 0.1f, 1);
-        shapeRenderer.rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40);
-        shapeRenderer.end();
+        RendererUtils.rect(shapeRenderer, 20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void drawInputBoxes() {

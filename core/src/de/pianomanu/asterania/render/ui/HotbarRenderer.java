@@ -10,6 +10,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
@@ -39,21 +40,13 @@ public class HotbarRenderer {
     private static void renderHotbarBase(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
-        shapeRenderer.rect(startX, startY, hWidth, hHeight);
-
-        shapeRenderer.setColor(0.6f, 0.6f, 0.6f, 1);
-        shapeRenderer.rect(startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2);
-        shapeRenderer.end();
+        RendererUtils.rect(shapeRenderer, startX, startY, hWidth, hHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+        RendererUtils.rect(shapeRenderer, startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2, new Color(0.6f, 0.6f, 0.6f, 1));
     }
 
     private static void renderHotbarEmpty(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.7f, 0.7f, 0.7f, 1);
-        shapeRenderer.rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6);
-        shapeRenderer.end();
+        RendererUtils.rect(shapeRenderer, startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6, new Color(0.7f, 0.7f, 0.7f, 1));
     }
 
     private static void renderHotbarItem(Player player, TextureRegion tileTexture, SpriteBatch batch, int startX, int startY, int hWidth, int hHeight) {

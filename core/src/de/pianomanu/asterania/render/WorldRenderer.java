@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.render;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -98,13 +99,11 @@ public class WorldRenderer {
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         if (isInReach)
-            shapeRenderer.setColor(0.6f, 1, 0.6f, 0.2f);
+            RendererUtils.rect(shapeRenderer, startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(0.6f, 1, 0.6f, 0.2f));
         else
-            shapeRenderer.setColor(1, 1, 1, 0.2f);
-        shapeRenderer.rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-        shapeRenderer.end();
+            RendererUtils.rect(shapeRenderer, startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(1, 1, 1, 0.2f));
+
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
         if (isInReach) {

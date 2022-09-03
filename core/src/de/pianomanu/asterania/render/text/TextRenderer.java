@@ -2,16 +2,16 @@ package de.pianomanu.asterania.render.text;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
+import de.pianomanu.asterania.render.RendererUtils;
 
 public class TextRenderer {
-    private static SpriteBatch batch = new SpriteBatch();
+    private static SpriteBatch batch = new SpriteBatch(); //TODO find solution without static resources
     private static BitmapFont font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
     private static ShapeRenderer shapeRenderer = new ShapeRenderer();
     private static GlyphLayout glyphLayout = new GlyphLayout();
@@ -71,8 +71,7 @@ public class TextRenderer {
         }
 
         if (enableTransparency) {
-            Gdx.gl.glEnable(GL20.GL_BLEND);
-            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            RendererUtils.enableTransparency();
             rectangleColor.set(rectangleColor.r, rectangleColor.g, rectangleColor.b, intensity);
             textColor.set(textColor.r, textColor.g, textColor.b, intensity);
         }
@@ -96,7 +95,7 @@ public class TextRenderer {
         batch.end();
 
         if (enableTransparency) {
-            Gdx.gl.glDisable(GL20.GL_BLEND);
+            RendererUtils.disableTransparency();
         }
     }
 
