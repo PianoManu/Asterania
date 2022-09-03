@@ -14,9 +14,10 @@ public class GameConfig {
     public static String WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\" + WORLDS_SAVE_DIR_NAME + "\\";
     public static String WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH; //" + Worlds.HOME.getWorldName();" -> causes NullPointer when initializing
     public static String VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
-    public static String PLAYER_DATA_SAVE_FILE = "\\playerdata";
+    public static String PLAYER_DATA_SAVE_FILE = "\\playerData";
     public static String PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + PLAYER_DATA_SAVE_FILE;
-    public static String SAVEGAMEINFO_DATA_PATH = SAVEGAME_PATH + "\\savegameinfo";
+    public static String SAVEGAME_INFO = "\\savegameInfo";
+    public static String SAVEGAME_INFO_DATA_PATH = SAVEGAME_PATH + SAVEGAME_INFO;
     public static String DECORATION_LAYER_SUFFIX = "_decoration_layer";
     private static final String versionDescription = "alpha";
     private static final int patchVersion = 0;
@@ -33,10 +34,10 @@ public class GameConfig {
     //TODO find way to load correctly from start
     public static void reload() {
         SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
-        WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\worlds\\";
+        WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\" + WORLDS_SAVE_DIR_NAME + "\\";
         WORLDS_SAVE_PATH_HOME = WORLDS_SAVE_PATH + Worlds.HOME.getWorldName();
-        PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + "\\playerdata";
+        PLAYER_DATA_SAVE_PATH = SAVEGAME_PATH + PLAYER_DATA_SAVE_FILE;
         VERSION_SAVE_PATH = SAVEGAME_PATH + "\\version";
-        SAVEGAMEINFO_DATA_PATH = SAVEGAME_PATH + "\\savegameinfo";
+        SAVEGAME_INFO_DATA_PATH = SAVEGAME_PATH + SAVEGAME_INFO;
     }
 }
