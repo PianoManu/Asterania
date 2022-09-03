@@ -2,14 +2,19 @@ package de.pianomanu.asterania.utils.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.utils.DateUtils;
+import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
+import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.world.World;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.logging.Logger;
 
-public class SaveFile {
+public class Savegame {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     private final String name;
@@ -21,16 +26,13 @@ public class SaveFile {
     private long totalPlayTime = 0;
     private long startTime;
     private long quitTime;
+    private final List<Player> playersOfSavegame = new ArrayList<>();
+    private Player currentActivePlayer;
 
-    public SaveFile(String name) {
+    public Savegame(String name) {
         this.name = name;
         this.universe = new Universe();
 
-        if (new File(GameConfig.SAVEGAME_PATH_OFFSET + name).mkdir()) {
-            LOGGER.fine("Created directory \"" + name + "\" as save directory!");
-        } else {
-            LOGGER.finest("Found save directory \"" + name + "\"!");
-        }
         if (GameConfig.SEED == 0) {
             this.seed = (int) (Math.random() * Integer.MAX_VALUE);
             this.random = new Random(this.seed);
@@ -38,8 +40,26 @@ public class SaveFile {
             this.seed = GameConfig.SEED;
             this.random = new Random(GameConfig.SEED);
         }
+        this.currentActivePlayer = PlayerSaveUtils.loadPlayerFromSaveFile(name);
         this.dateOfCreation = DateUtils.calcDate();
         this.startTime = System.currentTimeMillis();
+    }
+
+    public static Savegame loadSavegame(String savegameName) {
+        if (savegameExists(savegameName)) {
+            return SaveGameUtils.loadSavegame(savegameName);
+        } else {
+            return new Savegame(savegameName);
+        }
+    }
+
+    private static boolean savegameExists(String savegameName) {
+        if (new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName).mkdir()) {
+            LOGGER.fine("Created directory \"" + savegameName + "\" as save directory!");
+            return false;
+        }
+        LOGGER.finest("Found save directory \"" + savegameName + "\"!");
+        return true;
     }
 
     public Universe getUniverse() {
@@ -62,7 +82,7 @@ public class SaveFile {
 
     @Override
     public String toString() {
-        return "SaveFile{\"" + this.name + "\"" + ", universe:" + this.universe + '}';
+        return "Savegame{\"" + this.name + "\"" + ", universe:" + this.universe + '}';
     }
 
     public Random getRandomNumberGenerator() {
