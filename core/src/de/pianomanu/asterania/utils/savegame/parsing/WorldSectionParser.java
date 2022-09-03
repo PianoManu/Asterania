@@ -52,7 +52,6 @@ public class WorldSectionParser {
     }
 
     private static WorldSection buildWSfromPartList(String positionLine, List<String> backgroundLayerParts, List<String> decorationLayerParts) {
-        System.out.println(positionLine);
         int xPos = Integer.parseInt(createParts(positionLine).get(0));
         int yPos = Integer.parseInt(createParts(positionLine).get(1));
 
