@@ -19,9 +19,6 @@ import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class WorldRenderer {
 
     public static void renderAll(World world, Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
@@ -52,8 +49,6 @@ public class WorldRenderer {
                         Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
                         if (tile != null) {
                             renderTile(tile, xTile, yTile, x, y, batch);
-                            //TODO better way to check for overlay
-                            //if (shouldHaveOverlay(tile))
                             addOverlay(batch, world, x, y, xTile, yTile);
                         }
                         if (decoration != null) {
@@ -82,14 +77,6 @@ public class WorldRenderer {
         if (tile.getTileType() == LayerType.DECORATION) {
             DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile, x, y);
         }
-    }
-
-    private static boolean shouldHaveOverlay(Tile tile) {
-        List<Tile> tilesWithOverlays = new ArrayList<>();//TODO überarbeiten
-        tilesWithOverlays.add(Tiles.SOIL_TILE);
-        tilesWithOverlays.add(Tiles.ROCK);
-        tilesWithOverlays.add(Tiles.WATER_TILE);
-        return tilesWithOverlays.contains(tile);
     }
 
     private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
