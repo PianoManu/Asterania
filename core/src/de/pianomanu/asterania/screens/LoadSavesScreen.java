@@ -20,7 +20,7 @@ import de.pianomanu.asterania.utils.DateUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
-import de.pianomanu.asterania.utils.savegame.SaveFile;
+import de.pianomanu.asterania.utils.savegame.Savegame;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -30,22 +30,22 @@ import java.util.logging.Logger;
 public class LoadSavesScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private ShapeRenderer shapeRenderer;
-    private SpriteBatch batch;
+    private final ShapeRenderer shapeRenderer;
+    private final SpriteBatch batch;
 
-    private List<SaveFile> saveFiles = new ArrayList<>();
+    private final List<Savegame> savegames = new ArrayList<>();
     private int saveFilePointer = 0;
-    private SaveFile tmpSaveFile;
+    private Savegame tmpSavegame;
 
     public LoadSavesScreen() {
         this.shapeRenderer = new ShapeRenderer();
         this.batch = new SpriteBatch();
-        getAllExistingSaveFiles();
+        loadAllExistingSaveFiles();
 
-        if (saveFiles.size() > 0)
-            this.tmpSaveFile = saveFiles.get(0);
+        if (savegames.size() > 0)
+            this.tmpSavegame = savegames.get(0);
         else
-            this.tmpSaveFile = new SaveFile("tmp");
+            this.tmpSavegame = new Savegame("tmp");
     }
 
     @Override
@@ -86,7 +86,7 @@ public class LoadSavesScreen extends ScreenAdapter {
         int height = Gdx.graphics.getHeight();
         int offset = 8;
 
-        Vector2 dim = TextRenderer.getTextDimensions(saveFiles.get(saveFilePointer).getName());
+        Vector2 dim = TextRenderer.getTextDimensions(savegames.get(saveFilePointer).getName());
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
         shapeRenderer.setColor(Color.OLIVE);
         shapeRenderer.rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f);
@@ -95,13 +95,13 @@ public class LoadSavesScreen extends ScreenAdapter {
         shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
         shapeRenderer.end();
 
-        this.tmpSaveFile = saveFiles.get(saveFilePointer);
-        SaveGameInfoUtils.loadInfo(this.tmpSaveFile, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSaveFile.getName());
+        this.tmpSavegame = savegames.get(saveFilePointer);
+        SaveGameInfoUtils.loadInfo(this.tmpSavegame, GameConfig.SAVEGAME_PATH_OFFSET + this.tmpSavegame.getName());
 
-        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSaveFile.getName());
+        TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
 
-        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSaveFile.getDateOfCreation(), false);
-        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSaveFile.getTotalPlayTime()), false);
+        TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
+        TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
     }
 
     private void renderButtons() {
@@ -148,11 +148,7 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (mouseX >= Buttons.START_GAME_BUTTON.getStart().x && mouseY >= Buttons.START_GAME_BUTTON.getStart().y && mouseX <= Buttons.START_GAME_BUTTON.getEnd().x && mouseY <= Buttons.START_GAME_BUTTON.getEnd().y) {
             LOGGER.fine("Starting the game...");
             this.dispose();
-            AsteraniaMain.saveFile = saveFiles.get(saveFilePointer);
-            GameConfig.SAVEGAME_NAME = saveFiles.get(saveFilePointer).getName();
-            GameConfig.reload();
-            SaveGameUtils.loadWorldsFromDirectory();
-            SaveGameInfoUtils.loadInfo();
+            loadSavegame();
             AsteraniaMain.INSTANCE.setScreen(new GameScreen());
         }
         if (mouseX >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().x && mouseY >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().y && mouseX <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().x && mouseY <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().y) {
@@ -162,38 +158,47 @@ public class LoadSavesScreen extends ScreenAdapter {
         }
     }
 
+    private void loadSavegame() {
+        //TODO fix unstable state
+        //====================================================================
+        AsteraniaMain.currentActiveSavegame = savegames.get(saveFilePointer);
+        GameConfig.SAVEGAME_NAME = savegames.get(saveFilePointer).getName();
+        GameConfig.reload();
+        //====================================================================
+        AsteraniaMain.currentActiveSavegame = SaveGameUtils.loadSavegame(savegames.get(saveFilePointer).getName());
+        SaveGameInfoUtils.loadInfo();
+    }
+
     private void tryRotateThroughSaves() {
         //no save files: no rotation possible
         //so check whether files are already there
-        if (saveFiles.size() > 0) {
+        if (savegames.size() > 0) {
             if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)) {
                 saveFilePointer++;
-                if (saveFilePointer >= saveFiles.size())
+                if (saveFilePointer >= savegames.size())
                     saveFilePointer = 0;
             }
             if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)) {
                 saveFilePointer--;
                 if (saveFilePointer < 0)
-                    saveFilePointer = saveFiles.size() - 1;
+                    saveFilePointer = savegames.size() - 1;
             }
         }
     }
 
-    private List<SaveFile> getAllExistingSaveFiles() {
+    private void loadAllExistingSaveFiles() {
         File savesFolder = new File(GameConfig.SAVEGAME_PATH_OFFSET);
         if (savesFolder.isDirectory()) {
             File[] files = savesFolder.listFiles();
             if (files != null) {
                 for (File f :
                         files) {
-                    this.saveFiles.add(new SaveFile(f.getName()));
+                    this.savegames.add(new Savegame(f.getName()));
                 }
             }
         } else {
-            LOGGER.severe(GameConfig.SAVEGAME_PATH_OFFSET + " must be a directory...");
-            savesFolder.mkdir();
-            return new ArrayList<>();
+            if (savesFolder.mkdir())
+                LOGGER.severe(GameConfig.SAVEGAME_PATH_OFFSET + " must be a directory...");
         }
-        return this.saveFiles;
     }
 }

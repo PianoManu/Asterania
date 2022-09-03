@@ -63,10 +63,10 @@ public class WorldWriter {
         for (World w :
                 AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds()) {
             //Welt in eigenem Order speichern
-            File savegameDirectory = new File(SaveGameUtils.getSavegameWorldDirectory(AsteraniaMain.currentActiveSavegame.getName(), w.getWorldName()));
+            File savegameDirectory = new File(SaveGameUtils.getSavegameWorldSubdirectory(AsteraniaMain.currentActiveSavegame.getName(), w.getWorldName()));
             savegameDirectory.mkdir();
             WorldWriter.saveWorldContent(WorldSectionComposer.createWorldContentString(w, TileType.BACKGROUND), savegameDirectory.getAbsolutePath(), w.getWorldName());
-            WorldWriter.saveWorldContent(WorldSectionComposer.createWorldContentString(w, TileType.DECORATION), savegameDirectory.getAbsolutePath(), w.getWorldName() + "_decorative_layer");
+            WorldWriter.saveWorldContent(WorldSectionComposer.createWorldContentString(w, TileType.DECORATION), savegameDirectory.getAbsolutePath(), w.getWorldName() + GameConfig.DECORATION_LAYER_SUFFIX);
         }
     }
 

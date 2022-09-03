@@ -2,34 +2,22 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 import java.io.File;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Logger;
 
 public class WorldReader {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private static List<String> linesOfFile = new ArrayList<>();
+    public static WorldSection loadWorldSection(File backgroundLayer, File decorationLayer, World world) {
+        LOGGER.finest("Adding content of file " + backgroundLayer.getName() + " to world " + world.getWorldName());
+        String backgroundContent = String.valueOf(readFile(backgroundLayer));
+        String decorationContent = String.valueOf(readFile(decorationLayer));
 
-    public static void loadWorld(File file, World world) {
-        LOGGER.fine("Starting world " + world.getWorldName() + " from file " + file.getName());
-        String content = String.valueOf(readFile(file));
-        int lowerBound = 0;
-        for (int i = 0; i < content.length(); i++) {
-            if (content.charAt(i) == '\n') {
-                linesOfFile.add(content.substring(lowerBound, i));
-                lowerBound = i;
-            }
-        }
-        LOGGER.fine("Found " + linesOfFile.size() + " lines of world information");
-        world.loadWorldSections(WorldSectionParser.getWSfromString(file.getName(), linesOfFile));
-        LOGGER.fine("Started world " + world.getWorldName() + " from file " + file.getName());
-
-        //reinitialize world loading string list
-        linesOfFile = new ArrayList<>();
+        LOGGER.finest("Added content of file " + backgroundLayer.getName() + " to world " + world.getWorldName());
+        return WorldSectionParser.getWSfromString(backgroundContent, decorationContent);
     }
 
     /**

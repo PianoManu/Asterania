@@ -2,8 +2,9 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
-import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.utils.StringUtils;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.TileType;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
@@ -19,121 +20,73 @@ public class WorldSectionParser {
     //sC = separatingCharacter ... for better readability
     private static final char sC = '|';
 
-    public static List<WorldSection> getWSfromString(String fileName, List<String> content) {
-        List<WorldSection> sections = new ArrayList<>();
-        //1st line: version number
-        //LOGGER.info("Found version " + content.get(0) + " !");
-
-        //2nd line: empty
-
-        //3rd line: terrain starts
-        if (fileName.contains("decorative_layer")) {
-            //for (int i = 2; i < content.size(); i++) {
-            //sections.add(getWSfromString(removeLineBreaks(content.get(i)), true));
-            //find corresponding section
-            int worldIndex = -1;
-            List<World> worlds = AsteraniaMain.saveFile.getUniverse().getWorlds();
-            for (int i = 0; i < worlds.size(); i++) {
-                if (fileName.contains(AsteraniaMain.saveFile.getUniverse().getWorlds().get(i).getWorldName())) {
-                    worldIndex = i;
-                    sections.addAll(worlds.get(i).getSections());
-                    break;
-                }
-            }
-            for (WorldSection s : sections) {
-                //add content to each section
-                //TODO sections correct order?
-                //"+ 2" because first two lines of save file contain meta info
-                addDecorativeLayerToWS(content.get(worldIndex + 2), s);
-            }
-        } else {
-            for (int i = 0; i < content.size(); i++) {
-                sections.add(getWSfromString(removeLineBreaks(content.get(i))));
-            }
-        }
-        return sections;
-    }
-
-    private static String removeLineBreaks(String string) {
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < string.length(); i++) {
-            if (string.charAt(i) != '\n')
-                sb.append(string.charAt(i));
-        }
-        return sb.toString();
-    }
-
     private static List<String> createParts(String partList) {
-        int sCcounter = 0;
         List<String> parts = new ArrayList<>();
         int start = 0;
         for (int i = 0; i < partList.length(); i++) {
             if (partList.charAt(i) == sC) {
                 //separating character found
-                if (sCcounter > 0) {
-                    parts.add(partList.substring(start, i));
-                }
-                sCcounter++;
+                parts.add(partList.substring(start, i));
                 start = i + 1;
+            }
+            if (i == partList.length() - 1) {
+                parts.add(partList.substring(start));
             }
         }
         return parts;
     }
 
-    private static WorldSection getWSfromString(String oneWS) {
+    public static WorldSection getWSfromString(String backgroundLayer, String decorationLayer) {
         //separatingCharacterCounter ... for better readability
-        List<String> parts = createParts(oneWS);
-        if (parts.size() != 0)
-            return buildWSfromPartList(parts);
+        int backgroundLayerLines = StringUtils.countSymbolOccurances(backgroundLayer, '\n');
+        int decorationLayerLines = StringUtils.countSymbolOccurances(decorationLayer, '\n');
+        if (backgroundLayerLines == decorationLayerLines) {
+            String[] backgroundLayerStrings = backgroundLayer.split("\n");
+            String[] decorationLayerStrings = decorationLayer.split("\n");
+            List<String> backgroundLayerParts = createParts(backgroundLayerStrings[1]);
+            List<String> decorationLayerParts = createParts(decorationLayerStrings[1]);
+            if (backgroundLayerParts.size() != 0 && decorationLayerParts.size() != 0 && backgroundLayerStrings[0].equals(decorationLayerStrings[0]))
+                return buildWSfromPartList(backgroundLayerStrings[0], backgroundLayerParts, decorationLayerParts);
+        }
         return null;
     }
 
-    private static void addDecorativeLayerToWS(String decorativeLayerWS, WorldSection ws) {
-        //one line of the save file: one ws
-        //each entry represents:
-        //      first two entries: position of ws
-        //      next entries: tiles of ws
-        List<String> parts = createParts(decorativeLayerWS);
-        int xPos = Integer.parseInt(parts.get(0));
-        int yPos = Integer.parseInt(parts.get(1));
-
-        List<String> tilesString = parts.subList(2, parts.size());
-        List<Tile> tiles = new ArrayList<>();
-        for (String t : tilesString) {
-            tiles.addAll(Arrays.asList(getTilesFromPart(t, false)));
-        }
-
-        Tile[] tileArrayUnprocessed = toTileArray(tiles);
-        Tile[][] tileArray = getTilesFromTileArray(tileArrayUnprocessed);
-        if (tileArray != null) {
-            ws.setDecorationLayerTile(tileArray);
-        } else {
-            LOGGER.warning("Tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
-        }
-    }
-
-    private static WorldSection buildWSfromPartList(List<String> parts) {
-        int xPos = Integer.parseInt(parts.get(0));
-        int yPos = Integer.parseInt(parts.get(1));
-
-        List<String> tilesString = parts.subList(2, parts.size());
+    private static WorldSection buildWSfromPartList(String positionLine, List<String> backgroundLayerParts, List<String> decorationLayerParts) {
+        System.out.println(positionLine);
+        int xPos = Integer.parseInt(createParts(positionLine).get(0));
+        int yPos = Integer.parseInt(createParts(positionLine).get(1));
 
         //TODO change GrasslandPlain
         WorldSection worldSection = new WorldSection(xPos, yPos, WorldSectionSettings.SettingList.GRASSLAND_PLAIN);
+        List<Tile> backgroundTiles = getParts(backgroundLayerParts, true);
+        List<Tile> decorationTiles = getParts(decorationLayerParts, false);
+        if (!addTilesToWorldSection(worldSection, backgroundTiles, TileType.BACKGROUND))
+            LOGGER.warning("Background tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
+        if (!addTilesToWorldSection(worldSection, decorationTiles, TileType.DECORATION))
+            LOGGER.warning("Decoration tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
+
+        return worldSection;
+    }
+
+    private static List<Tile> getParts(List<String> layerParts, boolean useWhiteTiles) {
         List<Tile> tiles = new ArrayList<>();
-        for (String t : tilesString) {
-            tiles.addAll(Arrays.asList(getTilesFromPart(t, true)));
-
+        for (String t : layerParts) {
+            tiles.addAll(Arrays.asList(getTilesFromPart(t, useWhiteTiles)));
         }
+        return tiles;
+    }
 
+    private static boolean addTilesToWorldSection(WorldSection worldSection, List<Tile> tiles, TileType layerType) {
         Tile[] tileArrayUnprocessed = toTileArray(tiles);
         Tile[][] tileArray = getTilesFromTileArray(tileArrayUnprocessed);
         if (tileArray != null) {
-            worldSection.setTiles(tileArray);
-        } else {
-            LOGGER.warning("Tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
+            if (layerType == TileType.BACKGROUND)
+                worldSection.setTiles(tileArray);
+            else
+                worldSection.setDecorationLayerTiles(tileArray);
+            return true;
         }
-        return worldSection;
+        return false;
     }
 
     private static Tile[][] getTilesFromTileArray(Tile[] unprocessedTiles) {
@@ -158,7 +111,7 @@ public class WorldSectionParser {
         for (int i = 0; i < tiles.length; i++) {
             //useWhiteTiles will fill "null" tiles with Tiles.WHITE instead to prevent crashes
             //decorative layer: no tile == null
-            //default layer: no tile == white tile
+            //background layer: no tile == white tile
             if (tile.equals("null") && !useWhiteTiles)
                 tiles[i] = null;
             else
