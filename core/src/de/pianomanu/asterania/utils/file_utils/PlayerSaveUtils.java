@@ -8,7 +8,6 @@ import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldReader;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
-import de.pianomanu.asterania.world.Worlds;
 import de.pianomanu.asterania.world.direction.Direction;
 
 import java.io.File;
@@ -25,7 +24,7 @@ public class PlayerSaveUtils {
     }
 
     public static Player loadPlayerFromSaveFile(String savegameName) {
-        GameConfig.reload(); //TODO fix gameconfig
+        //GameConfig.reload(); //TODO fix gameconfig
         Player tmp = new Player();
         File f = new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName + GameConfig.PLAYER_DATA_SAVE_FILE);
         if (f.exists()) {
@@ -33,7 +32,7 @@ public class PlayerSaveUtils {
             readAndAssignPlayerData(playerData, tmp);
 
         } else {
-            tmp.setPos(Worlds.HOME.getEntryPoint().toEntityCoordinates());
+            //tmp.setPos(Worlds.HOME.getEntryPoint().toEntityCoordinates()); //TODO fix World.HOME being dependent on activeSavegame
         }
 
         return tmp;
