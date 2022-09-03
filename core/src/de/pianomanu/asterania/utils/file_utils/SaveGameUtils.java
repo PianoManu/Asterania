@@ -16,8 +16,6 @@ import java.util.logging.Logger;
 public class SaveGameUtils {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    public static final List<World> SAVE_GAME_WORLD = new ArrayList<>();
-
     public static String getSavegameDirectory(String savegameName) {
         return GameConfig.SAVEGAME_PATH_OFFSET + savegameName;
     }
@@ -30,21 +28,22 @@ public class SaveGameUtils {
         return getSavegameWorldDirectory(savegameName) + "\\" + worldName;
     }
 
-    @Deprecated
-    public static void createNewGame() {
-        File savesDir = new File(GameConfig.SAVEGAME_PATH_OFFSET);
-        savesDir.mkdir();
-        File mainDir = new File(GameConfig.SAVEGAME_PATH);
-        mainDir.mkdir();
-
-        createStartWorldForNewGame();
+    public static void createNewGame(Savegame newSavegame, String savegameName) {
+        createDirectories(savegameName);
+        createStartWorldForNewGame(newSavegame);
     }
 
-    private static void createStartWorldForNewGame() {
-        File folder = new File(GameConfig.WORLDS_SAVE_PATH);
+    private static void createDirectories(String savegameName) {
+        File savesDir = new File(GameConfig.SAVEGAME_PATH_OFFSET);
+        File mainDir = new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName);
+        File folder = new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName + "\\" + GameConfig.WORLDS_SAVE_DIR_NAME);
+        savesDir.mkdir();
+        mainDir.mkdir();
         folder.mkdir();
-        SAVE_GAME_WORLD.add(Worlds.HOME);
-        AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds().addAll(SAVE_GAME_WORLD);
+    }
+
+    private static void createStartWorldForNewGame(Savegame savegame) {
+        savegame.getUniverse().getWorlds().add(Worlds.HOME);
     }
 
     private static String removeExtension(String fileName) {

@@ -3,7 +3,6 @@ package de.pianomanu.asterania.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -23,15 +22,13 @@ import java.util.logging.Logger;
 public class CreateSaveScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private ShapeRenderer shapeRenderer;
-    private SpriteBatch batch;
+    private final ShapeRenderer shapeRenderer;
 
     private String input = "";
-    private TextInputBox box;
+    private final TextInputBox box;
 
     public CreateSaveScreen() {
         this.shapeRenderer = new ShapeRenderer();
-        this.batch = new SpriteBatch();
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
@@ -92,7 +89,7 @@ public class CreateSaveScreen extends ScreenAdapter {
         AsteraniaMain.currentActiveSavegame = new Savegame(this.input);
         GameConfig.SAVEGAME_NAME = this.input;
         GameConfig.reload();
-        SaveGameUtils.createNewGame();
+        SaveGameUtils.createNewGame(AsteraniaMain.currentActiveSavegame, this.input);
         AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
         AsteraniaMain.INSTANCE.setScreen(new GameScreen());
     }
