@@ -162,7 +162,7 @@ public class WorldSection {
         return this.decorationLayer;
     }
 
-    public void setDecorationLayerTile(Tile[][] tiles) throws ArrayIndexOutOfBoundsException {
+    public void setDecorationLayerTiles(Tile[][] tiles) throws ArrayIndexOutOfBoundsException {
         if (tiles.length == SECTION_SIZE && tiles[0].length == SECTION_SIZE) {
             for (int x = 0; x < SECTION_SIZE; x++) {
                 for (int y = 0; y < SECTION_SIZE; y++) {
