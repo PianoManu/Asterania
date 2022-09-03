@@ -49,7 +49,8 @@ public class OverlayRenderer {
     public static void addStoneCoastOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
         //pseudo-random selection of stone coast texture using x and y position
         //x*3, y*5+1: prevent patterns
-        int textureNumber = (((x * 3 % 4) + (y * 5 + 1 % 4)) % 4) + 4; //add 4 for intervall [1, 4]
+        int numberOfTextures = 4; // 4 different stone coast textures
+        int textureNumber = (((x * 3 % numberOfTextures) + (y * 5 + 1 % numberOfTextures)) % numberOfTextures) + numberOfTextures; //add numberOfTextures for intervall [1, numberOfTextures], because x and y can be negative
 
         boolean leftIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.LEFT);
         boolean rightIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.RIGHT);
