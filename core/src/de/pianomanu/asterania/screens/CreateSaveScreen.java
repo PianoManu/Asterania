@@ -13,7 +13,6 @@ import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 import de.pianomanu.asterania.utils.TextInputBox;
 import de.pianomanu.asterania.utils.WindowUtils;
-import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
 
@@ -86,11 +85,10 @@ public class CreateSaveScreen extends ScreenAdapter {
     }
 
     private void changeToGameScreen() {
-        AsteraniaMain.currentActiveSavegame = new Savegame(this.input);
+        AsteraniaMain.currentActiveSavegame = Savegame.loadSavegame(this.input);
         GameConfig.SAVEGAME_NAME = this.input;
         GameConfig.reload();
         SaveGameUtils.createNewGame(AsteraniaMain.currentActiveSavegame, this.input);
-        AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
         AsteraniaMain.INSTANCE.setScreen(new GameScreen());
     }
 }

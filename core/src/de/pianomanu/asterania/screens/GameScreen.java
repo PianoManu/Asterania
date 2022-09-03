@@ -16,7 +16,6 @@ import de.pianomanu.asterania.render.WorldRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.UIRenderer;
 import de.pianomanu.asterania.utils.WindowUtils;
-import de.pianomanu.asterania.utils.file_utils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 import de.pianomanu.asterania.world.World;
 
@@ -37,7 +36,7 @@ public class GameScreen extends ScreenAdapter {
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.currentActiveSavegame.getHomeWorld();
         AsteraniaMain.currentActiveSavegame.resetStartTime();
-        AsteraniaMain.player = PlayerSaveUtils.loadPlayerFromSaveFile();
+        AsteraniaMain.player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer(); //TODO remove static player
         //TODO differentiate between new and old worlds
         AsteraniaMain.player.changeCurrentWorld(this.world, AsteraniaMain.player.getPos().toTileCoordinates());
     }
