@@ -15,4 +15,13 @@ public class Worlds {
         GameRegistry.registerWorld(world);
         return world;
     }
+
+    public static World getWorldByName(String name) {
+        for (World w :
+                GameRegistry.getWorlds()) {
+            if (w.getWorldName().equals(name))
+                return w;
+        }
+        return null;
+    }
 }
