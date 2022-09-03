@@ -19,10 +19,15 @@ import java.util.logging.Logger;
 public class PlayerSaveUtils {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
+    @Deprecated
     public static Player loadPlayerFromSaveFile() {
-        GameConfig.reload();
+        return loadPlayerFromSaveFile(GameConfig.PLAYER_DATA_SAVE_PATH);
+    }
+
+    public static Player loadPlayerFromSaveFile(String savegameName) {
+        GameConfig.reload(); //TODO fix gameconfig
         Player tmp = new Player();
-        File f = new File(GameConfig.PLAYER_DATA_SAVE_PATH);
+        File f = new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName + GameConfig.PLAYER_DATA_SAVE_FILE);
         if (f.exists()) {
             String playerData = String.valueOf(WorldReader.readFile(f));
             readAndAssignPlayerData(playerData, tmp);
