@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.screens.LoadingScreen;
+import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
 
@@ -43,7 +44,7 @@ public class AsteraniaMain extends Game {
 
 		initializeInstanceVariables();
 
-		setScreen(new LoadingScreen());
+		WindowUtils.changeScreen(null, new LoadingScreen());
 		LOGGER.info("Initialization completed!");
 	}
 

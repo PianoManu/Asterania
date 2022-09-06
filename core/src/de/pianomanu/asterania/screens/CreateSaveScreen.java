@@ -61,8 +61,7 @@ public class CreateSaveScreen extends ScreenAdapter {
     private void checkForImportantChanges() {
         if (WindowUtils.windowSizeHasChanged()) {
             LOGGER.finest("Window was resized, updated window!");
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new CreateSaveScreen());
+            WindowUtils.changeScreen(this, new CreateSaveScreen());
 
         }
     }
@@ -75,7 +74,6 @@ public class CreateSaveScreen extends ScreenAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !this.input.isEmpty()) {
             LOGGER.fine("Creating a new game...");
-            this.dispose();
             changeToGameScreen();
         }
     }
@@ -85,6 +83,6 @@ public class CreateSaveScreen extends ScreenAdapter {
         GameConfig.SAVEGAME_NAME = this.input;
         GameConfig.reload();
         SaveGameUtils.createNewGame(AsteraniaMain.currentActiveSavegame, this.input);
-        AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+        WindowUtils.changeScreen(this, new GameScreen());
     }
 }

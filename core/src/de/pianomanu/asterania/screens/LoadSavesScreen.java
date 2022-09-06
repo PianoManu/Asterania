@@ -68,8 +68,7 @@ public class LoadSavesScreen extends ScreenAdapter {
     private void checkForImportantChanges() {
         if (WindowUtils.windowSizeHasChanged()) {
             LOGGER.finest("Window was resized, updated window!");
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new LoadSavesScreen());
+            WindowUtils.changeScreen(this, new LoadSavesScreen());
 
         }
     }
@@ -137,15 +136,13 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (savegames.size() > 0) {
             if (mouseX >= Buttons.START_GAME_BUTTON.getStart().x && mouseY >= Buttons.START_GAME_BUTTON.getStart().y && mouseX <= Buttons.START_GAME_BUTTON.getEnd().x && mouseY <= Buttons.START_GAME_BUTTON.getEnd().y) {
                 LOGGER.fine("Starting the game...");
-                this.dispose();
                 loadSavegame();
-                AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+                WindowUtils.changeScreen(this, new GameScreen());
             }
         }
         if (mouseX >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().x && mouseY >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().y && mouseX <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().x && mouseY <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().y) {
             LOGGER.fine("Going back to main menu...");
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
+            WindowUtils.changeScreen(this, new MainMenuScreen());
         }
     }
 

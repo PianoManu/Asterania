@@ -1,6 +1,9 @@
 package de.pianomanu.asterania.utils;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.utils.Null;
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
@@ -33,5 +36,12 @@ public class WindowUtils {
         TextRenderer.reloadTextRenderers();
         Buttons.reloadButtons();
         TextInputBoxRenderer.reloadTextInputBoxRenderers();
+    }
+
+    public static void changeScreen(@Null Screen oldScreen, Screen newScreen) {
+        if (oldScreen != null)
+            oldScreen.dispose();
+        AsteraniaMain.INSTANCE.setScreen(newScreen);
+        AsteraniaMain.INSTANCE.reloadRenderers();
     }
 }

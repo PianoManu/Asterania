@@ -67,8 +67,7 @@ public class GameScreen extends ScreenAdapter {
             LOGGER.fine("Saving world data...");
             WorldWriter.saveGameInfo();
             LOGGER.fine("Saved world data!");
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new MainMenuScreen());
+            WindowUtils.changeScreen(this, new MainMenuScreen());
         }
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_DEBUG_INFO)) {
             DisplayConfig.showDebugInfo = !DisplayConfig.showDebugInfo;
@@ -85,8 +84,7 @@ public class GameScreen extends ScreenAdapter {
         if (WindowUtils.windowSizeHasChanged()) {
             LOGGER.finest("Window was resized, updated window!");
             WorldWriter.saveGameInfo();
-            this.dispose();
-            AsteraniaMain.INSTANCE.setScreen(new GameScreen());
+            WindowUtils.changeScreen(this, new GameScreen());
         }
     }
 }
