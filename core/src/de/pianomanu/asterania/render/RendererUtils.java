@@ -35,6 +35,11 @@ public class RendererUtils {
         shapeRenderer.ellipse(x, y, width, height);
     }
 
+    public void linePlain(int xStart, int yStart, int xEnd, int yEnd, Color color) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.line(xStart, yStart, xEnd, yEnd);
+    }
+
     public void end() {
         shapeRenderer.end();
     }
@@ -116,5 +121,11 @@ public class RendererUtils {
 
     public static void disableTransparency() {
         Gdx.gl.glDisable(GL20.GL_BLEND);
+    }
+
+    public void line(int xStart, int yStart, int xEnd, int yEnd, Color color) {
+        begin(ShapeRenderer.ShapeType.Line);
+        linePlain(xStart, yStart, xEnd, yEnd, color);
+        end();
     }
 }
