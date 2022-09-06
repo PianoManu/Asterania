@@ -2,16 +2,16 @@ package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.entities.Player;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
 
 public class TileBreakingUI {
     public static boolean renderNoBreakingPossible = false;
     public static String renderNoBreakingPossibleMessage = "";
 
-    public static void renderTileBreakingUI(Player player, ShapeRenderer shapeRenderer) {
+    public static void renderTileBreakingUI(Player player) {
         if (player.isBreakingTile() && !renderNoBreakingPossible) {
             int width = Gdx.graphics.getWidth();
             int height = Gdx.graphics.getHeight();
@@ -26,13 +26,8 @@ public class TileBreakingUI {
             int barWidth = rectWidth / 2;
             int barHeight = (int) (player.getCurrentBreakingPercentage() * rectHeight * 9 / 10);
 
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
-            shapeRenderer.rect(startX, startY, rectWidth, rectHeight);
-
-            shapeRenderer.setColor(0, 0.8f, 0, 1);
-            shapeRenderer.rect(barX, barY, barWidth, barHeight);
-            shapeRenderer.end();
+            RendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+            RendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0, 0.8f, 0, 1));
         }
         if (renderNoBreakingPossible) {
             int width = Gdx.graphics.getWidth();
@@ -48,13 +43,8 @@ public class TileBreakingUI {
             int barWidth = rectWidth / 2;
             int barHeight = rectHeight * 9 / 10;
 
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 1);
-            shapeRenderer.rect(startX, startY, rectWidth, rectHeight);
-
-            shapeRenderer.setColor(0.8f, 0f, 0, 1);
-            shapeRenderer.rect(barX, barY, barWidth, barHeight);
-            shapeRenderer.end();
+            RendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+            RendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0.8f, 0f, 0, 1));
 
             int xOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).x;
             int yOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).y;

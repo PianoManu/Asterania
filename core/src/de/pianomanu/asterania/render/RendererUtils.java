@@ -13,10 +13,35 @@ public class RendererUtils {
         return AsteraniaMain.INSTANCE.getRendererUtils();
     }
 
-    public void rect(int x, int y, int width, int height, Color color, ShapeRenderer.ShapeType shapeType) {
+    public void begin() {
+        begin(ShapeRenderer.ShapeType.Filled);
+    }
+
+    public void begin(ShapeRenderer.ShapeType shapeType) {
         shapeRenderer.begin(shapeType);
+    }
+
+    public void rectPlain(int x, int y, int width, int height, Color color) {
         shapeRenderer.setColor(color);
         shapeRenderer.rect(x, y, width, height);
+    }
+
+    public void rectPlain(float x, float y, float width, float height, Color color) {
+        rectPlain((int) x, (int) y, (int) width, (int) height, color);
+    }
+
+    public void ellipsePlain(float x, float y, float width, float height, Color color) {
+        shapeRenderer.setColor(color);
+        shapeRenderer.ellipse(x, y, width, height);
+    }
+
+    public void end() {
+        shapeRenderer.end();
+    }
+
+    public void rect(int x, int y, int width, int height, Color color, ShapeRenderer.ShapeType shapeType) {
+        shapeRenderer.begin(shapeType);
+        rectPlain(x, y, width, height, color);
         shapeRenderer.end();
     }
 
@@ -46,8 +71,7 @@ public class RendererUtils {
 
     public void rect(float x, float y, float width, float height, Color color, ShapeRenderer.ShapeType shapeType) {
         shapeRenderer.begin(shapeType);
-        shapeRenderer.setColor(color);
-        shapeRenderer.rect(x, y, width, height);
+        rectPlain(x, y, width, height, color);
         shapeRenderer.end();
     }
 
@@ -73,6 +97,16 @@ public class RendererUtils {
      */
     public void rect(float x, float y, float width, float height) {
         rect(x, y, width, height, Color.BLACK, ShapeRenderer.ShapeType.Line);
+    }
+
+    public void ellipse(float x, float y, float width, float height, Color color) {
+        ellipse(x, y, width, height, color, ShapeRenderer.ShapeType.Filled);
+    }
+
+    public void ellipse(float x, float y, float width, float height, Color color, ShapeRenderer.ShapeType shapeType) {
+        begin(shapeType);
+        ellipsePlain(x, y, width, height, color);
+        end();
     }
 
     public static void enableTransparency() {

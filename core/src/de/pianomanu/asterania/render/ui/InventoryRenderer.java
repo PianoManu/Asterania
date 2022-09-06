@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
@@ -15,6 +14,7 @@ import de.pianomanu.asterania.inventory.Inventory;
 import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.Atlases;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.tile.Tile;
 
@@ -25,7 +25,7 @@ public class InventoryRenderer {
     public static final int COLUMNS = 12;
     private static boolean isInventoryOpen = false;
 
-    public static void renderInventory(Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public static void renderInventory(Player player, SpriteBatch batch) {
         if (isInventoryOpen) {
             int width = Gdx.graphics.getWidth();
             int height = Gdx.graphics.getHeight();
@@ -41,22 +41,20 @@ public class InventoryRenderer {
                 Gdx.gl.glEnable(GL20.GL_BLEND);
                 Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
             }
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.4f);
-            shapeRenderer.rect(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE);
-            shapeRenderer.setColor(0.3f, 0.3f, 0.3f, 0.4f);
+            RendererUtils.getInstance().begin();
+            RendererUtils.getInstance().rect(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE, new Color(0.2f, 0.2f, 0.2f, 0.4f));
+            Color slotBackground = new Color(0.3f, 0.3f, 0.3f, 0.4f);
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
-                    shapeRenderer.rect(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y);
+                    RendererUtils.getInstance().rect(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
                 }
             }
             int playerInventoryIOStackPointer = player.getPlayerInventory().getiOStackPointer();
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
 
-            shapeRenderer.setColor(0.5f, 0.4f, 0, 0.5f);
-            shapeRenderer.rect(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4);
-            shapeRenderer.end();
+            RendererUtils.getInstance().rect(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4, new Color(0.5f, 0.4f, 0, 0.5f));
+            RendererUtils.getInstance().end();
 
             if (mouseInsideOfInventory && DisplayConfig.ENABLE_TRANSPARENT_INVENTORY) {
                 Gdx.gl.glDisable(GL20.GL_BLEND);
@@ -87,7 +85,7 @@ public class InventoryRenderer {
                 }
             }
 
-            renderWeight(player, shapeRenderer);
+            renderWeight(player);
         }
     }
 
@@ -99,7 +97,7 @@ public class InventoryRenderer {
         InventoryRenderer.isInventoryOpen = isInventoryOpen;
     }
 
-    private static void renderWeight(Player player, ShapeRenderer shapeRenderer) {
+    private static void renderWeight(Player player) {
         float weight = player.getPlayerInventory().calcCurrentWeight();
 
         int xWindowBorderOffset = 100;
@@ -108,10 +106,7 @@ public class InventoryRenderer {
         int borderHeight = 10;
 
         Vector2 textDim = TextRenderer.getTextDimensions(weight + " kg");
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.2f, 0.2f, 0.2f, 0.6f);
-        shapeRenderer.rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2);
-        shapeRenderer.end();
+        RendererUtils.getInstance().rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2, new Color(0.2f, 0.2f, 0.2f, 0.6f));
 
         TextRenderer.renderText(Gdx.graphics.getWidth() - xWindowBorderOffset, Gdx.graphics.getHeight() - yWindowBorderOffset, weight + " kg", Color.WHITE, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }

@@ -31,24 +31,21 @@ public class DebugScreenRenderer {
         gridRenderer = new ShapeRenderer();
     }
 
-    public static void render(World world, Player player, ShapeRenderer shapeRenderer, float delta) {
+    public static void render(World world, Player player, float delta) {
         calculateFPS(delta);
 
         //DebugScreenRenderer.renderGrid(player);
-        DebugScreenRenderer.renderHitbox(player, shapeRenderer);
+        DebugScreenRenderer.renderHitbox(player);
         DebugScreenRenderer.renderDebugText(world, player, fps);
-        DebugScreenRenderer.renderReachCircle(player, shapeRenderer);
+        DebugScreenRenderer.renderReachCircle(player);
         //DebugScreenRenderer.renderCenterDot(player); //TODO causes lag drop, fix this
     }
 
-    private static void renderReachCircle(Player player, ShapeRenderer shapeRenderer) {
+    private static void renderReachCircle(Player player) {
         float reach = player.getReach(); //reach: radius
         float diam = 2 * reach; //diameter = 2*r
         Gdx.gl.glLineWidth(3);
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(0, 1, 0, 1f);
-        shapeRenderer.ellipse((Gdx.graphics.getWidth() - diam * DisplayConfig.TILE_SIZE) / 2f, (Gdx.graphics.getHeight() - diam * DisplayConfig.TILE_SIZE) / 2f, diam * DisplayConfig.TILE_SIZE, diam * DisplayConfig.TILE_SIZE);
-        shapeRenderer.end();
+        RendererUtils.getInstance().ellipse((Gdx.graphics.getWidth() - diam * DisplayConfig.TILE_SIZE) / 2f, (Gdx.graphics.getHeight() - diam * DisplayConfig.TILE_SIZE) / 2f, diam * DisplayConfig.TILE_SIZE, diam * DisplayConfig.TILE_SIZE, Color.GREEN, ShapeRenderer.ShapeType.Line);
         Gdx.gl.glLineWidth(1);
     }
 
@@ -121,15 +118,11 @@ public class DebugScreenRenderer {
         gridRenderer.end();
     }
 
-    private static void renderHitbox(Player player, ShapeRenderer shapeRenderer) {
+    private static void renderHitbox(Player player) {
         SimpleHitbox hitbox = player.getPlayerHitbox();
-        //Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
         Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
-        Vector2 end = player.getCharacterSizeInPixels();//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f));
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        shapeRenderer.rect(start.x, start.y, end.x, end.y);
-        shapeRenderer.end();
+        Vector2 end = player.getCharacterSizeInPixels();
+        RendererUtils.getInstance().rect(start.x, start.y, end.x, end.y, Color.RED, ShapeRenderer.ShapeType.Line);
     }
 
     private static void renderCenterDot(Player player) {

@@ -2,7 +2,6 @@ package de.pianomanu.asterania.render.text.chat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.entities.player.chat.ChatElement;
 import de.pianomanu.asterania.render.RendererUtils;
@@ -12,45 +11,44 @@ public class ChatRenderer {
 
     private static boolean chatIsOpen = false;
 
-    public static void renderAll(Player player, ShapeRenderer shapeRenderer) {
+    public static void renderAll(Player player) {
         if (chatIsOpen) {
-            renderTextLine(player, shapeRenderer);
+            renderTextLine(player);
         }
         if (chatIsOpen) {
-            renderChatLog(player, shapeRenderer);
+            renderChatLog(player);
         } else {
-            renderChatLog(player, shapeRenderer, true);
+            renderChatLog(player, true);
         }
     }
 
-    private static void renderTextLine(Player player, ShapeRenderer shapeRenderer) {
+    private static void renderTextLine(Player player) {
         RendererUtils.enableTransparency();
         RendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
         RendererUtils.disableTransparency();
         TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
-    private static void renderChatLog(Player player, ShapeRenderer shapeRenderer) {
-        renderChatLog(player, shapeRenderer, false);
+    private static void renderChatLog(Player player) {
+        renderChatLog(player, false);
     }
 
-    private static void renderChatLog(Player player, ShapeRenderer shapeRenderer, boolean shouldFade) {
+    private static void renderChatLog(Player player, boolean shouldFade) {
         int chatSize = player.getChat().getMessages().size();
         float intensity = 1;
 
         RendererUtils.enableTransparency();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        RendererUtils.getInstance().begin();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);
             if (shouldFade) {
                 intensity = e.getFadingPortion();
             }
-            shapeRenderer.setColor(1, 1, 1, 0.3f * intensity);
-            shapeRenderer.rect(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40);
+            RendererUtils.getInstance().rectPlain(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.3f * intensity));
         }
-        shapeRenderer.end();
+        RendererUtils.getInstance().end();
 
         RendererUtils.disableTransparency();
 

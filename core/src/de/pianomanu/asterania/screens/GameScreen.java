@@ -3,8 +3,6 @@ package de.pianomanu.asterania.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
@@ -25,15 +23,10 @@ import java.util.logging.Logger;
 public class GameScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    SpriteBatch batch;
-    ShapeRenderer shapeRenderer;
     World world;
 
     public GameScreen() {
         GameRegistry.setupRegistryGameLoading();
-        batch = new SpriteBatch();
-
-        shapeRenderer = new ShapeRenderer();
         AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.currentActiveSavegame.getHomeWorld();
@@ -52,10 +45,10 @@ public class GameScreen extends ScreenAdapter {
         GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
         ScreenUtils.clear(1, 0, 0, 1);
-        WorldRenderer.renderAll(player.getCurrentWorld(), player, batch);
-        UIRenderer.renderAll(player, batch, AsteraniaMain.INSTANCE.getShapeRenderer());
+        WorldRenderer.renderAll(player.getCurrentWorld(), player, AsteraniaMain.INSTANCE.getBatch());
+        UIRenderer.renderAll(player, AsteraniaMain.INSTANCE.getBatch());
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
-            DebugScreenRenderer.render(player.getCurrentWorld(), player, AsteraniaMain.INSTANCE.getShapeRenderer(), delta);
+            DebugScreenRenderer.render(player.getCurrentWorld(), player, delta);
         }
     }
 

@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.registry.GameRegistry;
@@ -18,7 +17,7 @@ import de.pianomanu.asterania.world.tile.Tiles;
 
 public class HotbarRenderer {
 
-    public static void renderHotbar(Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public static void renderHotbar(Player player, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
@@ -27,24 +26,24 @@ public class HotbarRenderer {
         int hWidth = 64;//height / 12;
         int hHeight = 64;//height / 12;
 
-        renderHotbarBase(shapeRenderer, startX, startY, hWidth, hHeight);
+        renderHotbarBase(startX, startY, hWidth, hHeight);
         Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
         if (t.equals(Tiles.WHITE)) {
-            renderHotbarEmpty(shapeRenderer, startX, startY, hWidth, hHeight);
+            renderHotbarEmpty(startX, startY, hWidth, hHeight);
         } else {
             TextureRegion tileTexture = getTileTextureRegion(t);
             renderHotbarItem(player, tileTexture, batch, startX, startY, hWidth, hHeight);
         }
     }
 
-    private static void renderHotbarBase(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
+    private static void renderHotbarBase(int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
 
         RendererUtils.getInstance().rect(startX, startY, hWidth, hHeight, new Color(0.3f, 0.3f, 0.3f, 1));
         RendererUtils.getInstance().rect(startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2, new Color(0.6f, 0.6f, 0.6f, 1));
     }
 
-    private static void renderHotbarEmpty(ShapeRenderer shapeRenderer, int startX, int startY, int hWidth, int hHeight) {
+    private static void renderHotbarEmpty(int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
         RendererUtils.getInstance().rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6, new Color(0.7f, 0.7f, 0.7f, 1));
     }

@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
@@ -23,13 +22,11 @@ import java.util.logging.Logger;
 public class CreateSaveScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private final ShapeRenderer shapeRenderer;
-
     private String input = "";
     private final TextInputBox box;
 
     public CreateSaveScreen() {
-        this.shapeRenderer = new ShapeRenderer();
+        AsteraniaMain.INSTANCE.reloadRenderers();
 
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
