@@ -33,7 +33,31 @@ public class TextRenderer {
     }
 
     public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor) {
-        renderText(startX, startY, content, isCentered, textSize, addBackgroundRectangle, textColor, rectangleColor, false, 0);
+        int xOffset = 0;
+        int yOffset = 0;
+        font.getData().setScale(textSize);
+        glyphLayout.setText(font, content);
+        if (isCentered) {
+            xOffset = (int) (glyphLayout.width / 2);
+            yOffset = (int) (glyphLayout.height / 2);
+        }
+        if (addBackgroundRectangle) {
+            if (isCentered) {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            } else {
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
+            }
+        }
+        batch.begin();
+        font.setColor(textColor);
+        font.draw(batch, content, startX - xOffset, startY + yOffset);
+        batch.end();
     }
 
     public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor, boolean enableTransparency, float intensity) {
@@ -47,16 +71,22 @@ public class TextRenderer {
         }
 
         if (enableTransparency) {
-            RendererUtils.getInstance().enableTransparency();
+            RendererUtils.enableTransparency();
             rectangleColor.set(rectangleColor.r, rectangleColor.g, rectangleColor.b, intensity);
             textColor.set(textColor.r, textColor.g, textColor.b, intensity);
         }
 
         if (addBackgroundRectangle) {
             if (isCentered) {
-                RendererUtils.getInstance().rectFull((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
             } else {
-                RendererUtils.getInstance().rectFull((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+                shapeRenderer.setColor(rectangleColor);
+                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
+                shapeRenderer.end();
             }
         }
         batch.begin();
@@ -65,7 +95,7 @@ public class TextRenderer {
         batch.end();
 
         if (enableTransparency) {
-            RendererUtils.getInstance().disableTransparency();
+            RendererUtils.disableTransparency();
         }
     }
 

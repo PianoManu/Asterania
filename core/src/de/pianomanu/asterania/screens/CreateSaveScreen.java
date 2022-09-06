@@ -53,7 +53,7 @@ public class CreateSaveScreen extends ScreenAdapter {
     }
 
     private void drawBackground() {
-        RendererUtils.getInstance().rectFull(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
+        RendererUtils.rect(shapeRenderer, 20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void drawInputBoxes() {
