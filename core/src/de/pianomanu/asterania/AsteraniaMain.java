@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
@@ -20,7 +19,6 @@ public class AsteraniaMain extends Game {
 	private AssetManager assetManager;
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
-	private RendererUtils rendererUtils;
 
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -55,7 +53,6 @@ public class AsteraniaMain extends Game {
 		this.assetManager = new AssetManager();
 		this.shapeRenderer = new ShapeRenderer();
 		this.batch = new SpriteBatch();
-		this.rendererUtils = new RendererUtils();
 	}
 
 	public AssetManager getAssetManager() {
@@ -68,9 +65,5 @@ public class AsteraniaMain extends Game {
 
 	public SpriteBatch getBatch() {
 		return this.batch;
-	}
-
-	public RendererUtils getRendererUtils() {
-		return this.rendererUtils;
 	}
 }

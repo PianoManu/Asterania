@@ -24,9 +24,9 @@ public class ChatRenderer {
     }
 
     private static void renderTextLine(Player player, ShapeRenderer shapeRenderer) {
-        RendererUtils.getInstance().enableTransparency();
-        RendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
-        RendererUtils.getInstance().disableTransparency();
+        RendererUtils.enableTransparency();
+        RendererUtils.rect(shapeRenderer, 40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
+        RendererUtils.disableTransparency();
         TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
@@ -38,7 +38,7 @@ public class ChatRenderer {
         int chatSize = player.getChat().getMessages().size();
         float intensity = 1;
 
-        RendererUtils.getInstance().enableTransparency();
+        RendererUtils.enableTransparency();
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
@@ -52,7 +52,7 @@ public class ChatRenderer {
         }
         shapeRenderer.end();
 
-        RendererUtils.getInstance().disableTransparency();
+        RendererUtils.disableTransparency();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);

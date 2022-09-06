@@ -71,7 +71,7 @@ public class TextRenderer {
         }
 
         if (enableTransparency) {
-            RendererUtils.getInstance().enableTransparency();
+            RendererUtils.enableTransparency();
             rectangleColor.set(rectangleColor.r, rectangleColor.g, rectangleColor.b, intensity);
             textColor.set(textColor.r, textColor.g, textColor.b, intensity);
         }
@@ -95,7 +95,7 @@ public class TextRenderer {
         batch.end();
 
         if (enableTransparency) {
-            RendererUtils.getInstance().disableTransparency();
+            RendererUtils.disableTransparency();
         }
     }
 
