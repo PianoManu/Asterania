@@ -127,6 +127,10 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
             tryRotateThroughSaves();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            LOGGER.fine("Returning to main menu...");
+            WindowUtils.changeScreen(this, new MainMenuScreen());
+        }
     }
 
     private void checkIfButtonPressed() {

@@ -76,6 +76,10 @@ public class CreateSaveScreen extends ScreenAdapter {
             LOGGER.fine("Creating a new game...");
             changeToGameScreen();
         }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            LOGGER.fine("Returning to main menu...");
+            WindowUtils.changeScreen(this, new MainMenuScreen());
+        }
     }
 
     private void changeToGameScreen() {

@@ -67,6 +67,7 @@ public class GameScreen extends ScreenAdapter {
             LOGGER.fine("Saving world data...");
             WorldWriter.saveGameInfo();
             LOGGER.fine("Saved world data!");
+            LOGGER.fine("Returning to main menu...");
             WindowUtils.changeScreen(this, new MainMenuScreen());
         }
         if (Gdx.input.isKeyJustPressed(KeyConfig.ENABLE_DEBUG_INFO)) {
