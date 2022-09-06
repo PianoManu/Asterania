@@ -15,15 +15,18 @@ public abstract class Tile {
     protected float breakingLevel = 0;
     protected int numberOfDifferentTextures = 1;
     protected final LayerType layerType;
+    protected final TileMaterial tileMaterial;
 
-    protected Tile(String name, TileSettings settings) {
+    protected Tile(String name, TileMaterial tileMaterial, TileSettings settings) {
         this.name = name;
+        this.tileMaterial = tileMaterial;
         this.settings = settings;
         this.layerType = LayerType.BACKGROUND;
     }
 
-    protected Tile(String name, TileSettings settings, LayerType layerType) {
+    protected Tile(String name, TileMaterial tileMaterial, TileSettings settings, LayerType layerType) {
         this.name = name;
+        this.tileMaterial = tileMaterial;
         this.settings = settings;
         this.layerType = layerType;
     }

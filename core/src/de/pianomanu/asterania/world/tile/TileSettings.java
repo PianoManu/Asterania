@@ -24,7 +24,7 @@ public class TileSettings {
     }
 
     public <C extends Comparable<?>> C get(String tilePropertyName) {
-        TileProperty<?> tileProperty = GameRegistry.getTilePropertyByName(tilePropertyName);
+        TileProperty<?> tileProperty = GameRegistry.getTilePropertyFromString(tilePropertyName);
         if (tileProperty != null) {
             if (this.tileProperties.contains(tileProperty)) {
                 for (TileProperty<?> t :

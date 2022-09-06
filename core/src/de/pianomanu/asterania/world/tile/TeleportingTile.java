@@ -9,8 +9,8 @@ import de.pianomanu.asterania.world.tile.teleporter.Teleporter;
 public class TeleportingTile extends Tile {
     private Teleporter teleporter;
 
-    public TeleportingTile(String name, TileSettings settings) {
-        super(name, settings, LayerType.DECORATION);
+    public TeleportingTile(String name, TileMaterial tileMaterial, TileSettings settings) {
+        super(name, tileMaterial, settings, LayerType.DECORATION);
         this.teleporter = new Teleporter();
     }
 

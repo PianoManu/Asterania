@@ -6,6 +6,7 @@ import de.pianomanu.asterania.inventory.item.Items;
 import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.TileMaterial;
 import de.pianomanu.asterania.world.tile.Tiles;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 
@@ -19,6 +20,7 @@ public class GameRegistry {
     private static final List<Tile> TILES = new ArrayList<>();
     private static final List<Item> ITEMS = new ArrayList<>();
     private static final List<TileProperty<?>> TILE_PROPERTIES = new ArrayList<>();
+    private static final List<TileMaterial> TILE_MATERIALS = new ArrayList<>();
     private static final List<World> WORLDS = new ArrayList<>();
     private static final List<WorldSectionSettings> WORLD_SECTION_SETTINGS = new ArrayList<>();
 
@@ -87,7 +89,7 @@ public class GameRegistry {
         return TILE_PROPERTIES;
     }
 
-    public static TileProperty<?> getTilePropertyByName(String tilePropertyName) {
+    public static TileProperty<?> getTilePropertyFromString(String tilePropertyName) {
         for (TileProperty<?> t :
                 TILE_PROPERTIES) {
             if (t.name.equals(tilePropertyName))
@@ -111,6 +113,25 @@ public class GameRegistry {
 
     public static List<WorldSectionSettings> getWorldSectionSettings() {
         return WORLD_SECTION_SETTINGS;
+    }
+
+    public static void registerTileMaterial(TileMaterial tileMaterial) {
+        TILE_MATERIALS.add(tileMaterial);
+    }
+
+    public static List<TileMaterial> getTileMaterials() {
+        return TILE_MATERIALS;
+    }
+
+    public static TileMaterial getTileMaterialFromString(String tileMaterial) {
+        for (TileMaterial t :
+                TILE_MATERIALS) {
+            if (t.getMaterialName().equals(tileMaterial)) {
+                return t;
+            }
+        }
+        LOGGER.warning("Could not decode a tile material from input string \"" + tileMaterial + "\", returning null...");
+        return null;
     }
 
     public static void setupRegistry() {

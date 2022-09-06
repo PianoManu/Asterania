@@ -10,8 +10,8 @@ public class AnimatedTile extends BasicTile {
     private float changeToNextAnimation = 0f;
     private float timeBetweenAnimations = 0.2f;
 
-    public AnimatedTile(String name, TileSettings settings) {
-        super(name, settings);
+    public AnimatedTile(String name, TileMaterial tileMaterial, TileSettings settings) {
+        super(name, tileMaterial, settings);
     }
 
     public int getAnimationCounter() {
