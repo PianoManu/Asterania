@@ -25,7 +25,7 @@ public class ChatRenderer {
 
     private static void renderTextLine(Player player, ShapeRenderer shapeRenderer) {
         RendererUtils.getInstance().enableTransparency();
-        RendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
+        RendererUtils.getInstance().rectFull(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
         RendererUtils.getInstance().disableTransparency();
         TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
@@ -39,25 +39,23 @@ public class ChatRenderer {
         float intensity = 1;
 
         RendererUtils.getInstance().enableTransparency();
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+        RendererUtils.getInstance().begin();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);
             if (shouldFade) {
                 intensity = e.getFadingPortion();
             }
-            shapeRenderer.setColor(1, 1, 1, 0.3f * intensity);
-            shapeRenderer.rect(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40);
+            RendererUtils.getInstance().rect(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.3f * intensity));
         }
-        shapeRenderer.end();
+        RendererUtils.getInstance().end();
 
         RendererUtils.getInstance().disableTransparency();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);
             String s = e.getContent();
-            if (shouldFade)
+            if (shouldFade) //TODO remove flush inside loop
                 TextRenderer.renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, e.getFadingPortion());
             else
                 TextRenderer.renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, 1);

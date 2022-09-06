@@ -126,10 +126,7 @@ public class DebugScreenRenderer {
         //Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
         Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
         Vector2 end = player.getCharacterSizeInPixels();//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f));
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
-        shapeRenderer.setColor(1, 0, 0, 1);
-        shapeRenderer.rect(start.x, start.y, end.x, end.y);
-        shapeRenderer.end();
+        RendererUtils.getInstance().rectFull(start.x, start.y, end.x, end.y, new Color(1, 0, 0, 1));
     }
 
     private static void renderCenterDot(Player player) {
