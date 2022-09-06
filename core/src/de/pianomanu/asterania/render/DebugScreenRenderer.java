@@ -34,11 +34,11 @@ public class DebugScreenRenderer {
     public static void render(World world, Player player, ShapeRenderer shapeRenderer, float delta) {
         calculateFPS(delta);
 
-        //DebugScreenRenderer.renderGrid(player);
-        //DebugScreenRenderer.renderHitbox(player, shapeRenderer);
+        DebugScreenRenderer.renderGrid(player);
+        DebugScreenRenderer.renderHitbox(player, shapeRenderer);
         DebugScreenRenderer.renderDebugText(world, player, fps);
         DebugScreenRenderer.renderReachCircle(player, shapeRenderer);
-        //DebugScreenRenderer.renderCenterDot(player); //TODO fix: causes FPS drop
+        DebugScreenRenderer.renderCenterDot(player);
     }
 
     private static void renderReachCircle(Player player, ShapeRenderer shapeRenderer) {
@@ -126,7 +126,10 @@ public class DebugScreenRenderer {
         //Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getCharacterPos());//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f);
         Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
         Vector2 end = player.getCharacterSizeInPixels();//.add(Gdx.graphics.getWidth()/2f, Gdx.graphics.getHeight()/2f));
-        RendererUtils.getInstance().rectFull(start.x, start.y, end.x, end.y, new Color(1, 0, 0, 1));
+        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+        shapeRenderer.setColor(1, 0, 0, 1);
+        shapeRenderer.rect(start.x, start.y, end.x, end.y);
+        shapeRenderer.end();
     }
 
     private static void renderCenterDot(Player player) {
