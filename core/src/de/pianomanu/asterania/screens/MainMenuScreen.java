@@ -3,7 +3,7 @@ package de.pianomanu.asterania.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -11,6 +11,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.render.ButtonRenderer;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -27,6 +28,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
     public MainMenuScreen() {
         LOGGER.fine("Starting the main menu screen...");
+        AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.shapeRenderer = new ShapeRenderer();
         this.batch = new SpriteBatch();
@@ -63,27 +65,22 @@ public class MainMenuScreen extends ScreenAdapter {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        RendererUtils.enableTransparency();
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 0.2f);
+        RendererUtils.getInstance().begin();
         for (Button b :
                 Buttons.MAIN_MENU_BUTTONS) {
             if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                shapeRenderer.rect(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y);
+                RendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
             }
         }
-        shapeRenderer.end();
+        RendererUtils.getInstance().end();
 
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        RendererUtils.disableTransparency();
     }
 
     private void drawBackground() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.2f, 0.3f, 0.1f, 1);
-        shapeRenderer.rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40);
-        shapeRenderer.end();
+        RendererUtils.getInstance().rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void drawButtons() {

@@ -2,7 +2,6 @@ package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -38,26 +37,25 @@ public class InventoryRenderer {
             //if mouse somewhere inside the inventory: goes transparent to enable seeing through the inventory
             boolean mouseInsideOfInventory = mX >= xStart - INTER_SLOT_DISTANCE && mX <= xStart - INTER_SLOT_DISTANCE + inventoryWidth + 2 * INTER_SLOT_DISTANCE && mY >= yStart - INTER_SLOT_DISTANCE && mY <= yStart - INTER_SLOT_DISTANCE + inventoryHeight + 2 * INTER_SLOT_DISTANCE;
             if (mouseInsideOfInventory && DisplayConfig.ENABLE_TRANSPARENT_INVENTORY) {
-                Gdx.gl.glEnable(GL20.GL_BLEND);
-                Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+                RendererUtils.enableTransparency();
             }
             RendererUtils.getInstance().begin();
-            RendererUtils.getInstance().rect(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE, new Color(0.2f, 0.2f, 0.2f, 0.4f));
+            RendererUtils.getInstance().rectPlain(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE, new Color(0.2f, 0.2f, 0.2f, 0.4f));
             Color slotBackground = new Color(0.3f, 0.3f, 0.3f, 0.4f);
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
-                    RendererUtils.getInstance().rect(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
+                    RendererUtils.getInstance().rectPlain(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
                 }
             }
             int playerInventoryIOStackPointer = player.getPlayerInventory().getiOStackPointer();
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
 
-            RendererUtils.getInstance().rect(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4, new Color(0.5f, 0.4f, 0, 0.5f));
+            RendererUtils.getInstance().rectPlain(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4, new Color(0.5f, 0.4f, 0, 0.5f));
             RendererUtils.getInstance().end();
 
             if (mouseInsideOfInventory && DisplayConfig.ENABLE_TRANSPARENT_INVENTORY) {
-                Gdx.gl.glDisable(GL20.GL_BLEND);
+                RendererUtils.disableTransparency();
             }
 
             Inventory inv = player.getPlayerInventory();

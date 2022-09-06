@@ -59,6 +59,8 @@ public class AsteraniaMain extends Game {
 	}
 
 	public void reloadRenderers() {
+		this.shapeRenderer.dispose();
+		this.batch.dispose();
 		this.shapeRenderer = new ShapeRenderer();
 		this.batch = new SpriteBatch();
 		this.rendererUtils = new RendererUtils();

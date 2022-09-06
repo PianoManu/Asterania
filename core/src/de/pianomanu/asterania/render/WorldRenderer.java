@@ -2,7 +2,6 @@ package de.pianomanu.asterania.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -89,7 +88,6 @@ public class WorldRenderer {
     }
 
     private static void renderHovering(Player player) {
-        ShapeRenderer shapeRenderer = AsteraniaMain.INSTANCE.getShapeRenderer();
         EntityCoordinates playerPos = player.getPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         boolean isInReach = player.isInReach(mousePos.toTileCoordinates());
@@ -98,28 +96,31 @@ public class WorldRenderer {
         EntityCoordinates hoveringStart = new EntityCoordinates(hoveringXStart, hoveringYStart);
         Vector2 startPixelPos = CoordinatesUtils.transformEntityCoordinatesToPixels(hoveringStart, playerPos);
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        RendererUtils.enableTransparency();
+        renderHoveringBackground(startPixelPos, isInReach);
+        renderHoveringBorder(startPixelPos, isInReach);
+
+        RendererUtils.disableTransparency();
+    }
+
+    private static void renderHoveringBackground(Vector2 startPixelPos, boolean isInReach) {
         if (isInReach)
             RendererUtils.getInstance().rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(0.6f, 1, 0.6f, 0.2f));
         else
             RendererUtils.getInstance().rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(1, 1, 1, 0.2f));
+    }
 
-
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+    private static void renderHoveringBorder(Vector2 startPixelPos, boolean isInReach) {
+        Color hoverBorderColor;
         if (isInReach) {
-            shapeRenderer.setColor(0f, 0.5f, 0f, 1f);
+            hoverBorderColor = new Color(0f, 0.5f, 0f, 1f);
         } else {
-            shapeRenderer.setColor(1f, 1f, 1f, 0.2f);
+            hoverBorderColor = new Color(1f, 1f, 1f, 0.2f);
         }
-
-        shapeRenderer.rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
-        shapeRenderer.rect(startPixelPos.x + 1, startPixelPos.y + 1, DisplayConfig.TILE_SIZE - 2, DisplayConfig.TILE_SIZE - 2);
-        shapeRenderer.rect(startPixelPos.x + 2, startPixelPos.y + 2, DisplayConfig.TILE_SIZE - 4, DisplayConfig.TILE_SIZE - 4);
-        shapeRenderer.rect(startPixelPos.x + 3, startPixelPos.y + 3, DisplayConfig.TILE_SIZE - 6, DisplayConfig.TILE_SIZE - 6);
-        shapeRenderer.end();
-
-        Gdx.gl.glDisable(GL20.GL_BLEND);
+        RendererUtils.getInstance().rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, hoverBorderColor, ShapeRenderer.ShapeType.Line);
+        RendererUtils.getInstance().rect(startPixelPos.x + 1, startPixelPos.y + 1, DisplayConfig.TILE_SIZE - 2, DisplayConfig.TILE_SIZE - 2, hoverBorderColor, ShapeRenderer.ShapeType.Line);
+        RendererUtils.getInstance().rect(startPixelPos.x + 2, startPixelPos.y + 2, DisplayConfig.TILE_SIZE - 4, DisplayConfig.TILE_SIZE - 4, hoverBorderColor, ShapeRenderer.ShapeType.Line);
+        RendererUtils.getInstance().rect(startPixelPos.x + 3, startPixelPos.y + 3, DisplayConfig.TILE_SIZE - 6, DisplayConfig.TILE_SIZE - 6, hoverBorderColor, ShapeRenderer.ShapeType.Line);
     }
 
 }

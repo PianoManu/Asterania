@@ -5,7 +5,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.RendererUtils;
@@ -13,7 +12,6 @@ import de.pianomanu.asterania.render.RendererUtils;
 public class TextRenderer {
     private static SpriteBatch batch = new SpriteBatch(); //TODO find solution without static resources
     private static BitmapFont font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
-    private static ShapeRenderer shapeRenderer = new ShapeRenderer();
     private static GlyphLayout glyphLayout = new GlyphLayout();
 
     public static void renderText(int startX, int startY, String content) {
@@ -33,31 +31,7 @@ public class TextRenderer {
     }
 
     public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor) {
-        int xOffset = 0;
-        int yOffset = 0;
-        font.getData().setScale(textSize);
-        glyphLayout.setText(font, content);
-        if (isCentered) {
-            xOffset = (int) (glyphLayout.width / 2);
-            yOffset = (int) (glyphLayout.height / 2);
-        }
-        if (addBackgroundRectangle) {
-            if (isCentered) {
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(rectangleColor);
-                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
-                shapeRenderer.end();
-            } else {
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(rectangleColor);
-                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
-                shapeRenderer.end();
-            }
-        }
-        batch.begin();
-        font.setColor(textColor);
-        font.draw(batch, content, startX - xOffset, startY + yOffset);
-        batch.end();
+        renderText(startX, startY, content, isCentered, textSize, addBackgroundRectangle, textColor, rectangleColor, false, 0);
     }
 
     public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor, boolean enableTransparency, float intensity) {
@@ -78,15 +52,9 @@ public class TextRenderer {
 
         if (addBackgroundRectangle) {
             if (isCentered) {
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(rectangleColor);
-                shapeRenderer.rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8);
-                shapeRenderer.end();
+                RendererUtils.getInstance().rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
             } else {
-                shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-                shapeRenderer.setColor(rectangleColor);
-                shapeRenderer.rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8);
-                shapeRenderer.end();
+                RendererUtils.getInstance().rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
             }
         }
         batch.begin();
@@ -102,10 +70,8 @@ public class TextRenderer {
     public static void reloadTextRenderers() {
         batch.dispose();
         font.dispose();
-        shapeRenderer.dispose();
         batch = new SpriteBatch();
         font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
-        shapeRenderer = new ShapeRenderer();
         glyphLayout = new GlyphLayout();
     }
 
