@@ -13,6 +13,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.render.ButtonRenderer;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -65,10 +66,7 @@ public class LoadSavesScreen extends ScreenAdapter {
     }
 
     private void drawBackground() {
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(0.2f, 0.3f, 0.1f, 1);
-        shapeRenderer.rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40);
-        shapeRenderer.end();
+        RendererUtils.getInstance().rectFull(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void checkForImportantChanges() {
@@ -87,13 +85,9 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (savegames.size() > 0) {
 
             Vector2 dim = TextRenderer.getTextDimensions(savegames.get(saveFilePointer).getName());
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-            shapeRenderer.setColor(Color.OLIVE);
-            shapeRenderer.rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f);
-            shapeRenderer.rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f));
-            shapeRenderer.setColor(Color.FOREST);
-            shapeRenderer.rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset);
-            shapeRenderer.end();
+            RendererUtils.getInstance().rectFull(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f, Color.OLIVE);
+            RendererUtils.getInstance().rectFull(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f), Color.OLIVE);
+            RendererUtils.getInstance().rectFull((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset, Color.FOREST);
 
             this.tmpSavegame = savegames.get(saveFilePointer);
             SaveGameInfoUtils.loadInfo(this.tmpSavegame);
@@ -118,15 +112,14 @@ public class LoadSavesScreen extends ScreenAdapter {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(1, 1, 1, 0.2f);
+        RendererUtils.getInstance().begin();
         for (Button b :
                 Buttons.LOAD_SAVES_MENU_BUTTONS) {
             if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                shapeRenderer.rect(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y);
+                RendererUtils.getInstance().rect(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
             }
         }
-        shapeRenderer.end();
+        RendererUtils.getInstance().end();
 
         Gdx.gl.glDisable(GL20.GL_BLEND);
     }

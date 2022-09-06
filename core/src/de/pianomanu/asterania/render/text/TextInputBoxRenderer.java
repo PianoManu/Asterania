@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
+import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.utils.TextInputBox;
 
 public class TextInputBoxRenderer {
@@ -35,14 +36,11 @@ public class TextInputBoxRenderer {
             yOffset = (int) (glyphLayout.height / 2);
         }
 
-        shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-        shapeRenderer.setColor(box.getBackgroundColor());
         if (isCentered) {
-            shapeRenderer.rect(box.getStart().x - xOffset / 2f, box.getStart().y + yOffset / 2f, dif.x + xOffset, dif.y - yOffset);
+            RendererUtils.getInstance().rectFull(box.getStart().x - xOffset / 2f, box.getStart().y + yOffset / 2f, dif.x + xOffset, dif.y - yOffset, box.getBackgroundColor());
         } else {
-            shapeRenderer.rect(box.getStart().x, box.getStart().y, dif.x, dif.y);
+            RendererUtils.getInstance().rectFull(box.getStart().x, box.getStart().y, dif.x, dif.y, box.getBackgroundColor());
         }
-        shapeRenderer.end();
 
         batch.begin();
         font.setColor(box.getTextColor());
