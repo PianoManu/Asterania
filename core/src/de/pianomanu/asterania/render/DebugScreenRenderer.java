@@ -34,11 +34,11 @@ public class DebugScreenRenderer {
     public static void render(World world, Player player, ShapeRenderer shapeRenderer, float delta) {
         calculateFPS(delta);
 
-        DebugScreenRenderer.renderGrid(player);
+        //DebugScreenRenderer.renderGrid(player);
         DebugScreenRenderer.renderHitbox(player, shapeRenderer);
         DebugScreenRenderer.renderDebugText(world, player, fps);
         DebugScreenRenderer.renderReachCircle(player, shapeRenderer);
-        DebugScreenRenderer.renderCenterDot(player);
+        //DebugScreenRenderer.renderCenterDot(player); //TODO causes lag drop, fix this
     }
 
     private static void renderReachCircle(Player player, ShapeRenderer shapeRenderer) {
