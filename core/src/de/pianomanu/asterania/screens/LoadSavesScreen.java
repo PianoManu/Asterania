@@ -79,7 +79,7 @@ public class LoadSavesScreen extends ScreenAdapter {
         int offset = 8;
         if (savegames.size() > 0) {
 
-            Vector2 dim = TextRenderer.getTextDimensions(savegames.get(saveFilePointer).getName());
+            Vector2 dim = TextRenderer.getInstance().getTextDimensions(savegames.get(saveFilePointer).getName());
             RendererUtils.getInstance().rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f, Color.OLIVE);
             RendererUtils.getInstance().rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f), Color.OLIVE);
             RendererUtils.getInstance().rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset, Color.FOREST);
@@ -87,12 +87,12 @@ public class LoadSavesScreen extends ScreenAdapter {
             this.tmpSavegame = savegames.get(saveFilePointer);
             SaveGameInfoUtils.loadInfo(this.tmpSavegame);
 
-            TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
+            TextRenderer.getInstance().renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
 
-            TextRenderer.renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
-            TextRenderer.renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
+            TextRenderer.getInstance().renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
+            TextRenderer.getInstance().renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
         } else {
-            TextRenderer.renderText(width / 2, (int) (height * 8.5 / 10), "NO SAVEGAMES FOUND");
+            TextRenderer.getInstance().renderText(width / 2, (int) (height * 8.5 / 10), "NO SAVEGAMES FOUND");
         }
     }
 

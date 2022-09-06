@@ -89,9 +89,9 @@ public class DebugScreenRenderer {
 
         for (int i = 0; i < debugStuff.size(); i++) {
             if (i < debugStuff.size() - 1)
-                TextRenderer.renderText(xOffset, height - yOffset - 16 * i, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
+                TextRenderer.getInstance().renderText(xOffset, height - yOffset - 16 * i, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
             else
-                TextRenderer.renderText(xOffset, 20, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
+                TextRenderer.getInstance().renderText(xOffset, 20, debugStuff.get(i), false, DisplayConfig.TEXT_SIZE, false, Color.WHITE, null);
         }
     }
 

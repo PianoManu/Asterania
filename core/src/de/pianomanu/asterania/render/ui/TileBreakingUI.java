@@ -46,9 +46,9 @@ public class TileBreakingUI {
             RendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
             RendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0.8f, 0f, 0, 1));
 
-            int xOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).x;
-            int yOffset = (int) TextRenderer.getTextDimensions(renderNoBreakingPossibleMessage).y;
-            TextRenderer.renderText(barX, barY - 2 * yOffset, renderNoBreakingPossibleMessage, false, DisplayConfig.TEXT_SIZE, true, new Color(0.8f, 0, 0, 1), new Color(0.3f, 0.3f, 0.3f, 1));
+            int xOffset = (int) TextRenderer.getInstance().getTextDimensions(renderNoBreakingPossibleMessage).x;
+            int yOffset = (int) TextRenderer.getInstance().getTextDimensions(renderNoBreakingPossibleMessage).y;
+            TextRenderer.getInstance().renderText(barX, barY - 2 * yOffset, renderNoBreakingPossibleMessage, false, DisplayConfig.TEXT_SIZE, true, new Color(0.8f, 0, 0, 1), new Color(0.3f, 0.3f, 0.3f, 1));
             renderNoBreakingPossibleMessage = "";
         }
     }

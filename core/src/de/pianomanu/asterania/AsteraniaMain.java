@@ -1,10 +1,15 @@
 package de.pianomanu.asterania;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.render.RendererUtils;
+import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
+import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.screens.LoadingScreen;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
@@ -21,7 +26,11 @@ public class AsteraniaMain extends Game {
 	private AssetManager assetManager;
 	private ShapeRenderer shapeRenderer;
 	private SpriteBatch batch;
+	private BitmapFont font;
+	private GlyphLayout glyphLayout;
 	private RendererUtils rendererUtils;
+	private TextRenderer textRenderer;
+	private TextInputBoxRenderer textInputBoxRenderer;
 
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -54,17 +63,29 @@ public class AsteraniaMain extends Game {
 
 	private void initializeInstanceVariables() {
 		this.assetManager = new AssetManager();
+		loadRenderers();
+	}
+
+	private void loadRenderers() {
 		this.shapeRenderer = new ShapeRenderer();
 		this.batch = new SpriteBatch();
+		this.font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
+		this.glyphLayout = new GlyphLayout();
 		this.rendererUtils = new RendererUtils();
+		this.textRenderer = new TextRenderer();
+		this.textInputBoxRenderer = new TextInputBoxRenderer();
+	}
+
+	private void disposeRenderers() {
+		this.shapeRenderer.dispose();
+		this.batch.dispose();
+		this.font.dispose();
+		this.glyphLayout.reset();
 	}
 
 	public void reloadRenderers() {
-		this.shapeRenderer.dispose();
-		this.batch.dispose();
-		this.shapeRenderer = new ShapeRenderer();
-		this.batch = new SpriteBatch();
-		this.rendererUtils = new RendererUtils();
+		disposeRenderers();
+		loadRenderers();
 	}
 
 	public AssetManager getAssetManager() {
@@ -79,7 +100,23 @@ public class AsteraniaMain extends Game {
 		return this.batch;
 	}
 
+	public BitmapFont getFont() {
+		return this.font;
+	}
+
+	public GlyphLayout getGlyphLayout() {
+		return this.glyphLayout;
+	}
+
 	public RendererUtils getRendererUtils() {
 		return this.rendererUtils;
+	}
+
+	public TextRenderer getTextRenderer() {
+		return this.textRenderer;
+	}
+
+	public TextInputBoxRenderer getTextInputBoxRenderer() {
+		return this.textInputBoxRenderer;
 	}
 }

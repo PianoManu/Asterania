@@ -58,7 +58,7 @@ public class HotbarRenderer {
         batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
         batch.end();
 
-        TextRenderer.renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
+        TextRenderer.getInstance().renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
     }
 
     private static TextureRegion getTileTextureRegion(Tile tile) {

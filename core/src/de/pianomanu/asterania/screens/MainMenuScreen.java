@@ -5,7 +5,6 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
@@ -23,14 +22,12 @@ import java.util.logging.Logger;
 public class MainMenuScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private ShapeRenderer shapeRenderer;
     private SpriteBatch batch;
 
     public MainMenuScreen() {
         LOGGER.fine("Starting the main menu screen...");
         AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
-        this.shapeRenderer = new ShapeRenderer();
         this.batch = new SpriteBatch();
         LOGGER.fine("Started the main menu screen!");
     }
@@ -88,9 +85,9 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private void drawText() {
-        TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 40, "Main Menu");
-        TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 80, "Press " + Input.Keys.toString(KeyConfig.START).toUpperCase(Locale.ROOT) + " to Start the game");
-        TextRenderer.renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 120, "Press " + Input.Keys.toString(KeyConfig.EXIT_KEY_1).toUpperCase(Locale.ROOT) + " + " + Input.Keys.toString(KeyConfig.EXIT_KEY_2).toUpperCase(Locale.ROOT) + " to Exit the game");
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 40, "Main Menu");
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 80, "Press " + Input.Keys.toString(KeyConfig.START).toUpperCase(Locale.ROOT) + " to Start the game");
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 120, "Press " + Input.Keys.toString(KeyConfig.EXIT_KEY_1).toUpperCase(Locale.ROOT) + " + " + Input.Keys.toString(KeyConfig.EXIT_KEY_2).toUpperCase(Locale.ROOT) + " to Exit the game");
     }
 
     private void checkForImportantChanges() {

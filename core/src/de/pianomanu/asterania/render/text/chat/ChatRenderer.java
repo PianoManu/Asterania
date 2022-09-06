@@ -26,7 +26,7 @@ public class ChatRenderer {
         RendererUtils.enableTransparency();
         RendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
         RendererUtils.disableTransparency();
-        TextRenderer.renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
+        TextRenderer.getInstance().renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
     private static void renderChatLog(Player player) {
@@ -56,9 +56,9 @@ public class ChatRenderer {
             ChatElement e = player.getChat().getMessages().get(i);
             String s = e.getContent();
             if (shouldFade)
-                TextRenderer.renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, e.getFadingPortion());
+                TextRenderer.getInstance().renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, e.getFadingPortion());
             else
-                TextRenderer.renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, 1);
+                TextRenderer.getInstance().renderText(50, 40 * (chatSize - i) + 90, s, false, 0.8f, false, Color.BLACK, Color.WHITE, true, 1);
         }
     }
 

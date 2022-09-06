@@ -7,8 +7,6 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
-import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
-import de.pianomanu.asterania.render.text.TextRenderer;
 
 public class WindowUtils {
     private static int previousWidth = DisplayConfig.DISPLAY_WIDTH;
@@ -33,9 +31,7 @@ public class WindowUtils {
 
     private static void reloadAllRenderers() {
         DebugScreenRenderer.reloadGridRenderer();
-        TextRenderer.reloadTextRenderers();
         Buttons.reloadButtons();
-        TextInputBoxRenderer.reloadTextInputBoxRenderers();
     }
 
     public static void changeScreen(@Null Screen oldScreen, Screen newScreen) {

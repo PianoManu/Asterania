@@ -79,7 +79,7 @@ public class InventoryRenderer {
                 for (int y = 0; y < ROWS; y++) {
                     ItemStack iO = inv.getStackAtPos(x + y * COLUMNS);
                     if (!iO.equals(ItemStack.EMPTY) && iO.getStackCount() > 0)
-                        TextRenderer.renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + SLOT_SIZE.x / 2), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + SLOT_SIZE.y / 4), iO.getStackCount() + "", Color.WHITE);
+                        TextRenderer.getInstance().renderText((int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + SLOT_SIZE.x / 2), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + SLOT_SIZE.y / 4), iO.getStackCount() + "", Color.WHITE);
                 }
             }
 
@@ -103,9 +103,9 @@ public class InventoryRenderer {
         int borderWidth = 10;
         int borderHeight = 10;
 
-        Vector2 textDim = TextRenderer.getTextDimensions(weight + " kg");
+        Vector2 textDim = TextRenderer.getInstance().getTextDimensions(weight + " kg");
         RendererUtils.getInstance().rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2, new Color(0.2f, 0.2f, 0.2f, 0.6f));
 
-        TextRenderer.renderText(Gdx.graphics.getWidth() - xWindowBorderOffset, Gdx.graphics.getHeight() - yWindowBorderOffset, weight + " kg", Color.WHITE, new Color(0.3f, 0.3f, 0.3f, 0.4f));
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() - xWindowBorderOffset, Gdx.graphics.getHeight() - yWindowBorderOffset, weight + " kg", Color.WHITE, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 }

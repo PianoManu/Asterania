@@ -1,40 +1,44 @@
 package de.pianomanu.asterania.render.text;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.RendererUtils;
 
 public class TextRenderer {
-    private static SpriteBatch batch = new SpriteBatch(); //TODO find solution without static resources
-    private static BitmapFont font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
-    private static GlyphLayout glyphLayout = new GlyphLayout();
+    private SpriteBatch batch = AsteraniaMain.INSTANCE.getBatch();
+    private BitmapFont font = AsteraniaMain.INSTANCE.getFont();
+    private GlyphLayout glyphLayout = AsteraniaMain.INSTANCE.getGlyphLayout();
 
-    public static void renderText(int startX, int startY, String content) {
+    public static TextRenderer getInstance() {
+        return AsteraniaMain.INSTANCE.getTextRenderer();
+    }
+
+    public void renderText(int startX, int startY, String content) {
         renderText(startX, startY, content, true, DisplayConfig.TEXT_SIZE, false, Color.BLACK, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 
-    public static void renderText(int startX, int startY, String content, boolean isCentered) {
+    public void renderText(int startX, int startY, String content, boolean isCentered) {
         renderText(startX, startY, content, isCentered, DisplayConfig.TEXT_SIZE, false, Color.BLACK, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 
-    public static void renderText(int startX, int startY, String content, Color textColor) {
+    public void renderText(int startX, int startY, String content, Color textColor) {
         renderText(startX, startY, content, true, DisplayConfig.TEXT_SIZE, false, textColor, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }
 
-    public static void renderText(int startX, int startY, String content, Color textColor, Color rectangleColor) {
+    public void renderText(int startX, int startY, String content, Color textColor, Color rectangleColor) {
         renderText(startX, startY, content, true, DisplayConfig.TEXT_SIZE, true, textColor, rectangleColor);
     }
 
-    public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor) {
+    public void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor) {
         renderText(startX, startY, content, isCentered, textSize, addBackgroundRectangle, textColor, rectangleColor, false, 0);
     }
 
-    public static void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor, boolean enableTransparency, float intensity) {
+    public void renderText(int startX, int startY, String content, boolean isCentered, float textSize, boolean addBackgroundRectangle, Color textColor, Color rectangleColor, boolean enableTransparency, float intensity) {
         int xOffset = 0;
         int yOffset = 0;
         font.getData().setScale(textSize);
@@ -67,25 +71,12 @@ public class TextRenderer {
         }
     }
 
-    public static void reloadTextRenderers() {
-        batch.dispose();
-        font.dispose();
-        batch = new SpriteBatch();
-        font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
-        glyphLayout = new GlyphLayout();
-    }
-
-    public static Vector2 getTextDimensions(String content) {
+    public Vector2 getTextDimensions(String content) {
         Vector2 dimensions = new Vector2();
-        reloadTextRenderers();
-
         font.getData().setScale(DisplayConfig.TEXT_SIZE);
         glyphLayout.setText(font, content);
         dimensions.x = glyphLayout.width;
         dimensions.y = glyphLayout.height;
-
-        reloadTextRenderers();
-
         return dimensions;
     }
 }

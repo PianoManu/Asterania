@@ -55,7 +55,7 @@ public class CreateSaveScreen extends ScreenAdapter {
 
     private void drawInputBoxes() {
         this.input = AsteraniaInputProcessor.getTextInput().getInputString();
-        TextInputBoxRenderer.renderTextInputBox(this.box);
+        TextInputBoxRenderer.getInstance().renderTextInputBox(this.box);
     }
 
     private void checkForImportantChanges() {
