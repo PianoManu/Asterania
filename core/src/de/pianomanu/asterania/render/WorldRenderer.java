@@ -22,9 +22,9 @@ import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class WorldRenderer {
 
-    public static void renderAll(World world, Player player, SpriteBatch batch, ShapeRenderer shapeRenderer) {
+    public static void renderAll(World world, Player player, SpriteBatch batch) {
         renderTerrain(world, player, batch);
-        renderHovering(player, shapeRenderer);
+        renderHovering(player);
         PlayerRenderer.render(player, batch);
     }
 
@@ -88,7 +88,8 @@ public class WorldRenderer {
         OverlayRenderer.addStoneCoastOverlay(batch, world, x, y, xTile, yTile);
     }
 
-    private static void renderHovering(Player player, ShapeRenderer shapeRenderer) {
+    private static void renderHovering(Player player) {
+        ShapeRenderer shapeRenderer = AsteraniaMain.INSTANCE.getShapeRenderer();
         EntityCoordinates playerPos = player.getPos();
         EntityCoordinates mousePos = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), playerPos);
         boolean isInReach = player.isInReach(mousePos.toTileCoordinates());
@@ -100,9 +101,9 @@ public class WorldRenderer {
         Gdx.gl.glEnable(GL20.GL_BLEND);
         Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         if (isInReach)
-            RendererUtils.rect(shapeRenderer, startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(0.6f, 1, 0.6f, 0.2f));
+            RendererUtils.getInstance().rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(0.6f, 1, 0.6f, 0.2f));
         else
-            RendererUtils.rect(shapeRenderer, startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(1, 1, 1, 0.2f));
+            RendererUtils.getInstance().rect(startPixelPos.x, startPixelPos.y, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, new Color(1, 1, 1, 0.2f));
 
 
         shapeRenderer.begin(ShapeRenderer.ShapeType.Line);

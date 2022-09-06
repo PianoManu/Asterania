@@ -34,6 +34,7 @@ public class GameScreen extends ScreenAdapter {
         batch = new SpriteBatch();
 
         shapeRenderer = new ShapeRenderer();
+        AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
         this.world = AsteraniaMain.currentActiveSavegame.getHomeWorld();
         AsteraniaMain.currentActiveSavegame.resetStartTime();
@@ -51,10 +52,10 @@ public class GameScreen extends ScreenAdapter {
         GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
         ScreenUtils.clear(1, 0, 0, 1);
-        WorldRenderer.renderAll(player.getCurrentWorld(), player, batch, shapeRenderer);
-        UIRenderer.renderAll(player, batch, shapeRenderer);
+        WorldRenderer.renderAll(player.getCurrentWorld(), player, batch);
+        UIRenderer.renderAll(player, batch, AsteraniaMain.INSTANCE.getShapeRenderer());
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
-            DebugScreenRenderer.render(player.getCurrentWorld(), player, shapeRenderer, delta);
+            DebugScreenRenderer.render(player.getCurrentWorld(), player, AsteraniaMain.INSTANCE.getShapeRenderer(), delta);
         }
     }
 
