@@ -31,7 +31,7 @@ public class GameConfig {
 
     }
 
-    //TODO find way to load correctly from start
+    //TODO find way to load correctly from start -> non-static?
     public static void reload() {
         SAVEGAME_PATH = SAVEGAME_PATH_OFFSET + SAVEGAME_NAME;
         WORLDS_SAVE_PATH = SAVEGAME_PATH + "\\" + WORLDS_SAVE_DIR_NAME + "\\";

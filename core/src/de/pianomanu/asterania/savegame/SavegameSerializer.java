@@ -25,7 +25,7 @@ public class SavegameSerializer {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static void saveGame() {
-        saveGame(AsteraniaMain.currentActiveSavegame);
+        saveGame(AsteraniaMain.INSTANCE.getCurrentActiveSavegame());
     }
 
     private static void saveWorldContent(List<String> worldContents, String savegameDirectory, String worldName) {
@@ -58,9 +58,9 @@ public class SavegameSerializer {
 
     private static void saveAllWorlds() {
         for (World w :
-                AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds()) {
+                AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getUniverse().getWorlds()) {
             //Welt in eigenem Order speichern
-            File savegameDirectory = new File(SaveGameUtils.getSavegameWorldSubdirectory(AsteraniaMain.currentActiveSavegame.getName(), w.getWorldName()));
+            File savegameDirectory = new File(SaveGameUtils.getSavegameWorldSubdirectory(AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getName(), w.getWorldName()));
             savegameDirectory.mkdir();
             SavegameSerializer.saveWorldContent(createWorldContentString(w, LayerType.BACKGROUND), savegameDirectory.getAbsolutePath(), w.getWorldName());
             SavegameSerializer.saveWorldContent(createWorldContentString(w, LayerType.DECORATION), savegameDirectory.getAbsolutePath(), w.getWorldName() + GameConfig.DECORATION_LAYER_SUFFIX);

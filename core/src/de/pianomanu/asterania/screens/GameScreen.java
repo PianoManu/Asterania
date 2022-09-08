@@ -29,10 +29,10 @@ public class GameScreen extends ScreenAdapter {
         GameRegistry.setupRegistryGameLoading();
         AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
-        this.world = AsteraniaMain.currentActiveSavegame.getHomeWorld();
-        AsteraniaMain.currentActiveSavegame.resetStartTime();
+        this.world = AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getHomeWorld();
+        AsteraniaMain.INSTANCE.getCurrentActiveSavegame().resetStartTime();
         //TODO differentiate between new and old worlds
-        Player player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer();
+        Player player = AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getCurrentActivePlayer();
         player.changeCurrentWorld(this.world, player.getPos().toTileCoordinates());
     }
 
@@ -41,7 +41,7 @@ public class GameScreen extends ScreenAdapter {
         checkForImportantInput();
         checkForImportantChanges();
 
-        Player player = AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer();
+        Player player = AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getCurrentActivePlayer();
         GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
         ScreenUtils.clear(1, 0, 0, 1);

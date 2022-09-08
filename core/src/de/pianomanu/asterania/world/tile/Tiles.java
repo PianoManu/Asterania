@@ -33,7 +33,7 @@ public class Tiles {
     public static void setupTeleportingTiles() {
         boolean mineExists = false;
         for (World w :
-                AsteraniaMain.currentActiveSavegame.getUniverse().getWorlds()) {
+                AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getUniverse().getWorlds()) {
             if (w.getWorldName().equals(Worlds.MINE.getWorldName())) {
                 MINE_LADDER.getTeleporter().setDestinyWorld(w);
                 mineExists = true;

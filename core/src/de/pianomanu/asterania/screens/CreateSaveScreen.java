@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.savegame.Savegame;
@@ -83,10 +82,8 @@ public class CreateSaveScreen extends ScreenAdapter {
     }
 
     private void changeToGameScreen() {
-        AsteraniaMain.currentActiveSavegame = Savegame.loadSavegame(this.input);
-        GameConfig.SAVEGAME_NAME = this.input;
-        GameConfig.reload();
-        SaveGameUtils.createNewGame(AsteraniaMain.currentActiveSavegame, this.input);
+        AsteraniaMain.INSTANCE.setCurrentActiveSavegame(Savegame.loadSavegame(this.input));
+        SaveGameUtils.createNewGame(AsteraniaMain.INSTANCE.getCurrentActiveSavegame(), this.input);
         WindowUtils.changeScreen(this, new GameScreen());
     }
 }

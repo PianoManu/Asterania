@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.LanguageConfig;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -34,7 +35,7 @@ public class AsteraniaMain extends Game {
 	private TextRenderer textRenderer;
 	private TextInputBoxRenderer textInputBoxRenderer;
 
-	public static Savegame currentActiveSavegame; //TODO make part of instance
+	private Savegame currentActiveSavegame;
 
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -90,6 +91,16 @@ public class AsteraniaMain extends Game {
 	public void reloadRenderers() {
 		disposeRenderers();
 		loadRenderers();
+	}
+
+	public Savegame getCurrentActiveSavegame() {
+		return this.currentActiveSavegame;
+	}
+
+	public void setCurrentActiveSavegame(Savegame currentActiveSavegame) {
+		this.currentActiveSavegame = currentActiveSavegame;
+		GameConfig.SAVEGAME_NAME = this.currentActiveSavegame.getName();
+		GameConfig.reload();//TODO remove reload stuff
 	}
 
 	public AssetManager getAssetManager() {

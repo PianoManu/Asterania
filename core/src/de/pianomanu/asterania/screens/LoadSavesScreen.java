@@ -155,11 +155,9 @@ public class LoadSavesScreen extends ScreenAdapter {
     private void loadSavegame() {
         //TODO fix unstable state
         //====================================================================
-        AsteraniaMain.currentActiveSavegame = savegames.get(saveFilePointer);
-        GameConfig.SAVEGAME_NAME = savegames.get(saveFilePointer).getName();
-        GameConfig.reload();
+        AsteraniaMain.INSTANCE.setCurrentActiveSavegame(savegames.get(saveFilePointer));
         //====================================================================
-        AsteraniaMain.currentActiveSavegame = Savegame.loadSavegame(savegames.get(saveFilePointer).getName());
+        AsteraniaMain.INSTANCE.setCurrentActiveSavegame(Savegame.loadSavegame(savegames.get(saveFilePointer).getName()));
         SaveGameInfoUtils.loadInfo();
     }
 

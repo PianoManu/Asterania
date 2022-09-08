@@ -24,7 +24,7 @@ public class SaveGameInfoUtils {
     }
 
     private static String createSaveGameInfoString() {
-        Savegame s = AsteraniaMain.currentActiveSavegame;
+        Savegame s = AsteraniaMain.INSTANCE.getCurrentActiveSavegame();
         StringBuilder builder = new StringBuilder();
 
         builder.append(i("SEED", s.getSeed() + ""));
@@ -81,7 +81,7 @@ public class SaveGameInfoUtils {
     }
 
     private static void addInfoToSaveGame(String info) {
-        addInfoToSaveGame(AsteraniaMain.currentActiveSavegame, info);
+        addInfoToSaveGame(AsteraniaMain.INSTANCE.getCurrentActiveSavegame(), info);
     }
 
     /*public static long getTotalPlaytime(Savegame file) {

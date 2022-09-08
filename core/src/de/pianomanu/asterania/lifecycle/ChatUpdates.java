@@ -6,7 +6,7 @@ import de.pianomanu.asterania.world.entities.player.chat.ChatElement;
 
 public class ChatUpdates {
     public static void updateChat(Player player) {
-        for (ChatElement e : AsteraniaMain.currentActiveSavegame.getCurrentActivePlayer().getChat().getMessages()) {
+        for (ChatElement e : AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getCurrentActivePlayer().getChat().getMessages()) {
             e.tick();
         }
     }
