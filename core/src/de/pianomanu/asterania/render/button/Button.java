@@ -1,6 +1,7 @@
 package de.pianomanu.asterania.render.button;
 
 import com.badlogic.gdx.math.Vector2;
+import de.pianomanu.asterania.utils.TranslatableString;
 
 public class Button {
     public static final String BUTTON16x8NAME = "gen16x8";
@@ -13,19 +14,19 @@ public class Button {
     public static final Vector2 BUTTON64x8FORMAT = new Vector2(64, 8);
     public static final Vector2 BUTTON128x8FORMAT = new Vector2(128, 8);
     private final Vector2 format;
-    private final String buttonText;
+    private final TranslatableString buttonText;
     private Vector2 start;
     private Vector2 end;
     private boolean isClicked = false;
 
-    public Button(Vector2 start, Vector2 end, String buttonText) {
+    public Button(Vector2 start, Vector2 end, TranslatableString buttonText) {
         this.start = start;
         this.end = end;
         this.format = end.sub(start);
         this.buttonText = buttonText;
     }
 
-    public Button(Vector2 format, String buttonText) {
+    public Button(Vector2 format, TranslatableString buttonText) {
         this.start = new Vector2();
         this.end = new Vector2();
         this.format = format;
@@ -97,7 +98,7 @@ public class Button {
         return this;
     }
 
-    public String getButtonText() {
+    public TranslatableString getButtonText() {
         return this.buttonText;
     }
 }

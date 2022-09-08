@@ -4,5 +4,10 @@
   "screen.main_menu.load": "Load Game",
   "screen.main_menu.exit": "Exit Game",
   "screen.main_menu.start_info": "Press %s to start the game",
-  "screen.main_menu.exit_info": "Press %s + %s to exit the game"
+  "screen.main_menu.exit_info": "Press %s + %s to exit the game",
+  "screen.load_saves.start": "Start Game",
+  "screen.load_saves.back": "Back to main menu",
+  "screen.load_saves.creation_date": "Date of creation: %s",
+  "screen.load_saves.playtime": "Total playtime: %s",
+  "screen.load_saves.no_saves": "No Savegames found!"
 }

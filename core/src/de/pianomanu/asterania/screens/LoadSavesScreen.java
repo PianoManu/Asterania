@@ -10,12 +10,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
+import de.pianomanu.asterania.config.LanguageShortcutConfig;
 import de.pianomanu.asterania.render.ButtonRenderer;
 import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.utils.DateUtils;
+import de.pianomanu.asterania.utils.LanguageFileUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
@@ -89,10 +91,10 @@ public class LoadSavesScreen extends ScreenAdapter {
 
             TextRenderer.getInstance().renderText(width / 2, (int) (height * 8.5 / 10), this.tmpSavegame.getName());
 
-            TextRenderer.getInstance().renderText(width / 8, (height * 7 / 10), "Date of creation:  " + this.tmpSavegame.getDateOfCreation(), false);
-            TextRenderer.getInstance().renderText(width / 8, (int) (height * 6.5 / 10), "Total playtime:  " + DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime()), false);
+            TextRenderer.getInstance().renderText(width / 8, (height * 7 / 10), formattedText("creation_date", this.tmpSavegame.getDateOfCreation()), false);
+            TextRenderer.getInstance().renderText(width / 8, (int) (height * 6.5 / 10), formattedText("playtime", DateUtils.milliToHour(this.tmpSavegame.getTotalPlayTime())), false);
         } else {
-            TextRenderer.getInstance().renderText(width / 2, (int) (height * 8.5 / 10), "NO SAVEGAMES FOUND");
+            TextRenderer.getInstance().renderText(width / 2, (int) (height * 8.5 / 10), formattedText("no_saves"));
         }
     }
 
@@ -192,5 +194,9 @@ public class LoadSavesScreen extends ScreenAdapter {
             if (savesFolder.mkdir())
                 LOGGER.severe(GameConfig.SAVEGAME_PATH_OFFSET + " must be a directory...");
         }
+    }
+
+    private String formattedText(String key, String... parameters) {
+        return String.format(LanguageFileUtils.getLanguageString(LanguageShortcutConfig.LOAD_SAVES + "." + key), (Object[]) parameters);
     }
 }

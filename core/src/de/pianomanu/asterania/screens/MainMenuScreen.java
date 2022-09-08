@@ -9,11 +9,13 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
+import de.pianomanu.asterania.config.LanguageShortcutConfig;
 import de.pianomanu.asterania.render.ButtonRenderer;
 import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.utils.LanguageFileUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 
 import java.util.Locale;
@@ -85,9 +87,9 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private void drawText() {
-        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 40, "Main Menu");
-        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 80, "Press " + Input.Keys.toString(KeyConfig.START).toUpperCase(Locale.ROOT) + " to Start the game");
-        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 120, "Press " + Input.Keys.toString(KeyConfig.EXIT_KEY_1).toUpperCase(Locale.ROOT) + " + " + Input.Keys.toString(KeyConfig.EXIT_KEY_2).toUpperCase(Locale.ROOT) + " to Exit the game");
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 40, formattedText("title"));
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 80, formattedText("start_info", Input.Keys.toString(KeyConfig.START).toUpperCase(Locale.ROOT)));
+        TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - 120, formattedText("exit_info", Input.Keys.toString(KeyConfig.EXIT_KEY_1).toUpperCase(Locale.ROOT), Input.Keys.toString(KeyConfig.EXIT_KEY_2).toUpperCase(Locale.ROOT)));
     }
 
     private void checkForImportantChanges() {
@@ -125,5 +127,9 @@ public class MainMenuScreen extends ScreenAdapter {
             LOGGER.fine("Loading all existing worlds...");
             WindowUtils.changeScreen(this, new LoadSavesScreen());
         }
+    }
+
+    private String formattedText(String key, String... parameters) {
+        return String.format(LanguageFileUtils.getLanguageString(LanguageShortcutConfig.MAIN_MENU + "." + key), (Object[]) parameters);
     }
 }

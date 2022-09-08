@@ -5,8 +5,11 @@ import com.badlogic.gdx.utils.Null;
 import de.pianomanu.asterania.AsteraniaMain;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 public class LanguageFileUtils {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
     private final String language;
     private final List<TranslatableString> textComponents;
 
@@ -34,6 +37,7 @@ public class LanguageFileUtils {
             if (t.getKey().equals(key))
                 return t;
         }
+        LOGGER.warning("Could not find translatable string for key " + key); //TODO what if value missing
         return null;
     }
 
