@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Inventory {
     private final List<ItemStack> items = new ArrayList<>();
-    private int iOStackPointer = 0;
+    private int itemStackPointer = 0;
     private float currentWeight = 0;
 
     public Inventory() {
@@ -47,40 +47,40 @@ public class Inventory {
         return -1;
     }
 
-    public ItemStack getNextIOStack() {
-        this.iOStackPointer++;
-        if (this.iOStackPointer == this.getItems().size())
-            this.iOStackPointer = 0;
-        if (this.getCurrentIOStack().equals(ItemStack.EMPTY) && this.getItems().size() > 1) {
-            return this.getNextIOStack();
+    public ItemStack getNextItemStack() {
+        this.itemStackPointer++;
+        if (this.itemStackPointer == this.getItems().size())
+            this.itemStackPointer = 0;
+        if (this.getCurrentItemStack().equals(ItemStack.EMPTY) && this.getItems().size() > 1) {
+            return this.getNextItemStack();
         }
-        return this.getCurrentIOStack();
+        return this.getCurrentItemStack();
     }
 
-    public ItemStack getPreviousIOStack() {
-        this.iOStackPointer--;
-        if (this.iOStackPointer < 0)
-            this.iOStackPointer = this.getItems().size() - 1;
-        if (this.getCurrentIOStack().equals(ItemStack.EMPTY) && this.getItems().size() > 1) {
-            return this.getPreviousIOStack();
+    public ItemStack getPreviousItemStack() {
+        this.itemStackPointer--;
+        if (this.itemStackPointer < 0)
+            this.itemStackPointer = this.getItems().size() - 1;
+        if (this.getCurrentItemStack().equals(ItemStack.EMPTY) && this.getItems().size() > 1) {
+            return this.getPreviousItemStack();
         }
-        return this.getCurrentIOStack();
+        return this.getCurrentItemStack();
     }
 
-    public ItemStack getCurrentIOStack() {
+    public ItemStack getCurrentItemStack() {
         //prevents crash if the inventory is empty when initializing the game
         if (this.getItems().size() == 0)
             this.getItems().add(ItemStack.EMPTY);
         //prevents crash if the stack in the last slot is depleted
-        if (this.iOStackPointer >= this.getItems().size())
-            this.iOStackPointer = 0;
-        if (this.getItems().get(this.iOStackPointer).getStackCount() <= 0)
-            this.getItems().set(this.iOStackPointer, ItemStack.EMPTY);
-        return this.getItems().get(this.iOStackPointer);
+        if (this.itemStackPointer >= this.getItems().size())
+            this.itemStackPointer = 0;
+        if (this.getItems().get(this.itemStackPointer).getStackCount() <= 0)
+            this.getItems().set(this.itemStackPointer, ItemStack.EMPTY);
+        return this.getItems().get(this.itemStackPointer);
     }
 
-    public int getiOStackPointer() {
-        return this.iOStackPointer;
+    public int getItemStackPointer() {
+        return this.itemStackPointer;
     }
 
     public ItemStack getStackAtPos(int i) {
@@ -120,10 +120,10 @@ public class Inventory {
 
     @Override
     public String toString() {
-        StringBuilder b = new StringBuilder("[").append(this.iOStackPointer).append("|");
-        for (ItemStack iOS :
+        StringBuilder b = new StringBuilder("[").append(this.itemStackPointer).append("|");
+        for (ItemStack itemStack :
                 this.getItems()) {
-            b.append(iOS.toString()).append("|");
+            b.append(itemStack.toString()).append("|");
         }
         b.replace(b.length() - 1, b.length(), "]");
         return b.toString();
@@ -131,9 +131,9 @@ public class Inventory {
 
     public float calcCurrentWeight() {
         float currentWeight = 0f;
-        for (ItemStack ios :
+        for (ItemStack itemStack :
                 this.getItems()) {
-            currentWeight += ios.getStackCount() * ios.getItem().getWeight();
+            currentWeight += itemStack.getStackCount() * itemStack.getItem().getWeight();
         }
         currentWeight = Math.round(100 * currentWeight) / 100f;
         this.currentWeight = currentWeight;
@@ -142,8 +142,8 @@ public class Inventory {
 
     public String toSaveFileString() {
         StringBuilder builder = new StringBuilder("INVENTORY ");
-        for (ItemStack iOS : this.getItems()) {
-            builder.append(iOS.toSaveFileString()).append(" ");
+        for (ItemStack itemStack : this.getItems()) {
+            builder.append(itemStack.toSaveFileString()).append(" ");
         }
         return builder.toString();
     }

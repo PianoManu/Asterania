@@ -197,11 +197,11 @@ public class Player {
     }
 
     public void setPlayerHoldNextIOStack() {
-        this.getPlayerInventory().getNextIOStack();
+        this.getPlayerInventory().getNextItemStack();
     }
 
     public void setPlayerHoldPreviousIOStack() {
-        this.getPlayerInventory().getPreviousIOStack();
+        this.getPlayerInventory().getPreviousItemStack();
     }
 
     public Inventory getPlayerInventory() {

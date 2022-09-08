@@ -120,12 +120,12 @@ public class DecorationLayerInteraction {
     }
 
     private static void tryPlaceDecorationLayerTile(World world, Player player, EntityCoordinates mouse) {
-        if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
-            Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
-            if (heldTile != Tiles.WHITE && player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1) {
+        if (!player.getPlayerInventory().getCurrentItemStack().equals(ItemStack.EMPTY)) {
+            Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentItemStack().getItem());
+            if (heldTile != Tiles.WHITE && player.getPlayerInventory().getCurrentItemStack().getStackCount() >= 1) {
                 if (heldTile.runPrePlacementEvents(world, player, mouse.toTileCoordinates())) {
                     world.setDecorationLayerTile(mouse, heldTile);
-                    player.getPlayerInventory().getCurrentIOStack().decrement();
+                    player.getPlayerInventory().getCurrentItemStack().decrement();
                     heldTile.runPostPlacementEvents(world, player, mouse.toTileCoordinates());
                 } else {
                     //TODO was, wenn nicht platziert werden konnte

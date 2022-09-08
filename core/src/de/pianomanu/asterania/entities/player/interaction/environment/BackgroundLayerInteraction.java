@@ -12,7 +12,7 @@ import de.pianomanu.asterania.world.tile.Tiles;
 public class BackgroundLayerInteraction {
 
     public static void replaceTile(World world, Player player, EntityCoordinates mouse) {
-        Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
+        Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentItemStack().getItem());
         if (heldTile != Tiles.WHITE)
             replaceTile(world, player, mouse, heldTile);
         else

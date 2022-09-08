@@ -45,7 +45,7 @@ public class ItemStack {
     @Override
     public String toString() {
         return "{" +
-                "IO:" + this.item.getName() +
+                "ItemStack:" + this.item.getName() +
                 ", Count=" + this.stackCount +
                 '}';
     }

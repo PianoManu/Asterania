@@ -37,30 +37,30 @@ public class GameRegistry {
     }
 
     public static <T extends Tile> Item getItem(T tile) {
-        for (Item iO :
+        for (Item item :
                 ITEMS) {
-            if (iO.getName().equals(tile.getSaveFileString())) {
-                return iO;
+            if (item.getName().equals(tile.getSaveFileString())) {
+                return item;
             }
         }
         return null;
     }
 
     public static Item getItemFromString(String itemName) {
-        for (Item io :
+        for (Item item :
                 ITEMS) {
-            if (io.getName().equals(itemName)) {
-                return io;
+            if (item.getName().equals(itemName)) {
+                return item;
             }
         }
         LOGGER.warning("Could not decode an item from input string \"" + itemName + "\", using \"null\" instead!");
         return null;
     }
 
-    public static <T extends Tile> T getTile(Item iO) {
+    public static <T extends Tile> T getTile(Item item) {
         for (Tile t :
                 TILES) {
-            if (t.getSaveFileString().equals(iO.getName())) {
+            if (t.getSaveFileString().equals(item.getName())) {
                 try {
                     return (T) t;
                 } catch (ClassCastException e) {

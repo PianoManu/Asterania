@@ -47,7 +47,7 @@ public class InventoryRenderer {
                     RendererUtils.getInstance().rectPlain(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
                 }
             }
-            int playerInventoryIOStackPointer = player.getPlayerInventory().getiOStackPointer();
+            int playerInventoryIOStackPointer = player.getPlayerInventory().getItemStackPointer();
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
 

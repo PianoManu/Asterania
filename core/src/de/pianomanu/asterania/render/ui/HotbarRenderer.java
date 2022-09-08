@@ -27,7 +27,7 @@ public class HotbarRenderer {
         int hHeight = 64;//height / 12;
 
         renderHotbarBase(startX, startY, hWidth, hHeight);
-        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
+        Tile t = GameRegistry.getTile(player.getPlayerInventory().getCurrentItemStack().getItem());
         if (t.equals(Tiles.WHITE)) {
             renderHotbarEmpty(startX, startY, hWidth, hHeight);
         } else {
@@ -58,7 +58,7 @@ public class HotbarRenderer {
         batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
         batch.end();
 
-        TextRenderer.getInstance().renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentIOStack().getStackCount() + "", Color.WHITE);
+        TextRenderer.getInstance().renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentItemStack().getStackCount() + "", Color.WHITE);
     }
 
     private static TextureRegion getTileTextureRegion(Tile tile) {
