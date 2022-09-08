@@ -81,9 +81,11 @@ public class DecorationLayerInteraction {
         World world = player.getCurrentWorld();
         EntityCoordinates mouse = CoordinatesUtils.pixelToEntityCoordinates(Gdx.input.getX(), Gdx.input.getY(), player.getPos());
         Tile old = world.getDecorationLayerTile(mouse);
+        old.runPreBreakingEvents(world, player, mouse.toTileCoordinates());
         resetBreakingProgress(player, old);
         player.getPlayerInventory().addStack(new ItemStack(GameRegistry.getItem(old)));
         world.setDecorationLayerTile(mouse, null);
+        old.runPostBreakingEvents(world, player, mouse.toTileCoordinates());
     }
 
     private static void changeBreakingProgress(Player player, Tile tile, float newBreakingLevel, boolean setBreakingTile) {
@@ -121,8 +123,14 @@ public class DecorationLayerInteraction {
         if (!player.getPlayerInventory().getCurrentIOStack().equals(ItemStack.EMPTY)) {
             Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentIOStack().getItem());
             if (heldTile != Tiles.WHITE && player.getPlayerInventory().getCurrentIOStack().getStackCount() >= 1) {
-                world.setDecorationLayerTile(mouse, heldTile);
-                player.getPlayerInventory().getCurrentIOStack().decrement();
+                if (heldTile.runPrePlacementEvents(world, player, mouse.toTileCoordinates())) {
+                    world.setDecorationLayerTile(mouse, heldTile);
+                    player.getPlayerInventory().getCurrentIOStack().decrement();
+                    heldTile.runPostPlacementEvents(world, player, mouse.toTileCoordinates());
+                } else {
+                    //TODO was, wenn nicht platziert werden konnte
+                    System.out.println("Can't place");
+                }
             }
         }
     }

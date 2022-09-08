@@ -15,4 +15,12 @@ public class TileMaterials {
         GameRegistry.registerTileMaterial(tileMaterial);
         return tileMaterial;
     }
+
+    public static boolean isSolid(TileMaterial tileMaterial) {
+        return tileMaterial != FLUID && tileMaterial != NONE;
+    }
+
+    public static boolean canGrowPlant(TileMaterial tileMaterial) {
+        return tileMaterial == ORGANIC || tileMaterial == DIRT;
+    }
 }

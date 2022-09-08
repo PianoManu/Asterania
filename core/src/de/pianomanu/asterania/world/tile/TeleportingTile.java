@@ -3,7 +3,6 @@ package de.pianomanu.asterania.world.tile;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.tile.teleporter.Teleporter;
 
 public class TeleportingTile extends Tile {
@@ -22,10 +21,10 @@ public class TeleportingTile extends Tile {
         return true;
     }
 
-    @Override
-    public void runPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+    /*@Override
+    public boolean runPostPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
         //this.teleporter = new Teleporter(Worlds.MINE, tileCoordinates.toEntityCoordinates());
-    }
+    }*/
 
     public Teleporter getTeleporter() {
         return this.teleporter;

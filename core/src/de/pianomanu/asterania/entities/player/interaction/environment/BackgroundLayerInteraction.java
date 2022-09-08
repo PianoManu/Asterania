@@ -33,6 +33,6 @@ public class BackgroundLayerInteraction {
 
     private static void setTile(World world, Player player, TileCoordinates tileCoordinates, Tile newTile) {
         world.setTile(tileCoordinates, newTile);
-        world.getTile(tileCoordinates).runPlacementEvents(world, player, tileCoordinates);
+        world.getTile(tileCoordinates).runPostPlacementEvents(world, player, tileCoordinates);
     }
 }

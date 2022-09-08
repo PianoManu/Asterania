@@ -64,8 +64,20 @@ public abstract class Tile {
         return false;
     }
 
-    public void runPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+    public boolean runPrePlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return true;
+    }
 
+    public boolean runPostPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return true;
+    }
+
+    public boolean runPreBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return true;
+    }
+
+    public boolean runPostBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return true;
     }
 
     public LayerType getTileType() {

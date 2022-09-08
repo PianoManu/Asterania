@@ -17,9 +17,9 @@ public class Tiles {
 
     public static final AnimatedTile WATER_TILE = r(new AnimatedTile("water", TileMaterials.FLUID, TileSettings.Settings.INACCESSIBLE_TILE));
 
-    public static final BasicTile TWIG = r(new BasicTile("twig", TileMaterials.WOOD, TileSettings.Settings.INACCESSIBLE_TILE, LayerType.DECORATION));
-    public static final BasicTile STONE = r(new BasicTile("stone", TileMaterials.ROCK, TileSettings.Settings.INACCESSIBLE_TILE, LayerType.DECORATION, 4));
-    public static final BasicTile FLOWER_YELLOW = r(new BasicTile("flower_yellow", TileMaterials.ORGANIC, TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.1f), LayerType.DECORATION));
+    public static final BasicDecorationLayerTile TWIG = r(new BasicDecorationLayerTile("twig", TileMaterials.WOOD, TileSettings.Settings.INACCESSIBLE_TILE));
+    public static final BasicDecorationLayerTile STONE = r(new BasicDecorationLayerTile("stone", TileMaterials.ROCK, TileSettings.Settings.INACCESSIBLE_TILE, 4));
+    public static final PlantTile FLOWER_YELLOW = r(new PlantTile("flower_yellow", TileMaterials.ORGANIC, TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.1f)));
 
     public static final BasicTile DEFAULT_TILE = GRASS;
 
