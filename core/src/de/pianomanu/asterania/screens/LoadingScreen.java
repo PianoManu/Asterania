@@ -8,7 +8,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
-import de.pianomanu.asterania.render.Atlases;
+import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
 import de.pianomanu.asterania.utils.WindowUtils;

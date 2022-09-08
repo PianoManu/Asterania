@@ -8,13 +8,13 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.inventory.Inventory;
-import de.pianomanu.asterania.inventory.item.ItemStack;
 import de.pianomanu.asterania.registry.GameRegistry;
-import de.pianomanu.asterania.render.Atlases;
-import de.pianomanu.asterania.render.RendererUtils;
+import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.world.entities.Player;
+import de.pianomanu.asterania.world.entities.player.inventory.Inventory;
+import de.pianomanu.asterania.world.entities.player.inventory.item.ItemStack;
 import de.pianomanu.asterania.world.tile.Tile;
 
 public class InventoryRenderer {

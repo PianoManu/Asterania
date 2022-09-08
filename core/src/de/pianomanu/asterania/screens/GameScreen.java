@@ -7,16 +7,16 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
-import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.lifecycle.GameLifeCycleUpdates;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.DebugScreenRenderer;
 import de.pianomanu.asterania.render.WorldRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.render.ui.UIRenderer;
+import de.pianomanu.asterania.savegame.SavegameSerializer;
 import de.pianomanu.asterania.utils.WindowUtils;
-import de.pianomanu.asterania.utils.savegame.parsing.WorldWriter;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.entities.Player;
 
 import java.util.logging.Logger;
 
@@ -65,7 +65,7 @@ public class GameScreen extends ScreenAdapter {
     private void checkForImportantInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
             LOGGER.fine("Saving world data...");
-            WorldWriter.saveGameInfo();
+            SavegameSerializer.saveGame();
             LOGGER.fine("Saved world data!");
             LOGGER.fine("Returning to main menu...");
             WindowUtils.changeScreen(this, new MainMenuScreen());
@@ -84,7 +84,7 @@ public class GameScreen extends ScreenAdapter {
     private void checkForImportantChanges() {
         if (WindowUtils.windowSizeHasChanged()) {
             LOGGER.finest("Window was resized, updated window!");
-            WorldWriter.saveGameInfo();
+            SavegameSerializer.saveGame();
             WindowUtils.changeScreen(this, new GameScreen());
         }
     }

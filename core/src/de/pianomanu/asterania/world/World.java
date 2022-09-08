@@ -1,9 +1,9 @@
 package de.pianomanu.asterania.world;
 
-import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;

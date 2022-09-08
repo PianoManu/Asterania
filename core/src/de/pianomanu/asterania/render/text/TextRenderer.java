@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.render.RendererUtils;
+import de.pianomanu.asterania.utils.RendererUtils;
 
 public class TextRenderer {
     private SpriteBatch batch = AsteraniaMain.INSTANCE.getBatch();

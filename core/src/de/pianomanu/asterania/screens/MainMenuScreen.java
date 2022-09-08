@@ -9,14 +9,14 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
-import de.pianomanu.asterania.config.LanguageShortcutConfig;
-import de.pianomanu.asterania.render.ButtonRenderer;
-import de.pianomanu.asterania.render.RendererUtils;
+import de.pianomanu.asterania.config.LanguageConfig;
 import de.pianomanu.asterania.render.button.Button;
+import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.LanguageFileUtils;
+import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
+import de.pianomanu.asterania.utils.text.language.LanguageFileUtils;
 
 import java.util.Locale;
 import java.util.logging.Logger;
@@ -130,6 +130,6 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private String formattedText(String key, String... parameters) {
-        return String.format(LanguageFileUtils.getLanguageString(LanguageShortcutConfig.MAIN_MENU + "." + key), (Object[]) parameters);
+        return String.format(LanguageFileUtils.getLanguageString(LanguageConfig.MAIN_MENU + "." + key), (Object[]) parameters);
     }
 }

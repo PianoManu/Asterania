@@ -2,7 +2,8 @@ package de.pianomanu.asterania.utils;
 
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
-import de.pianomanu.asterania.utils.savegame.parsing.WorldReader;
+import de.pianomanu.asterania.utils.fileutils.FileIO;
+import de.pianomanu.asterania.utils.text.language.TranslatableString;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class JsonParserUtils {
     private static final String nullValue = "\0";
 
     public static JsonValue readJsonFile(File file) {
-        String jsonContentRaw = String.valueOf(WorldReader.readFile(file)).strip();
+        String jsonContentRaw = String.valueOf(FileIO.readFile(file)).strip();
         String jsonContent = removeNullValues(jsonContentRaw);
         return jsonReader.parse(jsonContent);
     }

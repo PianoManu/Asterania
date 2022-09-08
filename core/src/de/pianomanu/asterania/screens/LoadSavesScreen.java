@@ -10,17 +10,17 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
-import de.pianomanu.asterania.config.LanguageShortcutConfig;
-import de.pianomanu.asterania.render.ButtonRenderer;
-import de.pianomanu.asterania.render.RendererUtils;
+import de.pianomanu.asterania.config.LanguageConfig;
 import de.pianomanu.asterania.render.button.Button;
+import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.DateUtils;
-import de.pianomanu.asterania.utils.LanguageFileUtils;
+import de.pianomanu.asterania.savegame.Savegame;
+import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
-import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
-import de.pianomanu.asterania.utils.savegame.Savegame;
+import de.pianomanu.asterania.utils.fileutils.SaveGameInfoUtils;
+import de.pianomanu.asterania.utils.math.DateUtils;
+import de.pianomanu.asterania.utils.text.language.LanguageFileUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -197,6 +197,6 @@ public class LoadSavesScreen extends ScreenAdapter {
     }
 
     private String formattedText(String key, String... parameters) {
-        return String.format(LanguageFileUtils.getLanguageString(LanguageShortcutConfig.LOAD_SAVES + "." + key), (Object[]) parameters);
+        return String.format(LanguageFileUtils.getLanguageString(LanguageConfig.LOAD_SAVES + "." + key), (Object[]) parameters);
     }
 }

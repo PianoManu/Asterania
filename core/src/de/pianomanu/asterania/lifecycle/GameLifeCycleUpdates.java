@@ -1,7 +1,7 @@
 package de.pianomanu.asterania.lifecycle;
 
-import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.entities.Player;
 
 public class GameLifeCycleUpdates {
 

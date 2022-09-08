@@ -2,9 +2,9 @@ package de.pianomanu.asterania.render.button;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
-import de.pianomanu.asterania.config.LanguageShortcutConfig;
-import de.pianomanu.asterania.utils.LanguageFileUtils;
-import de.pianomanu.asterania.utils.TranslatableString;
+import de.pianomanu.asterania.config.LanguageConfig;
+import de.pianomanu.asterania.utils.text.language.LanguageFileUtils;
+import de.pianomanu.asterania.utils.text.language.TranslatableString;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +13,11 @@ public class Buttons {
     public static final List<Button> ALL_BUTTONS = new ArrayList<>();
     public static final List<Button> MAIN_MENU_BUTTONS = new ArrayList<>();
     public static final List<Button> LOAD_SAVES_MENU_BUTTONS = new ArrayList<>();
-    public static final Button CREATE_NEW_GAME_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageShortcutConfig.MAIN_MENU + ".create")));
-    public static final Button LOAD_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageShortcutConfig.MAIN_MENU + ".load")));
-    public static final Button EXIT_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageShortcutConfig.MAIN_MENU + ".exit")));
-    public static final Button START_GAME_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageShortcutConfig.LOAD_SAVES + ".start")));
-    public static final Button BACK_TO_MAIN_MENU_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageShortcutConfig.LOAD_SAVES + ".back")));
+    public static final Button CREATE_NEW_GAME_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageConfig.MAIN_MENU + ".create")));
+    public static final Button LOAD_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageConfig.MAIN_MENU + ".load")));
+    public static final Button EXIT_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageConfig.MAIN_MENU + ".exit")));
+    public static final Button START_GAME_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageConfig.LOAD_SAVES + ".start")));
+    public static final Button BACK_TO_MAIN_MENU_BUTTON = r(new Button(Button.BUTTON64x8FORMAT, translatableString(LanguageConfig.LOAD_SAVES + ".back")));
 
     private static Button r(Button b) {
         ALL_BUTTONS.add(b);

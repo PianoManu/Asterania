@@ -2,7 +2,7 @@ package de.pianomanu.asterania.world.gen;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
-import de.pianomanu.asterania.utils.perlin.PerlinNoiseAlgorithm;
+import de.pianomanu.asterania.utils.math.PerlinNoiseAlgorithm;
 
 import java.util.Arrays;
 import java.util.Random;

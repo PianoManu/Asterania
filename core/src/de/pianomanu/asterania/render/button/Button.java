@@ -1,7 +1,7 @@
 package de.pianomanu.asterania.render.button;
 
 import com.badlogic.gdx.math.Vector2;
-import de.pianomanu.asterania.utils.TranslatableString;
+import de.pianomanu.asterania.utils.text.language.TranslatableString;
 
 public class Button {
     public static final String BUTTON16x8NAME = "gen16x8";

@@ -4,18 +4,18 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.entities.player.chat.Chat;
-import de.pianomanu.asterania.entities.player.interaction.PlayerMovement;
-import de.pianomanu.asterania.entities.player.interaction.environment.BackgroundLayerInteraction;
-import de.pianomanu.asterania.entities.player.interaction.environment.DecorationLayerInteraction;
 import de.pianomanu.asterania.render.text.chat.ChatRenderer;
 import de.pianomanu.asterania.render.ui.InventoryRenderer;
 import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
-import de.pianomanu.asterania.utils.CoordinatesUtils;
+import de.pianomanu.asterania.utils.math.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
+import de.pianomanu.asterania.world.entities.Player;
+import de.pianomanu.asterania.world.entities.player.chat.Chat;
+import de.pianomanu.asterania.world.entities.player.interaction.PlayerMovement;
+import de.pianomanu.asterania.world.entities.player.interaction.environment.BackgroundLayerInteraction;
+import de.pianomanu.asterania.world.entities.player.interaction.environment.DecorationLayerInteraction;
 
 import java.util.logging.Logger;
 

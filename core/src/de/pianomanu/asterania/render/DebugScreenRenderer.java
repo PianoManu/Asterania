@@ -5,14 +5,15 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.CoordinatesUtils;
+import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.utils.math.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.coordinates.WorldSectionCoordinates;
+import de.pianomanu.asterania.world.entities.Player;
+import de.pianomanu.asterania.world.entities.hitboxes.SimpleHitbox;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 

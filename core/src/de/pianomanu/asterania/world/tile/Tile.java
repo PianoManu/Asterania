@@ -3,10 +3,10 @@ package de.pianomanu.asterania.world.tile;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.render.Atlases;
+import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.tile.tileutils.*;
 
 public abstract class Tile {

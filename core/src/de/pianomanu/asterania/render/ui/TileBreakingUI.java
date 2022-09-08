@@ -3,9 +3,9 @@ package de.pianomanu.asterania.render.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.world.entities.Player;
 
 public class TileBreakingUI {
     public static boolean renderNoBreakingPossible = false;

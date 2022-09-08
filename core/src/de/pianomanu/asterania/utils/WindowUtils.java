@@ -30,7 +30,7 @@ public class WindowUtils {
 
     private static void reloadAllRenderers() {
         Buttons.reloadButtons();
-    }
+    }//TODO get rid of this
 
     public static void changeScreen(@Null Screen oldScreen, Screen newScreen) {
         if (oldScreen != null)

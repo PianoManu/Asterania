@@ -2,6 +2,7 @@ package de.pianomanu.asterania.utils;
 
 import com.badlogic.gdx.InputProcessor;
 import de.pianomanu.asterania.lifecycle.PlayerUpdates;
+import de.pianomanu.asterania.utils.text.TextInput;
 
 public class AsteraniaInputProcessor implements InputProcessor {
     private static final TextInput textInput = new TextInput();

@@ -1,0 +1,208 @@
+package de.pianomanu.asterania.savegame;
+
+import de.pianomanu.asterania.AsteraniaMain;
+import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.utils.fileutils.FileIO;
+import de.pianomanu.asterania.utils.fileutils.SaveGameInfoUtils;
+import de.pianomanu.asterania.utils.fileutils.SaveGameUtils;
+import de.pianomanu.asterania.utils.text.StringUtils;
+import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.Worlds;
+import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
+import de.pianomanu.asterania.world.worldsections.WorldSection;
+import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.logging.Logger;
+
+//String -> Savegame
+public class SavegameDeserializer {
+    private static final Logger LOGGER = AsteraniaMain.getLogger();
+
+    //sC = separatingCharacter ... for better readability
+    private static final char sC = '|';
+
+    public static Savegame loadGame(Savegame savegame) {
+        loadWorldsFromSavegame(savegame);
+        SaveGameInfoUtils.loadInfo(savegame);
+        return savegame;
+    }
+
+    private static void loadWorldsFromSavegame(Savegame savegame) {
+        File folder = new File(SaveGameUtils.getSavegameWorldDirectory(savegame.getName()));
+        File[] listOfFiles = folder.listFiles();
+        if (listOfFiles != null) {
+            for (File f :
+                    listOfFiles) {
+                if (f.isDirectory()) {
+                    World world = Worlds.getWorldByName(f.getName());
+                    if (world != null) {
+                        loadWorldSectionsIntoSavegame(savegame, f, world);
+                    }
+                }
+            }
+        }
+    }
+
+    private static void loadWorldSectionsIntoSavegame(Savegame savegame, File worldFolder, World world) {
+        savegame.getUniverse().getWorlds().add(world);
+        File[] listOfFiles = worldFolder.listFiles();
+        List<File> backgroundLayerFiles = new ArrayList<>();
+        List<File> decorationLayerFiles = new ArrayList<>();
+        if (listOfFiles != null) {
+            sortLayerFiles(listOfFiles, backgroundLayerFiles, decorationLayerFiles);
+            world.loadWorldSections(findMatchingLayersAndMerge(backgroundLayerFiles, decorationLayerFiles, world));
+        } else {
+            //TODO
+        }
+    }
+
+    private static void sortLayerFiles(File[] listOfFiles, List<File> backgroundLayerFiles, List<File> decorationLayerFiles) {
+        for (File f :
+                listOfFiles) {
+            if (f.getName().contains(GameConfig.DECORATION_LAYER_SUFFIX)) {
+                decorationLayerFiles.add(f);
+            } else {
+                backgroundLayerFiles.add(f);
+            }
+        }
+    }
+
+    private static List<WorldSection> findMatchingLayersAndMerge(List<File> backgroundLayerFiles, List<File> decorationLayerFiles, World world) {
+        List<WorldSection> sections = new ArrayList<>();
+        for (File deco :
+                decorationLayerFiles) {
+            if (deco.getName().contains(GameConfig.DECORATION_LAYER_SUFFIX)) {
+                String namePlain = deco.getName().replace(GameConfig.DECORATION_LAYER_SUFFIX, "");
+                for (File background :
+                        backgroundLayerFiles) {
+                    if (background.getName().contains(namePlain)) {
+                        sections.add(loadWorldSection(background, deco, world));
+                    }
+                }
+            }
+        }
+        return sections;
+    }
+
+    private static WorldSection loadWorldSection(File backgroundLayer, File decorationLayer, World world) {
+        LOGGER.finest("Adding content of file " + backgroundLayer.getName() + " to world " + world.getWorldName());
+        String backgroundContent = String.valueOf(FileIO.readFile(backgroundLayer));
+        String decorationContent = String.valueOf(FileIO.readFile(decorationLayer));
+
+        LOGGER.finest("Added content of file " + backgroundLayer.getName() + " to world " + world.getWorldName());
+        return getWSfromString(backgroundContent, decorationContent);
+    }
+
+    private static List<String> createParts(String partList) {
+        List<String> parts = new ArrayList<>();
+        int start = 0;
+        for (int i = 0; i < partList.length(); i++) {
+            if (partList.charAt(i) == sC) {
+                //separating character found
+                parts.add(partList.substring(start, i));
+                start = i + 1;
+            }
+            if (i == partList.length() - 1) {
+                parts.add(partList.substring(start));
+            }
+        }
+        return parts;
+    }
+
+    private static WorldSection getWSfromString(String backgroundLayer, String decorationLayer) {
+        //separatingCharacterCounter ... for better readability
+        int backgroundLayerLines = StringUtils.countSymbolOccurances(backgroundLayer, '\n');
+        int decorationLayerLines = StringUtils.countSymbolOccurances(decorationLayer, '\n');
+        if (backgroundLayerLines == decorationLayerLines) {
+            String[] backgroundLayerStrings = backgroundLayer.split("\n");
+            String[] decorationLayerStrings = decorationLayer.split("\n");
+            List<String> backgroundLayerParts = createParts(backgroundLayerStrings[1]);
+            List<String> decorationLayerParts = createParts(decorationLayerStrings[1]);
+            if (backgroundLayerParts.size() != 0 && decorationLayerParts.size() != 0 && backgroundLayerStrings[0].equals(decorationLayerStrings[0]))
+                return buildWSfromPartList(backgroundLayerStrings[0], backgroundLayerParts, decorationLayerParts);
+        }
+        return null;
+    }
+
+    private static WorldSection buildWSfromPartList(String positionLine, List<String> backgroundLayerParts, List<String> decorationLayerParts) {
+        int xPos = Integer.parseInt(createParts(positionLine).get(0));
+        int yPos = Integer.parseInt(createParts(positionLine).get(1));
+
+        //TODO change GrasslandPlain
+        WorldSection worldSection = new WorldSection(xPos, yPos, WorldSectionSettings.SettingList.GRASSLAND_PLAIN);
+        List<Tile> backgroundTiles = getParts(backgroundLayerParts, true);
+        List<Tile> decorationTiles = getParts(decorationLayerParts, false);
+        if (!addTilesToWorldSection(worldSection, backgroundTiles, LayerType.BACKGROUND))
+            LOGGER.warning("Background tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
+        if (!addTilesToWorldSection(worldSection, decorationTiles, LayerType.DECORATION))
+            LOGGER.warning("Decoration tile array for WorldSection [" + xPos + "|" + yPos + "] is null!");
+
+        return worldSection;
+    }
+
+    private static List<Tile> getParts(List<String> layerParts, boolean useWhiteTiles) {
+        List<Tile> tiles = new ArrayList<>();
+        for (String t : layerParts) {
+            tiles.addAll(Arrays.asList(getTilesFromPart(t, useWhiteTiles)));
+        }
+        return tiles;
+    }
+
+    private static boolean addTilesToWorldSection(WorldSection worldSection, List<Tile> tiles, LayerType layerType) {
+        Tile[] tileArrayUnprocessed = toTileArray(tiles);
+        Tile[][] tileArray = getTilesFromTileArray(tileArrayUnprocessed);
+        if (tileArray != null) {
+            if (layerType == LayerType.BACKGROUND)
+                worldSection.setTiles(tileArray);
+            else
+                worldSection.setDecorationLayerTiles(tileArray);
+            return true;
+        }
+        return false;
+    }
+
+    private static Tile[][] getTilesFromTileArray(Tile[] unprocessedTiles) {
+        if (unprocessedTiles.length != WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE) {
+            LOGGER.warning("Tile array should contain " + WorldSection.SECTION_SIZE * WorldSection.SECTION_SIZE + " tiles, but has " + unprocessedTiles.length + " tiles!");
+            LOGGER.warning("This WorldSection is corrupted and must be generated again!");
+            return null;
+        }
+        Tile[][] tiles = new Tile[WorldSection.SECTION_SIZE][WorldSection.SECTION_SIZE];
+        for (int x = 0; x < WorldSection.SECTION_SIZE; x++) {
+            System.arraycopy(unprocessedTiles, x * 64, tiles[x], 0, WorldSection.SECTION_SIZE);
+        }
+        return tiles;
+    }
+
+    private static Tile[] getTilesFromPart(String part, boolean useWhiteTiles) {
+        int asterisk = part.indexOf("*");
+        int count = Integer.parseInt(part.substring(0, asterisk));
+        String tile = part.substring(asterisk + 1);
+
+        Tile[] tiles = new Tile[count];
+        for (int i = 0; i < tiles.length; i++) {
+            //useWhiteTiles will fill "null" tiles with Tiles.WHITE instead to prevent crashes
+            //decorative layer: no tile == null
+            //background layer: no tile == white tile
+            if (tile.equals("null") && !useWhiteTiles)
+                tiles[i] = null;
+            else
+                tiles[i] = GameRegistry.getTileFromString(tile);
+        }
+        return tiles;
+    }
+
+    private static Tile[] toTileArray(List<Tile> tiles) {
+        Tile[] tileArray = new Tile[tiles.size()];
+        for (int i = 0; i < tiles.size(); i++) {
+            tileArray[i] = tiles.get(i);
+        }
+        return tileArray;
+    }
+}

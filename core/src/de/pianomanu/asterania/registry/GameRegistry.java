@@ -1,9 +1,9 @@
 package de.pianomanu.asterania.registry;
 
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.inventory.item.Item;
-import de.pianomanu.asterania.inventory.item.Items;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.entities.player.inventory.item.Item;
+import de.pianomanu.asterania.world.entities.player.inventory.item.Items;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;

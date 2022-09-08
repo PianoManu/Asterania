@@ -2,10 +2,10 @@ package de.pianomanu.asterania.render.text.chat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.entities.player.chat.ChatElement;
-import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
+import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.world.entities.Player;
+import de.pianomanu.asterania.world.entities.player.chat.ChatElement;
 
 public class ChatRenderer {
 

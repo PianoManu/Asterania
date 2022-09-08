@@ -1,8 +1,8 @@
 package de.pianomanu.asterania.world.tile;
 
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.World;
+import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.tile.teleporter.Teleporter;
 import de.pianomanu.asterania.world.tile.tileutils.LayerType;
 import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
