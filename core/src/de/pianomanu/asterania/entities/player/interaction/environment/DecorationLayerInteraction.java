@@ -13,6 +13,7 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
+import de.pianomanu.asterania.world.tile.tileutils.PlacementEventInfo;
 import de.pianomanu.asterania.world.tile.tileutils.TileProperties;
 
 import java.util.Objects;
@@ -123,13 +124,14 @@ public class DecorationLayerInteraction {
         if (!player.getPlayerInventory().getCurrentItemStack().equals(ItemStack.EMPTY)) {
             Tile heldTile = GameRegistry.getTile(player.getPlayerInventory().getCurrentItemStack().getItem());
             if (heldTile != Tiles.WHITE && player.getPlayerInventory().getCurrentItemStack().getStackCount() >= 1) {
-                if (heldTile.runPrePlacementEvents(world, player, mouse.toTileCoordinates())) {
+                PlacementEventInfo eventInfo = heldTile.runPrePlacementEvents(world, player, mouse.toTileCoordinates());
+                if (eventInfo.eventWasSuccessful()) {
                     world.setDecorationLayerTile(mouse, heldTile);
                     player.getPlayerInventory().getCurrentItemStack().decrement();
                     heldTile.runPostPlacementEvents(world, player, mouse.toTileCoordinates());
                 } else {
                     //TODO was, wenn nicht platziert werden konnte
-                    System.out.println("Can't place");
+                    System.out.println(eventInfo.message());
                 }
             }
         }

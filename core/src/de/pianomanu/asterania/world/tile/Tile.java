@@ -7,9 +7,7 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
-import de.pianomanu.asterania.world.tile.tileutils.LayerType;
-import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
-import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
+import de.pianomanu.asterania.world.tile.tileutils.*;
 
 public abstract class Tile {
     public static final int TOTAL_BREAKING_LEVELS = 4;
@@ -67,20 +65,20 @@ public abstract class Tile {
         return false;
     }
 
-    public boolean runPrePlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
-        return true;
+    public PlacementEventInfo runPrePlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return PlacementEventInfos.NONE;
     }
 
-    public boolean runPostPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
-        return true;
+    public PlacementEventInfo runPostPlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return PlacementEventInfos.NONE;
     }
 
-    public boolean runPreBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
-        return true;
+    public PlacementEventInfo runPreBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return PlacementEventInfos.NONE;
     }
 
-    public boolean runPostBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
-        return true;
+    public PlacementEventInfo runPostBreakingEvents(World world, Player player, TileCoordinates tileCoordinates) {
+        return PlacementEventInfos.NONE;
     }
 
     public LayerType getTileType() {

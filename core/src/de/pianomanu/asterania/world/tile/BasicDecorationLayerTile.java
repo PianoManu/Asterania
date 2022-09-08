@@ -3,10 +3,7 @@ package de.pianomanu.asterania.world.tile;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
-import de.pianomanu.asterania.world.tile.tileutils.LayerType;
-import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
-import de.pianomanu.asterania.world.tile.tileutils.TileMaterials;
-import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
+import de.pianomanu.asterania.world.tile.tileutils.*;
 
 public class BasicDecorationLayerTile extends BasicTile {
     public BasicDecorationLayerTile(String name, TileMaterial tileMaterial, TileSettings settings, int numbersOfDifferentTextures) {
@@ -18,9 +15,12 @@ public class BasicDecorationLayerTile extends BasicTile {
     }
 
     @Override
-    public boolean runPrePlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
+    public PlacementEventInfo runPrePlacementEvents(World world, Player player, TileCoordinates tileCoordinates) {
         super.runPrePlacementEvents(world, player, tileCoordinates);
         Tile backgroundTile = world.getTile(tileCoordinates);
-        return TileMaterials.isSolid(backgroundTile.tileMaterial);
+        if (TileMaterials.isSolid(backgroundTile.tileMaterial)) {
+            return PlacementEventInfos.TILE_CAN_BE_PLACED;
+        }
+        return PlacementEventInfos.TILE_CANNOT_BE_PLACED;
     }
 }
