@@ -2,12 +2,17 @@ package de.pianomanu.asterania.utils;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Null;
+import de.pianomanu.asterania.AsteraniaMain;
 
 import java.util.List;
 
 public class LanguageFileUtils {
     private final String language;
     private final List<TranslatableString> textComponents;
+
+    public static LanguageFileUtils getInstance() {
+        return AsteraniaMain.INSTANCE.getLanguageFileUtils();
+    }
 
     public LanguageFileUtils(String language) {
         this.language = language;
@@ -30,5 +35,10 @@ public class LanguageFileUtils {
                 return t;
         }
         return null;
+    }
+
+    public static String getLanguageString(String key) {
+        TranslatableString str = getInstance().getTextComponent(key);
+        return str == null ? "" : str.getTextValue();
     }
 }

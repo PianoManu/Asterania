@@ -1,0 +1,8 @@
+{
+  "screen.main_menu.title": "Hauptmenü",
+  "screen.main_menu.create": "Neues Spiel erstellen",
+  "screen.main_menu.load": "Spielstand laden",
+  "screen.main_menu.exit": "Spiel verlassen",
+  "screen.main_menu.start_info": "Drücke %s um das Spiel zu starten",
+  "screen.main_menu.exit_info": "Drücke %s + %s um das Spiel zu verlassen"
+}

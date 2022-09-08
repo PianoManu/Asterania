@@ -1,0 +1,8 @@
+{
+  "screen.main_menu.title": "Main Menu",
+  "screen.main_menu.create": "Create New Game",
+  "screen.main_menu.load": "Load Game",
+  "screen.main_menu.exit": "Exit Game",
+  "screen.main_menu.start_info": "Press %s to start the game",
+  "screen.main_menu.exit_info": "Press %s + %s to exit the game"
+}

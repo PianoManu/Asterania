@@ -7,10 +7,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import de.pianomanu.asterania.config.LanguageShortcutConfig;
 import de.pianomanu.asterania.render.RendererUtils;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.screens.LoadingScreen;
+import de.pianomanu.asterania.utils.LanguageFileUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
@@ -32,10 +34,11 @@ public class AsteraniaMain extends Game {
 	private TextRenderer textRenderer;
 	private TextInputBoxRenderer textInputBoxRenderer;
 
+	public static Savegame currentActiveSavegame; //TODO make part of instance
+
 	public static final Level LOG_LEVEL = Level.FINE;
 	private static final Logger LOGGER = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-
-	public static Savegame currentActiveSavegame;
+	private LanguageFileUtils languageFileUtils;
 
 	public AsteraniaMain() {
 		INSTANCE = this;
@@ -63,6 +66,7 @@ public class AsteraniaMain extends Game {
 
 	private void initializeInstanceVariables() {
 		this.assetManager = new AssetManager();
+		this.languageFileUtils = new LanguageFileUtils(LanguageShortcutConfig.LANGUAGE_ABBREVIATION); //TODO change language ingame
 		loadRenderers();
 	}
 
@@ -118,5 +122,9 @@ public class AsteraniaMain extends Game {
 
 	public TextInputBoxRenderer getTextInputBoxRenderer() {
 		return this.textInputBoxRenderer;
+	}
+
+	public LanguageFileUtils getLanguageFileUtils() {
+		return this.languageFileUtils;
 	}
 }
