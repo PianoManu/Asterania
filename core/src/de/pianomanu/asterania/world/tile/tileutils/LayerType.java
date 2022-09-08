@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.world.tile;
+package de.pianomanu.asterania.world.tile.tileutils;
 
 public enum LayerType {
     BACKGROUND,

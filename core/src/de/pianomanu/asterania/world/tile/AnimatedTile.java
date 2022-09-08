@@ -3,6 +3,8 @@ package de.pianomanu.asterania.world.tile;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
+import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
 
 public class AnimatedTile extends BasicTile {
     public static final int TOTAL_ANIMATIONS = 4;

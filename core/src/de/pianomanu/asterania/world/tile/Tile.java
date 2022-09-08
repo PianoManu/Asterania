@@ -7,6 +7,9 @@ import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.render.Atlases;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
+import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
+import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
 
 public abstract class Tile {
     public static final int TOTAL_BREAKING_LEVELS = 4;

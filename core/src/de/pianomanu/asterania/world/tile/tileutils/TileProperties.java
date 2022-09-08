@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.inventory.tileproperties;
+package de.pianomanu.asterania.world.tile.tileutils;
 
 import de.pianomanu.asterania.registry.GameRegistry;
 

@@ -2,11 +2,11 @@ package de.pianomanu.asterania.entities.player.interaction;
 
 import com.badlogic.gdx.Gdx;
 import de.pianomanu.asterania.entities.Player;
-import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.direction.Direction;
+import de.pianomanu.asterania.world.tile.tileutils.TileProperties;
 
 public class PlayerMovement {
     public static boolean move(World world, Player player, Direction direction) {

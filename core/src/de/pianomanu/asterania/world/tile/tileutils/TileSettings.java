@@ -1,7 +1,5 @@
-package de.pianomanu.asterania.world.tile;
+package de.pianomanu.asterania.world.tile.tileutils;
 
-import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
-import de.pianomanu.asterania.inventory.tileproperties.TileProperty;
 import de.pianomanu.asterania.registry.GameRegistry;
 
 import java.util.HashSet;

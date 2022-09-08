@@ -1,5 +1,9 @@
 package de.pianomanu.asterania.world.tile;
 
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
+import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
+import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
+
 public class BasicTile extends Tile {
     public BasicTile(String name, TileMaterial tileMaterial, TileSettings settings) {
         super(name, tileMaterial, settings);

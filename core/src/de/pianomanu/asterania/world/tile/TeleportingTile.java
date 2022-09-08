@@ -4,6 +4,9 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.tile.teleporter.Teleporter;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
+import de.pianomanu.asterania.world.tile.tileutils.TileMaterial;
+import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
 
 public class TeleportingTile extends Tile {
     private Teleporter teleporter;

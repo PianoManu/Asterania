@@ -5,7 +5,6 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.entities.Player;
 import de.pianomanu.asterania.inventory.item.ItemStack;
-import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.ui.TileBreakingUI;
 import de.pianomanu.asterania.utils.CoordinatesUtils;
@@ -14,6 +13,7 @@ import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
 import de.pianomanu.asterania.world.coordinates.TileCoordinates;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
+import de.pianomanu.asterania.world.tile.tileutils.TileProperties;
 
 import java.util.Objects;
 import java.util.logging.Logger;

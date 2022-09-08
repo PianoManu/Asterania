@@ -3,8 +3,8 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.utils.StringUtils;
-import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 import de.pianomanu.asterania.world.worldsections.WorldSectionSettings;
 

@@ -8,7 +8,7 @@ import de.pianomanu.asterania.utils.file_utils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.file_utils.SaveGameUtils;
 import de.pianomanu.asterania.utils.savegame.Savegame;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.tile.LayerType;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
 
 import java.io.File;
 import java.io.FileWriter;

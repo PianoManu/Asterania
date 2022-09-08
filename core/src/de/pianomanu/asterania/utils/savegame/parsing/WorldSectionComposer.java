@@ -2,8 +2,8 @@ package de.pianomanu.asterania.utils.savegame.parsing;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.world.World;
-import de.pianomanu.asterania.world.tile.LayerType;
 import de.pianomanu.asterania.world.tile.Tile;
+import de.pianomanu.asterania.world.tile.tileutils.LayerType;
 import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 import java.util.ArrayList;

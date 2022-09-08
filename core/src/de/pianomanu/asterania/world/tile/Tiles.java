@@ -1,10 +1,12 @@
 package de.pianomanu.asterania.world.tile;
 
 import de.pianomanu.asterania.AsteraniaMain;
-import de.pianomanu.asterania.inventory.tileproperties.TileProperties;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.Worlds;
+import de.pianomanu.asterania.world.tile.tileutils.TileMaterials;
+import de.pianomanu.asterania.world.tile.tileutils.TileProperties;
+import de.pianomanu.asterania.world.tile.tileutils.TileSettings;
 
 public class Tiles {
     public static final BasicTile GRASS = r(new BasicTile("grass", TileMaterials.ORGANIC, TileSettings.Settings.ACCESSIBLE_TILE.with(TileProperties.BREAK_TIME, 0.2f)));
