@@ -2,6 +2,7 @@ package de.pianomanu.asterania.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.config.SavegameConfig;
 import de.pianomanu.asterania.utils.fileutils.FileIO;
 import de.pianomanu.asterania.utils.fileutils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.fileutils.SaveGameInfoUtils;
@@ -37,7 +38,7 @@ public class SavegameSerializer {
     }
 
     private static void saveWorldContent(String worldContent, String savegameDirectory, String worldName) {
-        LOGGER.finest("Got string containing world info, saving it now at " + GameConfig.SAVEGAME_PATH);
+        LOGGER.finest("Got string containing world info, saving it now at " + SavegameConfig.getInstance().SAVEGAME_PATH);
         File file = new File(savegameDirectory + "\\" + worldName + "." + GameConfig.WORLDSECTION_FILE_FORMAT);
         try {
             FileIO.writeFile(file, worldContent);
@@ -45,7 +46,7 @@ public class SavegameSerializer {
             LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();
         }
-        LOGGER.finest("Got string containing world info, saved it at " + GameConfig.SAVEGAME_PATH);
+        LOGGER.finest("Got string containing world info, saved it at " + SavegameConfig.getInstance().SAVEGAME_PATH);
     }
 
     private static void saveGame(Savegame savegame) {
@@ -68,8 +69,8 @@ public class SavegameSerializer {
     }
 
     private static void createVersionFile() {
-        LOGGER.finest("Got string containing version number, saving it now at " + GameConfig.VERSION_SAVE_PATH);
-        File file = new File(GameConfig.VERSION_SAVE_PATH);
+        LOGGER.finest("Got string containing version number, saving it now at " + SavegameConfig.getInstance().VERSION_SAVE_PATH);
+        File file = new File(SavegameConfig.getInstance().VERSION_SAVE_PATH);
         StringBuilder builder = new StringBuilder("VERSION ").append(GameConfig.GAME_VERSION);
         try {
             FileIO.writeFile(file, builder.toString());
@@ -77,7 +78,7 @@ public class SavegameSerializer {
             LOGGER.severe("An IO error occurred whilst creating the version file!");
             e.printStackTrace();
         }
-        LOGGER.finest("Got string containing version number, saved it at " + GameConfig.VERSION_SAVE_PATH);
+        LOGGER.finest("Got string containing version number, saved it at " + SavegameConfig.getInstance().VERSION_SAVE_PATH);
     }
 
     private static List<String> createWorldContentString(World world, LayerType layerType) {

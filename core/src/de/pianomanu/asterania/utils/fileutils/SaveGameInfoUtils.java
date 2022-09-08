@@ -2,6 +2,7 @@ package de.pianomanu.asterania.utils.fileutils;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.config.SavegameConfig;
 import de.pianomanu.asterania.savegame.Savegame;
 
 import java.io.File;
@@ -13,10 +14,10 @@ public class SaveGameInfoUtils {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public static void saveInfo() {
-        LOGGER.finest("Got string containing savegame data, saving it now at " + GameConfig.SAVEGAME_INFO_DATA_PATH);
+        LOGGER.finest("Got string containing savegame data, saving it now at " + SavegameConfig.getInstance().SAVEGAME_INFO_DATA_PATH);
         try {
-            FileIO.writeFile(new File(GameConfig.SAVEGAME_INFO_DATA_PATH), createSaveGameInfoString());
-            LOGGER.finest("Got string containing savegame data, saved it  at " + GameConfig.SAVEGAME_INFO_DATA_PATH);
+            FileIO.writeFile(new File(SavegameConfig.getInstance().SAVEGAME_INFO_DATA_PATH), createSaveGameInfoString());
+            LOGGER.finest("Got string containing savegame data, saved it  at " + SavegameConfig.getInstance().SAVEGAME_INFO_DATA_PATH);
         } catch (IOException e) {
             LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();
@@ -41,7 +42,7 @@ public class SaveGameInfoUtils {
 
 
     public static void loadInfo() {
-        File f = new File(GameConfig.SAVEGAME_INFO_DATA_PATH);
+        File f = new File(SavegameConfig.getInstance().SAVEGAME_INFO_DATA_PATH);
         if (f.exists()) {
             String saveGameInfo = String.valueOf(FileIO.readFile(f));
             addInfoToSaveGame(saveGameInfo);
@@ -85,7 +86,7 @@ public class SaveGameInfoUtils {
     }
 
     /*public static long getTotalPlaytime(Savegame file) {
-        String info = loadInfo(GameConfig.SAVEGAME_PATH_OFFSET+file.getName());
+        String info = loadInfo(SavegameConfig.SAVEGAME_PATH_OFFSET+file.getName());
         List<String> lines = ParserUtils.splitString(info, '\n');
         for (String line : lines) {
             List<String> attributes = ParserUtils.splitString(line, ' ');

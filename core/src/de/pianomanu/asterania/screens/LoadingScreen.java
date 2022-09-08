@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.button.Buttons;
@@ -20,8 +19,6 @@ public class LoadingScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
     public LoadingScreen() {
-        loadConfigs();
-
         loadAtlases();
 
         DisplayConfig.setup();
@@ -48,10 +45,6 @@ public class LoadingScreen extends ScreenAdapter {
         if (AsteraniaMain.INSTANCE.getAssetManager().update()) {
             WindowUtils.changeScreen(this, new MainMenuScreen());
         }
-    }
-
-    private void loadConfigs() {
-        GameConfig.load();
     }
 
 }

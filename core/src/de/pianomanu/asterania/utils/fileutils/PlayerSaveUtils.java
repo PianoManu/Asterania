@@ -2,6 +2,7 @@ package de.pianomanu.asterania.utils.fileutils;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.config.SavegameConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.world.direction.Direction;
 import de.pianomanu.asterania.world.entities.Player;
@@ -18,11 +19,11 @@ public class PlayerSaveUtils {
 
     @Deprecated
     public static Player loadPlayerFromSaveFile() {
-        return loadPlayerFromSaveFile(GameConfig.PLAYER_DATA_SAVE_PATH);
+        return loadPlayerFromSaveFile(SavegameConfig.getInstance().PLAYER_DATA_SAVE_PATH);
     }
 
     public static Player loadPlayerFromSaveFile(String savegameName) {
-        //GameConfig.reload(); //TODO fix gameconfig
+        //SavegameConfig.reload(); //TODO fix gameconfig
         Player tmp = new Player();
         File f = new File(GameConfig.SAVEGAME_PATH_OFFSET + savegameName + GameConfig.PLAYER_DATA_SAVE_FILE);
         if (f.exists()) {
@@ -37,10 +38,10 @@ public class PlayerSaveUtils {
     }
 
     public static void savePlayerToSaveFile(Player player) {
-        LOGGER.finest("Got string containing player data, saving it now at " + GameConfig.PLAYER_DATA_SAVE_PATH);
+        LOGGER.finest("Got string containing player data, saving it now at " + SavegameConfig.getInstance().PLAYER_DATA_SAVE_PATH);
         try {
-            FileIO.writeFile(new File(GameConfig.PLAYER_DATA_SAVE_PATH), createPlayerDataString(player));
-            LOGGER.finest("Got string containing player data, saved it  at " + GameConfig.PLAYER_DATA_SAVE_PATH);
+            FileIO.writeFile(new File(SavegameConfig.getInstance().PLAYER_DATA_SAVE_PATH), createPlayerDataString(player));
+            LOGGER.finest("Got string containing player data, saved it  at " + SavegameConfig.getInstance().PLAYER_DATA_SAVE_PATH);
         } catch (IOException e) {
             LOGGER.severe("An IO error occurred whilst saving the world!");
             e.printStackTrace();

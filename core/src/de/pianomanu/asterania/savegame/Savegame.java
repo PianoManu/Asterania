@@ -2,6 +2,7 @@ package de.pianomanu.asterania.savegame;
 
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
+import de.pianomanu.asterania.config.SavegameConfig;
 import de.pianomanu.asterania.utils.fileutils.PlayerSaveUtils;
 import de.pianomanu.asterania.utils.fileutils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.math.DateUtils;
@@ -27,21 +28,23 @@ public class Savegame {
     private long quitTime;
     private final List<Player> playersOfSavegame = new ArrayList<>();
     private Player currentActivePlayer;
+    private final SavegameConfig config;
 
     private Savegame(String name) {
         this.name = name;
         this.universe = new Universe();
 
-        if (GameConfig.SEED == 0) {
+        if (SavegameConfig.SEED == 0) {//TODO create seed input
             this.seed = (int) (Math.random() * Integer.MAX_VALUE);
             this.random = new Random(this.seed);
         } else {
-            this.seed = GameConfig.SEED;
-            this.random = new Random(GameConfig.SEED);
+            this.seed = SavegameConfig.SEED;
+            this.random = new Random(SavegameConfig.SEED);
         }
         this.currentActivePlayer = PlayerSaveUtils.loadPlayerFromSaveFile(name);
         this.dateOfCreation = DateUtils.calcDate();
         this.startTime = System.currentTimeMillis();
+        this.config = new SavegameConfig(name);
     }
 
     public static Savegame loadSavegame(String savegameName) {
@@ -134,5 +137,9 @@ public class Savegame {
 
     public void setCurrentActivePlayer(Player currentActivePlayer) {
         this.currentActivePlayer = currentActivePlayer;
+    }
+
+    public SavegameConfig getGameConfig() {
+        return this.config;
     }
 }
