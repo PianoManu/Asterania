@@ -10,7 +10,7 @@ public class ShapeRendererUtils {
     private final ShapeRenderer shapeRenderer = AsteraniaMain.INSTANCE.getShapeRenderer();
 
     public static ShapeRendererUtils getInstance() {
-        return AsteraniaMain.INSTANCE.getShapeRendererUtils();
+        return AsteraniaMain.INSTANCE.getRendererUtils();
     }
 
     public void begin() {

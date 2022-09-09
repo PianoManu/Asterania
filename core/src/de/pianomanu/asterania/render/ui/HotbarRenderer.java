@@ -2,12 +2,12 @@ package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.ShapeRendererUtils;
-import de.pianomanu.asterania.render.SpriteBatchUtils;
 import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.entities.Player;
@@ -17,7 +17,7 @@ import de.pianomanu.asterania.world.tile.tileutils.LayerType;
 
 public class HotbarRenderer {
 
-    public static void renderHotbar(Player player) {
+    public static void renderHotbar(Player player, SpriteBatch batch) {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
@@ -32,7 +32,7 @@ public class HotbarRenderer {
             renderHotbarEmpty(startX, startY, hWidth, hHeight);
         } else {
             TextureRegion tileTexture = getTileTextureRegion(t);
-            renderHotbarItem(player, tileTexture, startX, startY, hWidth, hHeight);
+            renderHotbarItem(player, tileTexture, batch, startX, startY, hWidth, hHeight);
         }
     }
 
@@ -48,13 +48,15 @@ public class HotbarRenderer {
         ShapeRendererUtils.getInstance().rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6, new Color(0.7f, 0.7f, 0.7f, 1));
     }
 
-    private static void renderHotbarItem(Player player, TextureRegion tileTexture, int startX, int startY, int hWidth, int hHeight) {
+    private static void renderHotbarItem(Player player, TextureRegion tileTexture, SpriteBatch batch, int startX, int startY, int hWidth, int hHeight) {
         int tileStartX = startX + hWidth / 8;
         int tileStartY = startY + hHeight / 8;
         int tileWidth = hWidth * 3 / 4;
         int tileHeight = hHeight * 3 / 4;
 
-        SpriteBatchUtils.getInstance().draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
+        batch.begin();
+        batch.draw(tileTexture, tileStartX, tileStartY, tileWidth, tileHeight);
+        batch.end();
 
         TextRenderer.getInstance().renderText(startX + hWidth / 2, startY + hWidth / 3, player.getPlayerInventory().getCurrentItemStack().getStackCount() + "", Color.WHITE);
     }
