@@ -34,7 +34,7 @@ public class WorldRenderer {
         WorldSectionCoordinates bottomLeftWorldSectionCoordinates = bottomLeftEntityCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates topRightWorldSectionCoordinates = topRightEntityCoordinates.toWorldSectionCoordinates();
 
-        ShapeRendererUtils.getInstance().begin();
+        SpriteBatchUtils.getInstance().begin();
         TileCoordinates bottomLeftTile = bottomLeftWorldSectionCoordinates.startToTileCoordinates();
         TileCoordinates topRightTile = topRightWorldSectionCoordinates.endToTileCoordinates();
         for (int x = bottomLeftTile.getX(); x < topRightTile.getX(); x++) {
@@ -63,7 +63,7 @@ public class WorldRenderer {
             }
         }
 
-        ShapeRendererUtils.getInstance().end();
+        SpriteBatchUtils.getInstance().end();
     }
 
     private static boolean isTileVisibleOnScreen(int xTile, int yTile) {
