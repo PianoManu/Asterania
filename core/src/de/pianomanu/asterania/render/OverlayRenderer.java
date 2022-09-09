@@ -1,6 +1,5 @@
 package de.pianomanu.asterania.render;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.pianomanu.asterania.AsteraniaMain;
@@ -13,7 +12,7 @@ import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
 
 public class OverlayRenderer {
-    public static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
+    public static void addOverlay(World world, int x, int y, int xTile, int yTile, Tile tileAddOverlayOn, Tile overlayTile) {
         if (positionIsTile(world, new TileCoordinates(x, y), tileAddOverlayOn)) {
             boolean leftIsGrass = neighborIsTile(world, overlayTile, x, y, Direction.LEFT);
             boolean rightIsGrass = neighborIsTile(world, overlayTile, x, y, Direction.RIGHT);
@@ -23,13 +22,13 @@ public class OverlayRenderer {
 
             TextureRegion overlayRegion = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_OVERLAY_ATLAS_LOCATION, TextureAtlas.class).findRegion(overlayTile.getSaveFileString() + "_side");
             if (upIsGrass)
-                batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 0);
             if (downIsGrass)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 180);
             if (leftIsGrass)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 90);
             if (rightIsGrass)
-                batch.draw(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 270);
         }
     }
 
@@ -47,7 +46,7 @@ public class OverlayRenderer {
         return positionIsTile(world, neighborTileCoordinates, tile);
     }
 
-    public static void addStoneCoastOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
+    public static void addStoneCoastOverlay(World world, int x, int y, int xTile, int yTile) {
         //pseudo-random selection of stone coast texture using x and y position
         //x*3, y*5+1: prevent patterns
         int numberOfTextures = 4; // 4 different stone coast textures
@@ -64,23 +63,23 @@ public class OverlayRenderer {
         if (positionIsTile(world, new TileCoordinates(x, y), Tiles.WATER_TILE)) {
 
             if (!upIsWater)
-                batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 0);
             if (!downIsWater)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 180);
             if (!leftIsWater)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 90);
             if (!rightIsWater)
-                batch.draw(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 270);
         } else {
             //tile is not water, check surrounding tiles, if water -> add overlay
             if (upIsWater)
-                batch.draw(overlayRegion, xTile, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 0);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 0);
             if (downIsWater)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 180);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 180);
             if (leftIsWater)
-                batch.draw(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 90);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile + DisplayConfig.TILE_SIZE, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 90);
             if (rightIsWater)
-                batch.draw(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, 0, 0, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 1, 1, 270);
+                SpriteBatchUtils.getInstance().drawPlain(overlayRegion, xTile, yTile + DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE, 270);
         }
     }
 }

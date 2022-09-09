@@ -45,8 +45,8 @@ public class GameScreen extends ScreenAdapter {
         GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
         ScreenUtils.clear(1, 0, 0, 1);
-        WorldRenderer.renderAll(player.getCurrentWorld(), player, AsteraniaMain.INSTANCE.getBatch());
-        UIRenderer.renderAll(player, AsteraniaMain.INSTANCE.getBatch());
+        WorldRenderer.renderAll(player.getCurrentWorld(), player);
+        UIRenderer.renderAll(player);
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
             DebugScreenRenderer.render(player.getCurrentWorld(), player, delta);
         }

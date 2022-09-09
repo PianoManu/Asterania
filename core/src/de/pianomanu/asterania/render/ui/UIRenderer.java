@@ -1,14 +1,13 @@
 package de.pianomanu.asterania.render.ui;
 
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import de.pianomanu.asterania.render.text.chat.ChatRenderer;
 import de.pianomanu.asterania.world.entities.Player;
 
 public class UIRenderer {
-    public static void renderAll(Player player, SpriteBatch batch) {
+    public static void renderAll(Player player) {
         TileBreakingUI.renderTileBreakingUI(player);
-        HotbarRenderer.renderHotbar(player, batch);
+        HotbarRenderer.renderHotbar(player);
         ChatRenderer.renderAll(player);
-        InventoryRenderer.renderInventory(player, batch);
+        InventoryRenderer.renderInventory(player);
     }
 }
