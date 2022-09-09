@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 
 public class TextRenderer {
     private SpriteBatch batch = AsteraniaMain.INSTANCE.getBatch();
@@ -49,16 +49,16 @@ public class TextRenderer {
         }
 
         if (enableTransparency) {
-            RendererUtils.enableTransparency();
+            ShapeRendererUtils.enableTransparency();
             rectangleColor.set(rectangleColor.r, rectangleColor.g, rectangleColor.b, intensity);
             textColor.set(textColor.r, textColor.g, textColor.b, intensity);
         }
 
         if (addBackgroundRectangle) {
             if (isCentered) {
-                RendererUtils.getInstance().rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
+                ShapeRendererUtils.getInstance().rect((startX - 4) - (glyphLayout.width / 2), (startY - 4) - (glyphLayout.height / 2), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
             } else {
-                RendererUtils.getInstance().rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
+                ShapeRendererUtils.getInstance().rect((startX - 4), (startY - 4 - glyphLayout.height), glyphLayout.width + 8, glyphLayout.height + 8, rectangleColor);
             }
         }
         batch.begin();
@@ -67,7 +67,7 @@ public class TextRenderer {
         batch.end();
 
         if (enableTransparency) {
-            RendererUtils.disableTransparency();
+            ShapeRendererUtils.disableTransparency();
         }
     }
 

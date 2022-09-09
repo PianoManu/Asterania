@@ -8,11 +8,11 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.config.LanguageConfig;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.savegame.Savegame;
 import de.pianomanu.asterania.screens.LoadingScreen;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.logging.LoggerUtils;
 import de.pianomanu.asterania.utils.text.language.LanguageFileUtils;
@@ -30,7 +30,7 @@ public class AsteraniaMain extends Game {
 	private SpriteBatch batch;
 	private BitmapFont font;
 	private GlyphLayout glyphLayout;
-	private RendererUtils rendererUtils;
+	private ShapeRendererUtils shapeRendererUtils;
 	private TextRenderer textRenderer;
 	private TextInputBoxRenderer textInputBoxRenderer;
 
@@ -75,7 +75,7 @@ public class AsteraniaMain extends Game {
 		this.batch = new SpriteBatch();
 		this.font = new BitmapFont(Gdx.files.internal("font/asteraniafont.fnt"));
 		this.glyphLayout = new GlyphLayout();
-		this.rendererUtils = new RendererUtils();
+		this.shapeRendererUtils = new ShapeRendererUtils();
 		this.textRenderer = new TextRenderer();
 		this.textInputBoxRenderer = new TextInputBoxRenderer();
 	}
@@ -120,8 +120,8 @@ public class AsteraniaMain extends Game {
 		return this.glyphLayout;
 	}
 
-	public RendererUtils getRendererUtils() {
-		return this.rendererUtils;
+	public ShapeRendererUtils getRendererUtils() {
+		return this.shapeRendererUtils;
 	}
 
 	public TextRenderer getTextRenderer() {

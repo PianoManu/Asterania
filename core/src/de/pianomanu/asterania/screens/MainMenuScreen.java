@@ -10,11 +10,11 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.config.LanguageConfig;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.text.language.LanguageFileUtils;
 
@@ -64,22 +64,22 @@ public class MainMenuScreen extends ScreenAdapter {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        RendererUtils.enableTransparency();
+        ShapeRendererUtils.enableTransparency();
 
-        RendererUtils.getInstance().begin();
+        ShapeRendererUtils.getInstance().begin();
         for (Button b :
                 Buttons.MAIN_MENU_BUTTONS) {
             if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                RendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
+                ShapeRendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
             }
         }
-        RendererUtils.getInstance().end();
+        ShapeRendererUtils.getInstance().end();
 
-        RendererUtils.disableTransparency();
+        ShapeRendererUtils.disableTransparency();
     }
 
     private void drawBackground() {
-        RendererUtils.getInstance().rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
+        ShapeRendererUtils.getInstance().rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void drawButtons() {

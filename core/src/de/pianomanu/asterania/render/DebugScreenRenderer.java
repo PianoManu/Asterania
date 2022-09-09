@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.math.CoordinatesUtils;
 import de.pianomanu.asterania.world.World;
 import de.pianomanu.asterania.world.coordinates.EntityCoordinates;
@@ -39,7 +38,7 @@ public class DebugScreenRenderer {
         float reach = player.getReach(); //reach: radius
         float diam = 2 * reach; //diameter = 2*r
         Gdx.gl.glLineWidth(3);
-        RendererUtils.getInstance().ellipse((Gdx.graphics.getWidth() - diam * DisplayConfig.TILE_SIZE) / 2f, (Gdx.graphics.getHeight() - diam * DisplayConfig.TILE_SIZE) / 2f, diam * DisplayConfig.TILE_SIZE, diam * DisplayConfig.TILE_SIZE, Color.GREEN, ShapeRenderer.ShapeType.Line);
+        ShapeRendererUtils.getInstance().ellipse((Gdx.graphics.getWidth() - diam * DisplayConfig.TILE_SIZE) / 2f, (Gdx.graphics.getHeight() - diam * DisplayConfig.TILE_SIZE) / 2f, diam * DisplayConfig.TILE_SIZE, diam * DisplayConfig.TILE_SIZE, Color.GREEN, ShapeRenderer.ShapeType.Line);
         Gdx.gl.glLineWidth(1);
     }
 
@@ -93,7 +92,7 @@ public class DebugScreenRenderer {
         int width = Gdx.graphics.getWidth();
         int height = Gdx.graphics.getHeight();
 
-        RendererUtils.getInstance().begin(ShapeRenderer.ShapeType.Line);
+        ShapeRendererUtils.getInstance().begin(ShapeRenderer.ShapeType.Line);
         EntityCoordinates playerCoordinates = player.getPos();
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
@@ -104,22 +103,22 @@ public class DebugScreenRenderer {
             for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
-                RendererUtils.getInstance().linePlain(0, yTile, width, yTile, Color.BLACK);
-                RendererUtils.getInstance().linePlain(xTile, 0, xTile, height, Color.BLACK);
+                ShapeRendererUtils.getInstance().linePlain(0, yTile, width, yTile, Color.BLACK);
+                ShapeRendererUtils.getInstance().linePlain(xTile, 0, xTile, height, Color.BLACK);
             }
         }
-        RendererUtils.getInstance().end();
+        ShapeRendererUtils.getInstance().end();
     }
 
     private static void renderHitbox(Player player) {
         SimpleHitbox hitbox = player.getPlayerHitbox();
         Vector2 start = CoordinatesUtils.transformEntityCoordinatesToPixels(hitbox.start, player.getPos());
         Vector2 end = player.getCharacterSizeInPixels();
-        RendererUtils.getInstance().rect(start.x, start.y, end.x, end.y, Color.RED, ShapeRenderer.ShapeType.Line);
+        ShapeRendererUtils.getInstance().rect(start.x, start.y, end.x, end.y, Color.RED, ShapeRenderer.ShapeType.Line);
     }
 
     private static void renderCenterDot(Player player) {
-        RendererUtils.getInstance().begin(ShapeRenderer.ShapeType.Line);
+        ShapeRendererUtils.getInstance().begin(ShapeRenderer.ShapeType.Line);
         EntityCoordinates playerCoordinates = player.getPos();
         WorldSectionCoordinates centerSection = playerCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates bottomleftSection = new WorldSectionCoordinates(centerSection.x - 1, centerSection.y - 1);
@@ -130,9 +129,9 @@ public class DebugScreenRenderer {
             for (int y = bottomLeftTile.getY(); y < topRightTile.getY(); y++) {
                 int xTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).x;
                 int yTile = (int) CoordinatesUtils.transformTileCoordinatesToPixels(new TileCoordinates(x, y), playerCoordinates).y;
-                RendererUtils.getInstance().ellipsePlain(xTile + DisplayConfig.TILE_SIZE / 2f, yTile + DisplayConfig.TILE_SIZE / 2f, 2, 2, Color.BLACK);
+                ShapeRendererUtils.getInstance().ellipsePlain(xTile + DisplayConfig.TILE_SIZE / 2f, yTile + DisplayConfig.TILE_SIZE / 2f, 2, 2, Color.BLACK);
             }
         }
-        RendererUtils.getInstance().end();
+        ShapeRendererUtils.getInstance().end();
     }
 }

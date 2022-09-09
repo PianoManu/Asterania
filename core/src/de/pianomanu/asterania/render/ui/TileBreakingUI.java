@@ -3,8 +3,8 @@ package de.pianomanu.asterania.render.ui;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import de.pianomanu.asterania.config.DisplayConfig;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.world.entities.Player;
 
 public class TileBreakingUI {
@@ -26,8 +26,8 @@ public class TileBreakingUI {
             int barWidth = rectWidth / 2;
             int barHeight = (int) (player.getCurrentBreakingPercentage() * rectHeight * 9 / 10);
 
-            RendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
-            RendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0, 0.8f, 0, 1));
+            ShapeRendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+            ShapeRendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0, 0.8f, 0, 1));
         }
         if (renderNoBreakingPossible) {
             int width = Gdx.graphics.getWidth();
@@ -43,8 +43,8 @@ public class TileBreakingUI {
             int barWidth = rectWidth / 2;
             int barHeight = rectHeight * 9 / 10;
 
-            RendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
-            RendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0.8f, 0f, 0, 1));
+            ShapeRendererUtils.getInstance().rect(startX, startY, rectWidth, rectHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+            ShapeRendererUtils.getInstance().rect(barX, barY, barWidth, barHeight, new Color(0.8f, 0f, 0, 1));
 
             int xOffset = (int) TextRenderer.getInstance().getTextDimensions(renderNoBreakingPossibleMessage).x;
             int yOffset = (int) TextRenderer.getInstance().getTextDimensions(renderNoBreakingPossibleMessage).y;

@@ -2,8 +2,8 @@ package de.pianomanu.asterania.render.text.chat;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.entities.player.chat.ChatElement;
 
@@ -23,9 +23,9 @@ public class ChatRenderer {
     }
 
     private static void renderTextLine(Player player) {
-        RendererUtils.enableTransparency();
-        RendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
-        RendererUtils.disableTransparency();
+        ShapeRendererUtils.enableTransparency();
+        ShapeRendererUtils.getInstance().rect(40, 40, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.6f));
+        ShapeRendererUtils.disableTransparency();
         TextRenderer.getInstance().renderText(50, 70, player.getChat().getCurrentMessage(), false, 0.8f, false, Color.BLACK, Color.WHITE);
     }
 
@@ -37,20 +37,20 @@ public class ChatRenderer {
         int chatSize = player.getChat().getMessages().size();
         float intensity = 1;
 
-        RendererUtils.enableTransparency();
+        ShapeRendererUtils.enableTransparency();
 
-        RendererUtils.getInstance().begin();
+        ShapeRendererUtils.getInstance().begin();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);
             if (shouldFade) {
                 intensity = e.getFadingPortion();
             }
-            RendererUtils.getInstance().rectPlain(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.3f * intensity));
+            ShapeRendererUtils.getInstance().rectPlain(40, 40 * (chatSize - i) + 60, Gdx.graphics.getWidth() - 80, 40, new Color(1, 1, 1, 0.3f * intensity));
         }
-        RendererUtils.getInstance().end();
+        ShapeRendererUtils.getInstance().end();
 
-        RendererUtils.disableTransparency();
+        ShapeRendererUtils.disableTransparency();
 
         for (int i = 0; i < chatSize; i++) {
             ChatElement e = player.getChat().getMessages().get(i);

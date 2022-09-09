@@ -7,9 +7,9 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.tile.Tile;
 import de.pianomanu.asterania.world.tile.Tiles;
@@ -39,13 +39,13 @@ public class HotbarRenderer {
     private static void renderHotbarBase(int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
 
-        RendererUtils.getInstance().rect(startX, startY, hWidth, hHeight, new Color(0.3f, 0.3f, 0.3f, 1));
-        RendererUtils.getInstance().rect(startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2, new Color(0.6f, 0.6f, 0.6f, 1));
+        ShapeRendererUtils.getInstance().rect(startX, startY, hWidth, hHeight, new Color(0.3f, 0.3f, 0.3f, 1));
+        ShapeRendererUtils.getInstance().rect(startX + innerOffset, startY + innerOffset, hWidth - innerOffset * 2, hHeight - innerOffset * 2, new Color(0.6f, 0.6f, 0.6f, 1));
     }
 
     private static void renderHotbarEmpty(int startX, int startY, int hWidth, int hHeight) {
         int innerOffset = 5;//hWidth/10;
-        RendererUtils.getInstance().rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6, new Color(0.7f, 0.7f, 0.7f, 1));
+        ShapeRendererUtils.getInstance().rect(startX + innerOffset * 3, startY + innerOffset * 3, hWidth - innerOffset * 6, hHeight - innerOffset * 6, new Color(0.7f, 0.7f, 0.7f, 1));
     }
 
     private static void renderHotbarItem(Player player, TextureRegion tileTexture, SpriteBatch batch, int startX, int startY, int hWidth, int hHeight) {

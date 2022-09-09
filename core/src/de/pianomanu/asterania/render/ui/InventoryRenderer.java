@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.world.entities.Player;
 import de.pianomanu.asterania.world.entities.player.inventory.Inventory;
 import de.pianomanu.asterania.world.entities.player.inventory.item.ItemStack;
@@ -37,25 +37,25 @@ public class InventoryRenderer {
             //if mouse somewhere inside the inventory: goes transparent to enable seeing through the inventory
             boolean mouseInsideOfInventory = mX >= xStart - INTER_SLOT_DISTANCE && mX <= xStart - INTER_SLOT_DISTANCE + inventoryWidth + 2 * INTER_SLOT_DISTANCE && mY >= yStart - INTER_SLOT_DISTANCE && mY <= yStart - INTER_SLOT_DISTANCE + inventoryHeight + 2 * INTER_SLOT_DISTANCE;
             if (mouseInsideOfInventory && DisplayConfig.ENABLE_TRANSPARENT_INVENTORY) {
-                RendererUtils.enableTransparency();
+                ShapeRendererUtils.enableTransparency();
             }
-            RendererUtils.getInstance().begin();
-            RendererUtils.getInstance().rectPlain(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE, new Color(0.2f, 0.2f, 0.2f, 0.4f));
+            ShapeRendererUtils.getInstance().begin();
+            ShapeRendererUtils.getInstance().rectPlain(xStart - INTER_SLOT_DISTANCE, yStart - INTER_SLOT_DISTANCE, inventoryWidth + 2 * INTER_SLOT_DISTANCE, inventoryHeight + 2 * INTER_SLOT_DISTANCE, new Color(0.2f, 0.2f, 0.2f, 0.4f));
             Color slotBackground = new Color(0.3f, 0.3f, 0.3f, 0.4f);
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
-                    RendererUtils.getInstance().rectPlain(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
+                    ShapeRendererUtils.getInstance().rectPlain(xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE), yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE), SLOT_SIZE.x, SLOT_SIZE.y, slotBackground);
                 }
             }
             int playerInventoryIOStackPointer = player.getPlayerInventory().getItemStackPointer();
             int xPos = playerInventoryIOStackPointer % COLUMNS;
             int yPos = playerInventoryIOStackPointer / COLUMNS;
 
-            RendererUtils.getInstance().rectPlain(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4, new Color(0.5f, 0.4f, 0, 0.5f));
-            RendererUtils.getInstance().end();
+            ShapeRendererUtils.getInstance().rectPlain(xStart + xPos * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) - 2, yStart + yPos * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) - 2, SLOT_SIZE.x + 4, SLOT_SIZE.y + 4, new Color(0.5f, 0.4f, 0, 0.5f));
+            ShapeRendererUtils.getInstance().end();
 
             if (mouseInsideOfInventory && DisplayConfig.ENABLE_TRANSPARENT_INVENTORY) {
-                RendererUtils.disableTransparency();
+                ShapeRendererUtils.disableTransparency();
             }
 
             Inventory inv = player.getPlayerInventory();
@@ -104,7 +104,7 @@ public class InventoryRenderer {
         int borderHeight = 10;
 
         Vector2 textDim = TextRenderer.getInstance().getTextDimensions(weight + " kg");
-        RendererUtils.getInstance().rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2, new Color(0.2f, 0.2f, 0.2f, 0.6f));
+        ShapeRendererUtils.getInstance().rect(Gdx.graphics.getWidth() - xWindowBorderOffset - borderWidth - textDim.x / 2, Gdx.graphics.getHeight() - yWindowBorderOffset - borderHeight - textDim.y / 2, textDim.x + borderWidth * 2, textDim.y + borderHeight * 2, new Color(0.2f, 0.2f, 0.2f, 0.6f));
 
         TextRenderer.getInstance().renderText(Gdx.graphics.getWidth() - xWindowBorderOffset, Gdx.graphics.getHeight() - yWindowBorderOffset, weight + " kg", Color.WHITE, new Color(0.3f, 0.3f, 0.3f, 0.4f));
     }

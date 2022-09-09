@@ -11,12 +11,12 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.config.LanguageConfig;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.savegame.Savegame;
-import de.pianomanu.asterania.utils.RendererUtils;
 import de.pianomanu.asterania.utils.WindowUtils;
 import de.pianomanu.asterania.utils.fileutils.SaveGameInfoUtils;
 import de.pianomanu.asterania.utils.math.DateUtils;
@@ -64,7 +64,7 @@ public class LoadSavesScreen extends ScreenAdapter {
     }
 
     private void drawBackground() {
-        RendererUtils.getInstance().rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
+        ShapeRendererUtils.getInstance().rect(20, 20, Gdx.graphics.getWidth() - 40, Gdx.graphics.getHeight() - 40, new Color(0.2f, 0.3f, 0.1f, 1));
     }
 
     private void checkForImportantChanges() {
@@ -82,9 +82,9 @@ public class LoadSavesScreen extends ScreenAdapter {
         if (savegames.size() > 0) {
 
             Vector2 dim = TextRenderer.getInstance().getTextDimensions(savegames.get(saveFilePointer).getName());
-            RendererUtils.getInstance().rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f, Color.OLIVE);
-            RendererUtils.getInstance().rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f), Color.OLIVE);
-            RendererUtils.getInstance().rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset, Color.FOREST);
+            ShapeRendererUtils.getInstance().rect(width / 10f, height * 4 / 5f, width * 4 / 5f, height / 10f, Color.OLIVE);
+            ShapeRendererUtils.getInstance().rect(width / 10f, height / 5f, width * 4 / 5f, (float) (height * 5.5 / 10f), Color.OLIVE);
+            ShapeRendererUtils.getInstance().rect((width - dim.x) / 2 - offset, (int) (height * 8.5 / 10) - dim.y / 2 - offset, dim.x + 2 * offset, dim.y + 2 * offset, Color.FOREST);
 
             this.tmpSavegame = savegames.get(saveFilePointer);
             SaveGameInfoUtils.loadInfo(this.tmpSavegame);
@@ -106,16 +106,16 @@ public class LoadSavesScreen extends ScreenAdapter {
         int mouseX = Gdx.input.getX();
         int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        RendererUtils.enableTransparency();
-        RendererUtils.getInstance().begin();
+        ShapeRendererUtils.enableTransparency();
+        ShapeRendererUtils.getInstance().begin();
         for (Button b :
                 Buttons.LOAD_SAVES_MENU_BUTTONS) {
             if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                RendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
+                ShapeRendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
             }
         }
-        RendererUtils.getInstance().end();
-        RendererUtils.disableTransparency();
+        ShapeRendererUtils.getInstance().end();
+        ShapeRendererUtils.disableTransparency();
     }
 
     private void checkForInput() {

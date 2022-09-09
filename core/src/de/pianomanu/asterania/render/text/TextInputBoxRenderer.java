@@ -8,7 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
-import de.pianomanu.asterania.utils.RendererUtils;
+import de.pianomanu.asterania.render.ShapeRendererUtils;
 import de.pianomanu.asterania.utils.text.TextInputBox;
 
 public class TextInputBoxRenderer {
@@ -40,9 +40,9 @@ public class TextInputBoxRenderer {
         }
 
         if (isCentered) {
-            RendererUtils.getInstance().rect(box.getStart().x - xOffset / 2f, box.getStart().y + yOffset / 2f, dif.x + xOffset, dif.y - yOffset, box.getBackgroundColor());
+            ShapeRendererUtils.getInstance().rect(box.getStart().x - xOffset / 2f, box.getStart().y + yOffset / 2f, dif.x + xOffset, dif.y - yOffset, box.getBackgroundColor());
         } else {
-            RendererUtils.getInstance().rect(box.getStart().x, box.getStart().y, dif.x, dif.y, box.getBackgroundColor());
+            ShapeRendererUtils.getInstance().rect(box.getStart().x, box.getStart().y, dif.x, dif.y, box.getBackgroundColor());
         }
 
         batch.begin();

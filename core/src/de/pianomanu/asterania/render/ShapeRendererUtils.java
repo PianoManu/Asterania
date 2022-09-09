@@ -1,4 +1,4 @@
-package de.pianomanu.asterania.utils;
+package de.pianomanu.asterania.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -6,10 +6,10 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import de.pianomanu.asterania.AsteraniaMain;
 
-public class RendererUtils {
+public class ShapeRendererUtils {
     private final ShapeRenderer shapeRenderer = AsteraniaMain.INSTANCE.getShapeRenderer();
 
-    public static RendererUtils getInstance() {
+    public static ShapeRendererUtils getInstance() {
         return AsteraniaMain.INSTANCE.getRendererUtils();
     }
 
