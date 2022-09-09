@@ -2,7 +2,6 @@ package de.pianomanu.asterania.render.ui;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +9,7 @@ import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.registry.GameRegistry;
 import de.pianomanu.asterania.render.ShapeRendererUtils;
+import de.pianomanu.asterania.render.SpriteBatchUtils;
 import de.pianomanu.asterania.render.atlas.Atlases;
 import de.pianomanu.asterania.render.text.TextRenderer;
 import de.pianomanu.asterania.world.entities.Player;
@@ -24,7 +24,7 @@ public class InventoryRenderer {
     public static final int COLUMNS = 12;
     private static boolean isInventoryOpen = false;
 
-    public static void renderInventory(Player player, SpriteBatch batch) {
+    public static void renderInventory(Player player) {
         if (isInventoryOpen) {
             int width = Gdx.graphics.getWidth();
             int height = Gdx.graphics.getHeight();
@@ -59,7 +59,7 @@ public class InventoryRenderer {
             }
 
             Inventory inv = player.getPlayerInventory();
-            batch.begin();
+            SpriteBatchUtils.getInstance().begin();
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {
                     ItemStack iO = inv.getStackAtPos(x + y * COLUMNS);
@@ -69,11 +69,11 @@ public class InventoryRenderer {
                         if (tile.getNumberOfDifferentTextures() > 1) { //TODO fix for items with multiple textures
                             texture = AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.DECORATION_ATLAS_LOCATION, TextureAtlas.class).findRegion(iO.getItem().getName() + "1");
                         }
-                        batch.draw(texture, xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4, yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4, 32, 32);
+                        SpriteBatchUtils.getInstance().drawPlain(texture, (int) (xStart + x * (SLOT_SIZE.x + INTER_SLOT_DISTANCE) + 4), (int) (yStart + y * (SLOT_SIZE.y + INTER_SLOT_DISTANCE) + 4), 32, 32);
                     }
                 }
             }
-            batch.end();
+            SpriteBatchUtils.getInstance().end();
 
             for (int x = 0; x < COLUMNS; x++) {
                 for (int y = 0; y < ROWS; y++) {

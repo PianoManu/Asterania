@@ -2,7 +2,6 @@ package de.pianomanu.asterania.render;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
@@ -22,20 +21,20 @@ import de.pianomanu.asterania.world.worldsections.WorldSection;
 
 public class WorldRenderer {
 
-    public static void renderAll(World world, Player player, SpriteBatch batch) {
-        renderTerrain(world, player, batch);
+    public static void renderAll(World world, Player player) {
+        renderTerrain(world, player);
         renderHovering(player);
-        PlayerRenderer.render(player, batch);
+        PlayerRenderer.render(player);
     }
 
-    private static void renderTerrain(World world, Player player, SpriteBatch batch) {
+    private static void renderTerrain(World world, Player player) {
         EntityCoordinates playerCoordinates = player.getPos();
         EntityCoordinates bottomLeftEntityCoordinates = new EntityCoordinates(playerCoordinates.x - 32, playerCoordinates.y - 32);
         EntityCoordinates topRightEntityCoordinates = new EntityCoordinates(playerCoordinates.x + 32, playerCoordinates.y + 32);
         WorldSectionCoordinates bottomLeftWorldSectionCoordinates = bottomLeftEntityCoordinates.toWorldSectionCoordinates();
         WorldSectionCoordinates topRightWorldSectionCoordinates = topRightEntityCoordinates.toWorldSectionCoordinates();
 
-        batch.begin();
+        SpriteBatchUtils.getInstance().begin();
         TileCoordinates bottomLeftTile = bottomLeftWorldSectionCoordinates.startToTileCoordinates();
         TileCoordinates topRightTile = topRightWorldSectionCoordinates.endToTileCoordinates();
         for (int x = bottomLeftTile.getX(); x < topRightTile.getX(); x++) {
@@ -49,11 +48,11 @@ public class WorldRenderer {
                         Tile tile = section.getTileAbsoluteCoordinates(x, y);
                         Tile decoration = section.getDecorationLayerTileAbsoluteCoordinates(x, y);
                         if (tile != null) {
-                            renderTile(tile, xTile, yTile, x, y, batch);
-                            addOverlay(batch, world, x, y, xTile, yTile);
+                            renderTile(tile, xTile, yTile, x, y);
+                            addOverlay(world, x, y, xTile, yTile);
                         }
                         if (decoration != null) {
-                            renderTile(decoration, xTile, yTile, x, y, batch);
+                            renderTile(decoration, xTile, yTile, x, y);
                         }
 
                     } catch (NullPointerException e) {
@@ -64,28 +63,28 @@ public class WorldRenderer {
             }
         }
 
-        batch.end();
+        SpriteBatchUtils.getInstance().end();
     }
 
     private static boolean isTileVisibleOnScreen(int xTile, int yTile) {
         return xTile >= -DisplayConfig.TILE_SIZE && xTile < Gdx.graphics.getWidth() && yTile >= -DisplayConfig.TILE_SIZE && yTile < Gdx.graphics.getHeight();
     }
 
-    private static void renderTile(Tile tile, int xTile, int yTile, int x, int y, SpriteBatch batch) {
+    private static void renderTile(Tile tile, int xTile, int yTile, int x, int y) {
         if (tile.getTileType() == LayerType.BACKGROUND) {
-            batch.draw(tile.getTexture(AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
+            SpriteBatchUtils.getInstance().drawPlain(tile.getTexture(AsteraniaMain.INSTANCE.getAssetManager().get(Atlases.TILE_ATLAS_LOCATION, TextureAtlas.class)), xTile, yTile, DisplayConfig.TILE_SIZE, DisplayConfig.TILE_SIZE);
         }
         if (tile.getTileType() == LayerType.DECORATION) {
-            DecorationLayerRenderer.addDecorations(batch, tile, xTile, yTile, x, y);
+            DecorationLayerRenderer.addDecorations(tile, xTile, yTile, x, y);
         }
     }
 
-    private static void addOverlay(SpriteBatch batch, World world, int x, int y, int xTile, int yTile) {
-        OverlayRenderer.addOverlay(batch, world, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
-        OverlayRenderer.addOverlay(batch, world, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
-        //OverlayRenderer.addOverlay(batch, world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
+    private static void addOverlay(World world, int x, int y, int xTile, int yTile) {
+        OverlayRenderer.addOverlay(world, x, y, xTile, yTile, Tiles.SOIL_TILE, Tiles.GRASS);
+        OverlayRenderer.addOverlay(world, x, y, xTile, yTile, Tiles.ROCK, Tiles.GRASS);
+        //OverlayRenderer.addOverlay(world, worldSection, x, y, xTile, yTile, Tiles.WATER_TILE, Tiles.SOIL_TILE);
 
-        OverlayRenderer.addStoneCoastOverlay(batch, world, x, y, xTile, yTile);
+        OverlayRenderer.addStoneCoastOverlay(world, x, y, xTile, yTile);
     }
 
     private static void renderHovering(Player player) {
