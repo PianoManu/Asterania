@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
@@ -29,14 +28,12 @@ import java.util.logging.Logger;
 
 public class LoadSavesScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
-    private final SpriteBatch batch;
 
     private final List<Savegame> savegames = new ArrayList<>();
     private int saveFilePointer = 0;
     private Savegame tmpSavegame;
 
     public LoadSavesScreen() {
-        this.batch = new SpriteBatch();
         AsteraniaMain.INSTANCE.reloadRenderers();
         loadAllExistingSaveFiles();
 
@@ -99,7 +96,7 @@ public class LoadSavesScreen extends ScreenAdapter {
     }
 
     private void renderButtons() {
-        ButtonRenderer.renderButtons(batch, Buttons.LOAD_SAVES_MENU_BUTTONS);
+        ButtonRenderer.renderButtons(Buttons.LOAD_SAVES_MENU_BUTTONS);
     }
 
     private void drawHovering() {

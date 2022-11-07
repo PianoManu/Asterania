@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.DisplayConfig;
@@ -24,13 +23,10 @@ import java.util.logging.Logger;
 public class MainMenuScreen extends ScreenAdapter {
     private static final Logger LOGGER = AsteraniaMain.getLogger();
 
-    private SpriteBatch batch;
-
     public MainMenuScreen() {
         LOGGER.fine("Starting the main menu screen...");
         AsteraniaMain.INSTANCE.reloadRenderers();
         this.resize(DisplayConfig.DISPLAY_WIDTH, DisplayConfig.DISPLAY_HEIGHT);
-        this.batch = new SpriteBatch();
         LOGGER.fine("Started the main menu screen!");
     }
 
@@ -83,7 +79,7 @@ public class MainMenuScreen extends ScreenAdapter {
     }
 
     private void drawButtons() {
-        ButtonRenderer.renderButtons(batch, Buttons.MAIN_MENU_BUTTONS);
+        ButtonRenderer.renderButtons(Buttons.MAIN_MENU_BUTTONS);
     }
 
     private void drawText() {
