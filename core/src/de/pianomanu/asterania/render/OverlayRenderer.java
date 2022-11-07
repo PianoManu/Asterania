@@ -50,7 +50,7 @@ public class OverlayRenderer {
         //pseudo-random selection of stone coast texture using x and y position
         //x*3, y*5+1: prevent patterns
         int numberOfTextures = 4; // 4 different stone coast textures
-        int textureNumber = (((x * 3 % numberOfTextures) + (y * 5 + 1 % numberOfTextures)) % numberOfTextures) + numberOfTextures; //add numberOfTextures for intervall [1, numberOfTextures], because x and y can be negative
+        int textureNumber = Math.abs(((x * 3 % numberOfTextures) + (y * 5 + 1 % numberOfTextures)) % numberOfTextures) + 1; // textureNumber is in [1,4]
 
         boolean leftIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.LEFT);
         boolean rightIsWater = neighborIsTile(world, Tiles.WATER_TILE, x, y, Direction.RIGHT);
