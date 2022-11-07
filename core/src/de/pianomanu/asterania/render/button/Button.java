@@ -1,5 +1,7 @@
 package de.pianomanu.asterania.render.button;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import de.pianomanu.asterania.utils.text.language.TranslatableString;
 
@@ -17,7 +19,7 @@ public class Button {
     private final TranslatableString buttonText;
     private Vector2 start;
     private Vector2 end;
-    private boolean isClicked = false;
+    //private boolean isClicked = false;
 
     public Button(Vector2 start, Vector2 end, TranslatableString buttonText) {
         this.start = start;
@@ -41,7 +43,7 @@ public class Button {
         return this.end;
     }
 
-    public boolean isClicked() {
+    /*public boolean isClicked() {
         return this.isClicked;
     }
 
@@ -51,7 +53,7 @@ public class Button {
 
     public void setClicked() {
         this.isClicked = true;
-    }
+    }*/
 
     public Vector2 getFormat() {
         return this.format;
@@ -100,5 +102,13 @@ public class Button {
 
     public TranslatableString getButtonText() {
         return this.buttonText;
+    }
+
+    public boolean isPressed() {
+        int mouseX = Gdx.input.getX();
+        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        boolean mouseLeftPressed = Gdx.input.isButtonPressed(Input.Buttons.LEFT);
+        boolean mousePositionInsideBoundaries = mouseX >= this.getStart().x && mouseY >= this.getStart().y && mouseX <= this.getEnd().x && mouseY <= this.getEnd().y;
+        return mouseLeftPressed && mousePositionInsideBoundaries;
     }
 }
