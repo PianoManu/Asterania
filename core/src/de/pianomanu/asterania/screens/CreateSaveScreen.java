@@ -9,6 +9,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import de.pianomanu.asterania.AsteraniaMain;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.render.ShapeRendererUtils;
+import de.pianomanu.asterania.render.button.ButtonRenderer;
+import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextInputBoxRenderer;
 import de.pianomanu.asterania.savegame.Savegame;
 import de.pianomanu.asterania.utils.AsteraniaInputProcessor;
@@ -46,6 +48,7 @@ public class CreateSaveScreen extends ScreenAdapter {
     private void drawCreateSaveScreen() {
         drawBackground();
         drawInputBoxes();
+        renderButtons();
     }
 
     private void drawBackground() {
@@ -55,6 +58,10 @@ public class CreateSaveScreen extends ScreenAdapter {
     private void drawInputBoxes() {
         this.input = AsteraniaInputProcessor.getTextInput().getInputString();
         TextInputBoxRenderer.getInstance().renderTextInputBox(this.box);
+    }
+
+    private void renderButtons() {
+        ButtonRenderer.renderButtons(Buttons.LOAD_SAVES_MENU_BUTTONS);
     }
 
     private void checkForImportantChanges() {
@@ -71,13 +78,16 @@ public class CreateSaveScreen extends ScreenAdapter {
             Gdx.app.exit();
         }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) && !this.input.isEmpty()) {
+        tryCreateNewGame();
+        tryReturnToMainMenu();
+    }
+
+    private void tryCreateNewGame() {
+        boolean enterPressed = Gdx.input.isKeyJustPressed(Input.Keys.ENTER);
+        boolean buttonPressed = Buttons.START_GAME_BUTTON.isPressed();
+        if ((enterPressed || buttonPressed) && !this.input.isEmpty()) {
             LOGGER.fine("Creating a new game...");
             changeToGameScreen();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            LOGGER.fine("Returning to main menu...");
-            WindowUtils.changeScreen(this, new MainMenuScreen());
         }
     }
 
@@ -85,5 +95,14 @@ public class CreateSaveScreen extends ScreenAdapter {
         AsteraniaMain.INSTANCE.setCurrentActiveSavegame(Savegame.loadSavegame(this.input));
         SaveGameUtils.createNewGame(AsteraniaMain.INSTANCE.getCurrentActiveSavegame(), this.input);
         WindowUtils.changeScreen(this, new GameScreen());
+    }
+
+    private void tryReturnToMainMenu() {
+        boolean escPressed = Gdx.input.isKeyPressed(Input.Keys.ESCAPE);
+        boolean buttonPressed = Buttons.BACK_TO_MAIN_MENU_BUTTON.isPressed();
+        if (escPressed || buttonPressed) {
+            LOGGER.fine("Returning to main menu...");
+            WindowUtils.changeScreen(this, new MainMenuScreen());
+        }
     }
 }

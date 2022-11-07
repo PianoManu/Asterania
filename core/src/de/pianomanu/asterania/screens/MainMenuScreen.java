@@ -10,7 +10,6 @@ import de.pianomanu.asterania.config.DisplayConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.config.LanguageConfig;
 import de.pianomanu.asterania.render.ShapeRendererUtils;
-import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -53,25 +52,6 @@ public class MainMenuScreen extends ScreenAdapter {
         this.drawBackground();
         this.drawButtons();
         this.drawText();
-        this.drawHovering();
-    }
-
-    private void drawHovering() {
-        int mouseX = Gdx.input.getX();
-        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-        ShapeRendererUtils.enableTransparency();
-
-        ShapeRendererUtils.getInstance().begin();
-        for (Button b :
-                Buttons.MAIN_MENU_BUTTONS) {
-            if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                ShapeRendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
-            }
-        }
-        ShapeRendererUtils.getInstance().end();
-
-        ShapeRendererUtils.disableTransparency();
     }
 
     private void drawBackground() {
@@ -100,26 +80,22 @@ public class MainMenuScreen extends ScreenAdapter {
             LOGGER.fine("Stopping the game...");
             Gdx.app.exit();
         }
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            checkIfButtonPressed();
-        }
+        checkIfButtonPressed();
     }
 
     private void checkIfButtonPressed() {
-        int mouseX = Gdx.input.getX();
-        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
-        if (mouseX >= Buttons.EXIT_BUTTON.getStart().x && mouseY >= Buttons.EXIT_BUTTON.getStart().y && mouseX <= Buttons.EXIT_BUTTON.getEnd().x && mouseY <= Buttons.EXIT_BUTTON.getEnd().y) {
+        if (Buttons.EXIT_BUTTON.isPressed()) {
             LOGGER.fine("Stopping the game...");
             Gdx.app.exit();
         }
 
-        if (mouseX >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().x && mouseY >= Buttons.CREATE_NEW_GAME_BUTTON.getStart().y && mouseX <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().x && mouseY <= Buttons.CREATE_NEW_GAME_BUTTON.getEnd().y) {
+        if (Buttons.CREATE_NEW_GAME_BUTTON.isPressed()) {
             LOGGER.fine("Opening game creation...");
             WindowUtils.changeScreen(this, new CreateSaveScreen());
         }
 
-        if (mouseX >= Buttons.LOAD_BUTTON.getStart().x && mouseY >= Buttons.LOAD_BUTTON.getStart().y && mouseX <= Buttons.LOAD_BUTTON.getEnd().x && mouseY <= Buttons.LOAD_BUTTON.getEnd().y) {
+        if (Buttons.LOAD_BUTTON.isPressed()) {
             LOGGER.fine("Loading all existing worlds...");
             WindowUtils.changeScreen(this, new LoadSavesScreen());
         }

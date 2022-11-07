@@ -11,7 +11,6 @@ import de.pianomanu.asterania.config.GameConfig;
 import de.pianomanu.asterania.config.KeyConfig;
 import de.pianomanu.asterania.config.LanguageConfig;
 import de.pianomanu.asterania.render.ShapeRendererUtils;
-import de.pianomanu.asterania.render.button.Button;
 import de.pianomanu.asterania.render.button.ButtonRenderer;
 import de.pianomanu.asterania.render.button.Buttons;
 import de.pianomanu.asterania.render.text.TextRenderer;
@@ -57,7 +56,6 @@ public class LoadSavesScreen extends ScreenAdapter {
         drawBackground();
         renderSelectedWorld();
         renderButtons();
-        drawHovering();
     }
 
     private void drawBackground() {
@@ -99,51 +97,29 @@ public class LoadSavesScreen extends ScreenAdapter {
         ButtonRenderer.renderButtons(Buttons.LOAD_SAVES_MENU_BUTTONS);
     }
 
-    private void drawHovering() {
-        int mouseX = Gdx.input.getX();
-        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
-        ShapeRendererUtils.enableTransparency();
-        ShapeRendererUtils.getInstance().begin();
-        for (Button b :
-                Buttons.LOAD_SAVES_MENU_BUTTONS) {
-            if (mouseX >= b.getStart().x && mouseY >= b.getStart().y && mouseX <= b.getEnd().x && mouseY <= b.getEnd().y) {
-                ShapeRendererUtils.getInstance().rectPlain(b.getStart().x, b.getStart().y, b.getFormat().x, b.getFormat().y, new Color(1, 1, 1, 0.2f));
-            }
-        }
-        ShapeRendererUtils.getInstance().end();
-        ShapeRendererUtils.disableTransparency();
+    private void checkForInput() {
+        tryExitGame();
+        checkIfButtonPressed();
+        tryRotateThroughSaves();
+        tryReturnToMainMenu();
     }
 
-    private void checkForInput() {
+    private void tryExitGame() {
         if (Gdx.input.isKeyPressed(KeyConfig.EXIT_KEY_1) && Gdx.input.isKeyPressed(KeyConfig.EXIT_KEY_2)) {
             LOGGER.fine("Stopping the game...");
             Gdx.app.exit();
         }
-        if (Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
-            checkIfButtonPressed();
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ANY_KEY)) {
-            tryRotateThroughSaves();
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-            LOGGER.fine("Returning to main menu...");
-            WindowUtils.changeScreen(this, new MainMenuScreen());
-        }
     }
 
     private void checkIfButtonPressed() {
-        int mouseX = Gdx.input.getX();
-        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
         if (savegames.size() > 0) {
-            if (mouseX >= Buttons.START_GAME_BUTTON.getStart().x && mouseY >= Buttons.START_GAME_BUTTON.getStart().y && mouseX <= Buttons.START_GAME_BUTTON.getEnd().x && mouseY <= Buttons.START_GAME_BUTTON.getEnd().y) {
+            if (Buttons.START_GAME_BUTTON.isPressed()) {
                 LOGGER.fine("Starting the game...");
                 loadSavegame();
                 WindowUtils.changeScreen(this, new GameScreen());
             }
         }
-        if (mouseX >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().x && mouseY >= Buttons.BACK_TO_MAIN_MENU_BUTTON.getStart().y && mouseX <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().x && mouseY <= Buttons.BACK_TO_MAIN_MENU_BUTTON.getEnd().y) {
+        if (Buttons.BACK_TO_MAIN_MENU_BUTTON.isPressed()) {
             LOGGER.fine("Going back to main menu...");
             WindowUtils.changeScreen(this, new MainMenuScreen());
         }
@@ -172,6 +148,13 @@ public class LoadSavesScreen extends ScreenAdapter {
                 if (saveFilePointer < 0)
                     saveFilePointer = savegames.size() - 1;
             }
+        }
+    }
+
+    private void tryReturnToMainMenu() {
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            LOGGER.fine("Returning to main menu...");
+            WindowUtils.changeScreen(this, new MainMenuScreen());
         }
     }
 
