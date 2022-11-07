@@ -44,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
         Player player = AsteraniaMain.INSTANCE.getCurrentActiveSavegame().getCurrentActivePlayer();
         GameLifeCycleUpdates.update(player.getCurrentWorld(), player);
 
-        ScreenUtils.clear(1, 0, 0, 1);
+        ScreenUtils.clear(0, 0, 0, 1);
         WorldRenderer.renderAll(player.getCurrentWorld(), player);
         UIRenderer.renderAll(player);
         if (DisplayConfig.showDebugInfo && !InventoryRenderer.isInventoryOpen()) {
